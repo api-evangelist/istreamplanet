@@ -1,0 +1,1363 @@
+{
+  "@context": {
+    "@vocab": "https://istreamplanet.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "istreamplanet": "https://istreamplanet.com/schema#",
+    "Archive": "istreamplanet:Archive",
+    "s3": {
+      "@id": "istreamplanet:s3",
+      "@type": "@id"
+    },
+    "ArchiveFERRequest": "istreamplanet:ArchiveFERRequest",
+    "correlation_id": {
+      "@id": "istreamplanet:correlation_id",
+      "@type": "xsd:string"
+    },
+    "global_query_string": {
+      "@id": "istreamplanet:global_query_string",
+      "@type": "xsd:string"
+    },
+    "notification": {
+      "@id": "istreamplanet:notification",
+      "@type": "@id"
+    },
+    "packages": {
+      "@id": "istreamplanet:packages",
+      "@container": "@list"
+    },
+    "ArchiveFERResponse": "istreamplanet:ArchiveFERResponse",
+    "task_id": {
+      "@id": "istreamplanet:task_id",
+      "@type": "xsd:string"
+    },
+    "ArchiveSettings": "istreamplanet:ArchiveSettings",
+    "global_archive_settings": {
+      "@id": "istreamplanet:global_archive_settings",
+      "@type": "@id"
+    },
+    "netstorage_connection_settings": {
+      "@id": "istreamplanet:netstorage_connection_settings",
+      "@container": "@list"
+    },
+    "s3_archive_settings": {
+      "@id": "istreamplanet:s3_archive_settings",
+      "@container": "@list"
+    },
+    "workflow_id": {
+      "@id": "istreamplanet:workflow_id",
+      "@type": "xsd:string"
+    },
+    "AudioMute": "istreamplanet:AudioMute",
+    "audio_channel": {
+      "@id": "istreamplanet:audio_channel",
+      "@type": "xsd:string"
+    },
+    "audio_source_id": {
+      "@id": "istreamplanet:audio_source_id",
+      "@type": "xsd:string"
+    },
+    "AudioSourceRemappingSource": "istreamplanet:AudioSourceRemappingSource",
+    "channel_index": {
+      "@id": "istreamplanet:channel_index",
+      "@type": "xsd:integer"
+    },
+    "AudioTrackInfo": "istreamplanet:AudioTrackInfo",
+    "bitrate": {
+      "@id": "istreamplanet:bitrate",
+      "@type": "xsd:integer"
+    },
+    "codec_string": {
+      "@id": "istreamplanet:codec_string",
+      "@type": "xsd:string"
+    },
+    "id": {
+      "@id": "istreamplanet:id",
+      "@type": "xsd:integer"
+    },
+    "name": {
+      "@id": "istreamplanet:name",
+      "@type": "xsd:string"
+    },
+    "num_channels": {
+      "@id": "istreamplanet:num_channels",
+      "@type": "xsd:integer"
+    },
+    "sample_rate": {
+      "@id": "istreamplanet:sample_rate",
+      "@type": "xsd:integer"
+    },
+    "CancelTaskResponseBody": "istreamplanet:CancelTaskResponseBody",
+    "error": {
+      "@id": "istreamplanet:error",
+      "@type": "@id"
+    },
+    "Channel": "istreamplanet:Channel",
+    "created": {
+      "@id": "istreamplanet:created",
+      "@type": "xsd:dateTime"
+    },
+    "description": {
+      "@id": "istreamplanet:description",
+      "@type": "xsd:string"
+    },
+    "desired_state": {
+      "@id": "istreamplanet:desired_state",
+      "@type": "xsd:string"
+    },
+    "enable_byoip": {
+      "@id": "istreamplanet:enable_byoip",
+      "@type": "xsd:boolean"
+    },
+    "ingest": {
+      "@id": "istreamplanet:ingest",
+      "@type": "@id"
+    },
+    "labels": {
+      "@id": "istreamplanet:labels",
+      "@container": "@list"
+    },
+    "modified": {
+      "@id": "istreamplanet:modified",
+      "@type": "xsd:dateTime"
+    },
+    "organization": {
+      "@id": "istreamplanet:organization",
+      "@type": "xsd:string"
+    },
+    "packaging": {
+      "@id": "istreamplanet:packaging",
+      "@type": "@id"
+    },
+    "publishing": {
+      "@id": "istreamplanet:publishing",
+      "@type": "@id"
+    },
+    "region": {
+      "@id": "istreamplanet:region",
+      "@type": "xsd:string"
+    },
+    "resource_class": {
+      "@id": "istreamplanet:resource_class",
+      "@type": "xsd:string"
+    },
+    "self": {
+      "@id": "istreamplanet:self",
+      "@type": "xsd:string"
+    },
+    "signaling": {
+      "@id": "istreamplanet:signaling",
+      "@type": "@id"
+    },
+    "tags": {
+      "@id": "istreamplanet:tags",
+      "@type": "@id"
+    },
+    "transcode": {
+      "@id": "istreamplanet:transcode",
+      "@type": "@id"
+    },
+    "ChannelCostReport": "istreamplanet:ChannelCostReport",
+    "channel_name": {
+      "@id": "istreamplanet:channel_name",
+      "@type": "xsd:string"
+    },
+    "channel_urn": {
+      "@id": "istreamplanet:channel_urn",
+      "@type": "xsd:string"
+    },
+    "duration_secs": {
+      "@id": "istreamplanet:duration_secs",
+      "@type": "xsd:integer"
+    },
+    "external_id": {
+      "@id": "istreamplanet:external_id",
+      "@type": "xsd:string"
+    },
+    "has_hdr": {
+      "@id": "istreamplanet:has_hdr",
+      "@type": "xsd:boolean"
+    },
+    "has_realtime_output": {
+      "@id": "istreamplanet:has_realtime_output",
+      "@type": "xsd:boolean"
+    },
+    "has_uhd": {
+      "@id": "istreamplanet:has_uhd",
+      "@type": "xsd:boolean"
+    },
+    "verbit_encoder_count": {
+      "@id": "istreamplanet:verbit_encoder_count",
+      "@type": "xsd:integer"
+    },
+    "ChannelPlaybackBody": "istreamplanet:ChannelPlaybackBody",
+    "cmaf": {
+      "@id": "istreamplanet:cmaf",
+      "@container": "@list"
+    },
+    "dash": {
+      "@id": "istreamplanet:dash",
+      "@container": "@list"
+    },
+    "hls": {
+      "@id": "istreamplanet:hls",
+      "@container": "@list"
+    },
+    "origin": {
+      "@id": "istreamplanet:origin",
+      "@container": "@list"
+    },
+    "ChannelPlaybackConfiguration": "istreamplanet:ChannelPlaybackConfiguration",
+    "content_protection": {
+      "@id": "istreamplanet:content_protection",
+      "@type": "@id"
+    },
+    "partial_presentations": {
+      "@id": "istreamplanet:partial_presentations",
+      "@container": "@list"
+    },
+    "url": {
+      "@id": "istreamplanet:url",
+      "@type": "xsd:string"
+    },
+    "ChannelTimelineEntry": "istreamplanet:ChannelTimelineEntry",
+    "action": {
+      "@id": "istreamplanet:action",
+      "@type": "xsd:string"
+    },
+    "agent": {
+      "@id": "istreamplanet:agent",
+      "@type": "xsd:string"
+    },
+    "query": {
+      "@id": "istreamplanet:query",
+      "@type": "xsd:string"
+    },
+    "request_body": {
+      "@id": "istreamplanet:request_body",
+      "@type": "xsd:string"
+    },
+    "status_code": {
+      "@id": "istreamplanet:status_code",
+      "@type": "xsd:integer"
+    },
+    "timestamp": {
+      "@id": "istreamplanet:timestamp",
+      "@type": "xsd:dateTime"
+    },
+    "trace_id": {
+      "@id": "istreamplanet:trace_id",
+      "@type": "xsd:string"
+    },
+    "Cie1931P": "istreamplanet:Cie1931P",
+    "x": {
+      "@id": "istreamplanet:x",
+      "@type": "xsd:decimal"
+    },
+    "y": {
+      "@id": "istreamplanet:y",
+      "@type": "xsd:decimal"
+    },
+    "ClearSegmentConfig": "istreamplanet:ClearSegmentConfig",
+    "first_published": {
+      "@id": "istreamplanet:first_published",
+      "@type": "xsd:dateTime"
+    },
+    "store": {
+      "@id": "istreamplanet:store",
+      "@type": "xsd:string"
+    },
+    "store_prefix": {
+      "@id": "istreamplanet:store_prefix",
+      "@type": "xsd:string"
+    },
+    "Clip": "istreamplanet:Clip",
+    "clip_id": {
+      "@id": "istreamplanet:clip_id",
+      "@type": "xsd:string"
+    },
+    "duration": {
+      "@id": "istreamplanet:duration",
+      "@type": "xsd:integer"
+    },
+    "end": {
+      "@id": "istreamplanet:end",
+      "@type": "xsd:dateTime"
+    },
+    "mp4path": {
+      "@id": "istreamplanet:mp4path",
+      "@type": "xsd:string"
+    },
+    "start": {
+      "@id": "istreamplanet:start",
+      "@type": "xsd:dateTime"
+    },
+    "ClipGroup": "istreamplanet:ClipGroup",
+    "clips": {
+      "@id": "istreamplanet:clips",
+      "@container": "@list"
+    },
+    "vod_id": {
+      "@id": "istreamplanet:vod_id",
+      "@type": "xsd:string"
+    },
+    "ClipManifestResponse": "istreamplanet:ClipManifestResponse",
+    "cdnURL": {
+      "@id": "istreamplanet:cdnURL",
+      "@type": "xsd:string"
+    },
+    "manifestID": {
+      "@id": "istreamplanet:manifestID",
+      "@type": "xsd:integer"
+    },
+    "path": {
+      "@id": "istreamplanet:path",
+      "@type": "xsd:string"
+    },
+    "storepath": {
+      "@id": "istreamplanet:storepath",
+      "@type": "xsd:string"
+    },
+    "CollapseConfig": "istreamplanet:CollapseConfig",
+    "auto_copy_mp4": {
+      "@id": "istreamplanet:auto_copy_mp4",
+      "@type": "xsd:boolean"
+    },
+    "auto_create_mp4": {
+      "@id": "istreamplanet:auto_create_mp4",
+      "@type": "xsd:boolean"
+    },
+    "m3u8_filters_config": {
+      "@id": "istreamplanet:m3u8_filters_config",
+      "@type": "@id"
+    },
+    "use_per_url_collapse_notification": {
+      "@id": "istreamplanet:use_per_url_collapse_notification",
+      "@type": "xsd:boolean"
+    },
+    "v2_filters_config": {
+      "@id": "istreamplanet:v2_filters_config",
+      "@type": "@id"
+    },
+    "CollapseTrigger": "istreamplanet:CollapseTrigger",
+    "scte35_upid": {
+      "@id": "istreamplanet:scte35_upid",
+      "@type": "xsd:string"
+    },
+    "segmentation_event_id": {
+      "@id": "istreamplanet:segmentation_event_id",
+      "@type": "xsd:integer"
+    },
+    "segmentation_type_id": {
+      "@id": "istreamplanet:segmentation_type_id",
+      "@type": "xsd:integer"
+    },
+    "CollapseTriggerConfig": "istreamplanet:CollapseTriggerConfig",
+    "allow_multiple": {
+      "@id": "istreamplanet:allow_multiple",
+      "@type": "xsd:boolean"
+    },
+    "collapse_program": {
+      "@id": "istreamplanet:collapse_program",
+      "@type": "xsd:boolean"
+    },
+    "collapse_stream": {
+      "@id": "istreamplanet:collapse_stream",
+      "@type": "xsd:boolean"
+    },
+    "triggers": {
+      "@id": "istreamplanet:triggers",
+      "@container": "@list"
+    },
+    "CollapseVODRequest": "istreamplanet:CollapseVODRequest",
+    "clip_prefix": {
+      "@id": "istreamplanet:clip_prefix",
+      "@type": "xsd:string"
+    },
+    "clip_suffix": {
+      "@id": "istreamplanet:clip_suffix",
+      "@type": "xsd:string"
+    },
+    "disable_auto_prefix": {
+      "@id": "istreamplanet:disable_auto_prefix",
+      "@type": "xsd:boolean"
+    },
+    "end_time": {
+      "@id": "istreamplanet:end_time",
+      "@type": "xsd:dateTime"
+    },
+    "filterconfig": {
+      "@id": "istreamplanet:filterconfig",
+      "@type": "@id"
+    },
+    "new_clip_description": {
+      "@id": "istreamplanet:new_clip_description",
+      "@type": "xsd:string"
+    },
+    "new_clip_id": {
+      "@id": "istreamplanet:new_clip_id",
+      "@type": "xsd:integer"
+    },
+    "publish_vod": {
+      "@id": "istreamplanet:publish_vod",
+      "@type": "xsd:boolean"
+    },
+    "start_time": {
+      "@id": "istreamplanet:start_time",
+      "@type": "xsd:dateTime"
+    },
+    "upid": {
+      "@id": "istreamplanet:upid",
+      "@type": "xsd:string"
+    },
+    "CollapseVODResponseBody": "istreamplanet:CollapseVODResponseBody",
+    "ColorDescription": "istreamplanet:ColorDescription",
+    "color_primaries": {
+      "@id": "istreamplanet:color_primaries",
+      "@type": "xsd:string"
+    },
+    "matrix_coeffs": {
+      "@id": "istreamplanet:matrix_coeffs",
+      "@type": "xsd:string"
+    },
+    "transfer_characteristics": {
+      "@id": "istreamplanet:transfer_characteristics",
+      "@type": "xsd:string"
+    },
+    "ContentLightLevelInfo": "istreamplanet:ContentLightLevelInfo",
+    "max_cll": {
+      "@id": "istreamplanet:max_cll",
+      "@type": "xsd:decimal"
+    },
+    "max_fall": {
+      "@id": "istreamplanet:max_fall",
+      "@type": "xsd:decimal"
+    },
+    "ContentProtection": "istreamplanet:ContentProtection",
+    "atlas": {
+      "@id": "istreamplanet:atlas"
+    },
+    "bulk_file": {
+      "@id": "istreamplanet:bulk_file"
+    },
+    "common": {
+      "@id": "istreamplanet:common"
+    },
+    "cpix": {
+      "@id": "istreamplanet:cpix"
+    },
+    "key_rotation": {
+      "@id": "istreamplanet:key_rotation"
+    },
+    "sample_aes": {
+      "@id": "istreamplanet:sample_aes"
+    },
+    "simple": {
+      "@id": "istreamplanet:simple"
+    },
+    "DeliveryRestrictions": "istreamplanet:DeliveryRestrictions",
+    "archive_allowed": {
+      "@id": "istreamplanet:archive_allowed",
+      "@type": "xsd:boolean"
+    },
+    "device_restrictions": {
+      "@id": "istreamplanet:device_restrictions",
+      "@type": "xsd:string"
+    },
+    "no_regional_blackout": {
+      "@id": "istreamplanet:no_regional_blackout",
+      "@type": "xsd:boolean"
+    },
+    "web_delivery_allowed": {
+      "@id": "istreamplanet:web_delivery_allowed",
+      "@type": "xsd:boolean"
+    },
+    "DeprecatedGetClipManifestsBodyItem": "istreamplanet:DeprecatedGetClipManifestsBodyItem",
+    "DeprecatedGetClipResponseBody": "istreamplanet:DeprecatedGetClipResponseBody",
+    "clipid": {
+      "@id": "istreamplanet:clipid",
+      "@type": "xsd:integer"
+    },
+    "endTime": {
+      "@id": "istreamplanet:endTime",
+      "@type": "xsd:dateTime"
+    },
+    "source": {
+      "@id": "istreamplanet:source",
+      "@type": "xsd:string"
+    },
+    "startTime": {
+      "@id": "istreamplanet:startTime",
+      "@type": "xsd:dateTime"
+    },
+    "DeprecatedGetMp4UrlResponseBody": "istreamplanet:DeprecatedGetMp4UrlResponseBody",
+    "presigned_url": {
+      "@id": "istreamplanet:presigned_url",
+      "@type": "xsd:string"
+    },
+    "DeprecatedGetProgramResponseBody": "istreamplanet:DeprecatedGetProgramResponseBody",
+    "clear_segment_config": {
+      "@id": "istreamplanet:clear_segment_config",
+      "@type": "@id"
+    },
+    "file_count": {
+      "@id": "istreamplanet:file_count",
+      "@type": "xsd:integer"
+    },
+    "last_published": {
+      "@id": "istreamplanet:last_published",
+      "@type": "xsd:dateTime"
+    },
+    "progid": {
+      "@id": "istreamplanet:progid",
+      "@type": "xsd:string"
+    },
+    "pub_clip_id": {
+      "@id": "istreamplanet:pub_clip_id",
+      "@type": "xsd:integer"
+    },
+    "pub_vod_id": {
+      "@id": "istreamplanet:pub_vod_id",
+      "@type": "xsd:integer"
+    },
+    "retention_days": {
+      "@id": "istreamplanet:retention_days",
+      "@type": "xsd:integer"
+    },
+    "total_bytes": {
+      "@id": "istreamplanet:total_bytes",
+      "@type": "xsd:integer"
+    },
+    "DeprecatedGetProgramTimeResponseBody": "istreamplanet:DeprecatedGetProgramTimeResponseBody",
+    "program_end": {
+      "@id": "istreamplanet:program_end",
+      "@type": "xsd:string"
+    },
+    "program_start": {
+      "@id": "istreamplanet:program_start",
+      "@type": "xsd:string"
+    },
+    "DeprecatedListClipsResponseBody": "istreamplanet:DeprecatedListClipsResponseBody",
+    "DeprecatedListVODsResponseBody": "istreamplanet:DeprecatedListVODsResponseBody",
+    "packaging_format": {
+      "@id": "istreamplanet:packaging_format",
+      "@type": "xsd:string"
+    },
+    "storeprefix": {
+      "@id": "istreamplanet:storeprefix",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "istreamplanet:version",
+      "@type": "xsd:string"
+    },
+    "vodid": {
+      "@id": "istreamplanet:vodid",
+      "@type": "xsd:integer"
+    },
+    "DeprecatedMakeMP4Request": "istreamplanet:DeprecatedMakeMP4Request",
+    "force": {
+      "@id": "istreamplanet:force",
+      "@type": "xsd:boolean"
+    },
+    "DeprecatedMakeMP4ResponseBody": "istreamplanet:DeprecatedMakeMP4ResponseBody",
+    "taskid": {
+      "@id": "istreamplanet:taskid",
+      "@type": "xsd:string"
+    },
+    "DesiredStateRequestBody": "istreamplanet:DesiredStateRequestBody",
+    "DynamicNotification": "istreamplanet:DynamicNotification",
+    "sns": {
+      "@id": "istreamplanet:sns",
+      "@type": "@id"
+    },
+    "DynamicState": "istreamplanet:DynamicState",
+    "audio_mutes": {
+      "@id": "istreamplanet:audio_mutes",
+      "@container": "@list"
+    },
+    "graphic_overlays": {
+      "@id": "istreamplanet:graphic_overlays",
+      "@container": "@list"
+    },
+    "text_overlays": {
+      "@id": "istreamplanet:text_overlays",
+      "@container": "@list"
+    },
+    "DynamicStateStatus": "istreamplanet:DynamicStateStatus",
+    "dynamic_state": {
+      "@id": "istreamplanet:dynamic_state",
+      "@type": "@id"
+    },
+    "last_update": {
+      "@id": "istreamplanet:last_update",
+      "@type": "xsd:dateTime"
+    },
+    "DynamicSyndicationRequest": "istreamplanet:DynamicSyndicationRequest",
+    "archive": {
+      "@id": "istreamplanet:archive",
+      "@type": "@id"
+    },
+    "manifest_url": {
+      "@id": "istreamplanet:manifest_url",
+      "@type": "xsd:string"
+    },
+    "query_string": {
+      "@id": "istreamplanet:query_string",
+      "@type": "xsd:string"
+    },
+    "scc_sidecar": {
+      "@id": "istreamplanet:scc_sidecar",
+      "@type": "@id"
+    },
+    "syndication_files": {
+      "@id": "istreamplanet:syndication_files",
+      "@container": "@list"
+    },
+    "DynamicSyndicationResponseBody": "istreamplanet:DynamicSyndicationResponseBody",
+    "EDCPartialPresentation": "istreamplanet:EDCPartialPresentation",
+    "renditions": {
+      "@id": "istreamplanet:renditions",
+      "@container": "@list"
+    },
+    "EDCPartialPresentations": "istreamplanet:EDCPartialPresentations",
+    "presentations": {
+      "@id": "istreamplanet:presentations",
+      "@container": "@list"
+    },
+    "ErrorDetail": "istreamplanet:ErrorDetail",
+    "location": {
+      "@id": "istreamplanet:location",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "istreamplanet:message",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "istreamplanet:value"
+    },
+    "ErrorModel": "istreamplanet:ErrorModel",
+    "detail": {
+      "@id": "istreamplanet:detail",
+      "@type": "xsd:string"
+    },
+    "errors": {
+      "@id": "istreamplanet:errors",
+      "@container": "@list"
+    },
+    "instance": {
+      "@id": "istreamplanet:instance",
+      "@type": "@id"
+    },
+    "status": {
+      "@id": "istreamplanet:status",
+      "@type": "xsd:integer"
+    },
+    "title": {
+      "@id": "istreamplanet:title",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "istreamplanet:type",
+      "@type": "@id"
+    },
+    "FilterTimespan": "istreamplanet:FilterTimespan",
+    "endtime": {
+      "@id": "istreamplanet:endtime",
+      "@type": "xsd:dateTime"
+    },
+    "starttime": {
+      "@id": "istreamplanet:starttime",
+      "@type": "xsd:dateTime"
+    },
+    "GenericSignal": "istreamplanet:GenericSignal",
+    "delivery_restrictions": {
+      "@id": "istreamplanet:delivery_restrictions",
+      "@type": "@id"
+    },
+    "event_id": {
+      "@id": "istreamplanet:event_id",
+      "@type": "xsd:integer"
+    },
+    "segment_type": {
+      "@id": "istreamplanet:segment_type",
+      "@type": "xsd:string"
+    },
+    "signal_type": {
+      "@id": "istreamplanet:signal_type",
+      "@type": "xsd:string"
+    },
+    "slate_uri": {
+      "@id": "istreamplanet:slate_uri",
+      "@type": "@id"
+    },
+    "timed_metadata_payload": {
+      "@id": "istreamplanet:timed_metadata_payload",
+      "@type": "xsd:string"
+    },
+    "timed_metadata_type": {
+      "@id": "istreamplanet:timed_metadata_type",
+      "@type": "xsd:string"
+    },
+    "upids": {
+      "@id": "istreamplanet:upids",
+      "@container": "@list"
+    },
+    "GenericSignalResult": "istreamplanet:GenericSignalResult",
+    "error_message": {
+      "@id": "istreamplanet:error_message",
+      "@type": "xsd:string"
+    },
+    "result_code": {
+      "@id": "istreamplanet:result_code",
+      "@type": "xsd:string"
+    },
+    "GetChannelCostReportResponseBody": "istreamplanet:GetChannelCostReportResponseBody",
+    "GetClipProgramTimeResponseBody": "istreamplanet:GetClipProgramTimeResponseBody",
+    "GetPreviewStreamsResponse": "istreamplanet:GetPreviewStreamsResponse",
+    "audio_tracks": {
+      "@id": "istreamplanet:audio_tracks",
+      "@container": "@list"
+    },
+    "default_audio_track": {
+      "@id": "istreamplanet:default_audio_track",
+      "@type": "@id"
+    },
+    "default_url": {
+      "@id": "istreamplanet:default_url",
+      "@type": "xsd:string"
+    },
+    "default_video_track": {
+      "@id": "istreamplanet:default_video_track",
+      "@type": "@id"
+    },
+    "token": {
+      "@id": "istreamplanet:token",
+      "@type": "xsd:string"
+    },
+    "video_tracks": {
+      "@id": "istreamplanet:video_tracks",
+      "@container": "@list"
+    },
+    "GetProductConfigResponseBody": "istreamplanet:GetProductConfigResponseBody",
+    "product_config": {
+      "@id": "istreamplanet:product_config",
+      "@container": "@list"
+    },
+    "GetProductResponseBody": "istreamplanet:GetProductResponseBody",
+    "products": {
+      "@id": "istreamplanet:products",
+      "@container": "@list"
+    },
+    "GetScte35MarkerByClipIDResponseBody": "istreamplanet:GetScte35MarkerByClipIDResponseBody",
+    "scte35_markers": {
+      "@id": "istreamplanet:scte35_markers",
+      "@container": "@list"
+    },
+    "GetSourcePreviewStreamResponseBody": "istreamplanet:GetSourcePreviewStreamResponseBody",
+    "GetSourcePreviewTranscoderStatusResponseBody": "istreamplanet:GetSourcePreviewTranscoderStatusResponseBody",
+    "dynamic_state_status": {
+      "@id": "istreamplanet:dynamic_state_status",
+      "@type": "@id"
+    },
+    "ingest_status": {
+      "@id": "istreamplanet:ingest_status",
+      "@type": "@id"
+    },
+    "GetTaskProgramResponseBody": "istreamplanet:GetTaskProgramResponseBody",
+    "tasks": {
+      "@id": "istreamplanet:tasks",
+      "@container": "@list"
+    },
+    "GetTaskResponseBody": "istreamplanet:GetTaskResponseBody",
+    "done": {
+      "@id": "istreamplanet:done",
+      "@type": "xsd:boolean"
+    },
+    "ended": {
+      "@id": "istreamplanet:ended",
+      "@type": "xsd:dateTime"
+    },
+    "failure_count": {
+      "@id": "istreamplanet:failure_count",
+      "@type": "xsd:integer"
+    },
+    "params": {
+      "@id": "istreamplanet:params",
+      "@type": "xsd:string"
+    },
+    "progress": {
+      "@id": "istreamplanet:progress",
+      "@type": "xsd:decimal"
+    },
+    "succeeded": {
+      "@id": "istreamplanet:succeeded",
+      "@type": "xsd:boolean"
+    },
+    "weight": {
+      "@id": "istreamplanet:weight",
+      "@type": "xsd:integer"
+    },
+    "workerVersion": {
+      "@id": "istreamplanet:workerVersion",
+      "@type": "xsd:string"
+    },
+    "worker_id": {
+      "@id": "istreamplanet:worker_id",
+      "@type": "xsd:integer"
+    },
+    "GetVODResponseBody": "istreamplanet:GetVODResponseBody",
+    "GlobalArchiveSettings": "istreamplanet:GlobalArchiveSettings",
+    "aes_key_conversion": {
+      "@id": "istreamplanet:aes_key_conversion",
+      "@type": "xsd:string"
+    },
+    "enforce_custom_mp4_path": {
+      "@id": "istreamplanet:enforce_custom_mp4_path",
+      "@type": "xsd:boolean"
+    },
+    "master_url_type": {
+      "@id": "istreamplanet:master_url_type",
+      "@type": "xsd:string"
+    },
+    "media_url_type": {
+      "@id": "istreamplanet:media_url_type",
+      "@type": "xsd:string"
+    },
+    "origins": {
+      "@id": "istreamplanet:origins"
+    },
+    "preserve_published_directory_structure": {
+      "@id": "istreamplanet:preserve_published_directory_structure",
+      "@type": "xsd:boolean"
+    },
+    "url_type": {
+      "@id": "istreamplanet:url_type",
+      "@type": "xsd:string"
+    },
+    "GraphicOverlay": "istreamplanet:GraphicOverlay",
+    "resource_id": {
+      "@id": "istreamplanet:resource_id",
+      "@type": "xsd:string"
+    },
+    "HdrSettings": "istreamplanet:HdrSettings",
+    "dolby_vision": {
+      "@id": "istreamplanet:dolby_vision"
+    },
+    "hdr10": {
+      "@id": "istreamplanet:hdr10"
+    },
+    "HdrSettingsContentLightLevelInfo": "istreamplanet:HdrSettingsContentLightLevelInfo",
+    "HdrSettingsDolbyVisionProfile81": "istreamplanet:HdrSettingsDolbyVisionProfile81",
+    "clli": {
+      "@id": "istreamplanet:clli"
+    },
+    "level8": {
+      "@id": "istreamplanet:level8",
+      "@container": "@list"
+    },
+    "mdcv": {
+      "@id": "istreamplanet:mdcv"
+    },
+    "HdrSettingsMasteringDisplayColorVolume": "istreamplanet:HdrSettingsMasteringDisplayColorVolume",
+    "color_profile": {
+      "@id": "istreamplanet:color_profile",
+      "@type": "xsd:string"
+    },
+    "max_dml": {
+      "@id": "istreamplanet:max_dml",
+      "@type": "xsd:decimal"
+    },
+    "min_dml": {
+      "@id": "istreamplanet:min_dml",
+      "@type": "xsd:decimal"
+    },
+    "Ingest": "istreamplanet:Ingest",
+    "slate": {
+      "@id": "istreamplanet:slate"
+    },
+    "IngestStatus": "istreamplanet:IngestStatus",
+    "primary_status": {
+      "@id": "istreamplanet:primary_status",
+      "@type": "@id"
+    },
+    "secondary_status": {
+      "@id": "istreamplanet:secondary_status",
+      "@type": "@id"
+    },
+    "source_loss_slate_status": {
+      "@id": "istreamplanet:source_loss_slate_status",
+      "@type": "@id"
+    },
+    "source_merging_active": {
+      "@id": "istreamplanet:source_merging_active",
+      "@type": "xsd:boolean"
+    },
+    "source_merging_disabled": {
+      "@id": "istreamplanet:source_merging_disabled",
+      "@type": "xsd:boolean"
+    },
+    "InsertMetadataBody": "istreamplanet:InsertMetadataBody",
+    "presentation_time": {
+      "@id": "istreamplanet:presentation_time",
+      "@type": "xsd:dateTime"
+    },
+    "InsertMetadataRequest": "istreamplanet:InsertMetadataRequest",
+    "payload": {
+      "@id": "istreamplanet:payload",
+      "@type": "xsd:string"
+    },
+    "IsBreakingChangeResponseBody": "istreamplanet:IsBreakingChangeResponseBody",
+    "currentRevision": {
+      "@id": "istreamplanet:currentRevision",
+      "@type": "xsd:integer"
+    },
+    "isBreakingChange": {
+      "@id": "istreamplanet:isBreakingChange",
+      "@type": "xsd:boolean"
+    },
+    "JsonPatchOp": "istreamplanet:JsonPatchOp",
+    "from": {
+      "@id": "istreamplanet:from",
+      "@type": "xsd:string"
+    },
+    "op": {
+      "@id": "istreamplanet:op",
+      "@type": "xsd:string"
+    },
+    "LinkConfig": "istreamplanet:LinkConfig",
+    "filtertypes": {
+      "@id": "istreamplanet:filtertypes",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "istreamplanet:include",
+      "@type": "xsd:boolean"
+    },
+    "maintain_markers": {
+      "@id": "istreamplanet:maintain_markers",
+      "@type": "xsd:boolean"
+    },
+    "timespan": {
+      "@id": "istreamplanet:timespan",
+      "@container": "@list"
+    },
+    "ListClipsForVodResponseBody": "istreamplanet:ListClipsForVodResponseBody",
+    "channel_clips": {
+      "@id": "istreamplanet:channel_clips",
+      "@container": "@list"
+    },
+    "ListClipsResponseBody": "istreamplanet:ListClipsResponseBody",
+    "ListContentSegmentHistoryResponseBody": "istreamplanet:ListContentSegmentHistoryResponseBody",
+    "content_segments": {
+      "@id": "istreamplanet:content_segments",
+      "@container": "@list"
+    },
+    "ListProductsResponseBody": "istreamplanet:ListProductsResponseBody",
+    "ListProgramsResponseBody": "istreamplanet:ListProgramsResponseBody",
+    "programs": {
+      "@id": "istreamplanet:programs",
+      "@container": "@list"
+    },
+    "ListRawSCTEHistoryByChannelResponseBody": "istreamplanet:ListRawSCTEHistoryByChannelResponseBody",
+    "raw_scte35": {
+      "@id": "istreamplanet:raw_scte35",
+      "@container": "@list"
+    },
+    "ListRawSCTEHistoryResponseBody": "istreamplanet:ListRawSCTEHistoryResponseBody",
+    "ListTasksResponseBody": "istreamplanet:ListTasksResponseBody",
+    "ListVODsResponse": "istreamplanet:ListVODsResponse",
+    "Location": "istreamplanet:Location",
+    "fallback_url": {
+      "@id": "istreamplanet:fallback_url",
+      "@type": "xsd:string"
+    },
+    "primary_url": {
+      "@id": "istreamplanet:primary_url",
+      "@type": "xsd:string"
+    },
+    "LogData": "istreamplanet:LogData",
+    "base64": {
+      "@id": "istreamplanet:base64",
+      "@type": "xsd:string"
+    },
+    "pretty": {
+      "@id": "istreamplanet:pretty",
+      "@type": "xsd:string"
+    },
+    "M3U8FilterConfig": "istreamplanet:M3U8FilterConfig",
+    "links": {
+      "@id": "istreamplanet:links",
+      "@container": "@list"
+    },
+    "MP4URLResponseBody": "istreamplanet:MP4URLResponseBody",
+    "mp4url": {
+      "@id": "istreamplanet:mp4url",
+      "@type": "xsd:string"
+    },
+    "MakeClipRequest": "istreamplanet:MakeClipRequest",
+    "overwrite": {
+      "@id": "istreamplanet:overwrite",
+      "@type": "xsd:boolean"
+    },
+    "MakeClipResponseBody": "istreamplanet:MakeClipResponseBody",
+    "MakeMP4ResponseBody": "istreamplanet:MakeMP4ResponseBody",
+    "ManifestUpdates": "istreamplanet:ManifestUpdates",
+    "playback_absolute_base_url": {
+      "@id": "istreamplanet:playback_absolute_base_url",
+      "@type": "xsd:string"
+    },
+    "remove_cross_playback_urls": {
+      "@id": "istreamplanet:remove_cross_playback_urls",
+      "@type": "xsd:boolean"
+    },
+    "MasteringDisplayColorVolume": "istreamplanet:MasteringDisplayColorVolume",
+    "blue": {
+      "@id": "istreamplanet:blue",
+      "@type": "@id"
+    },
+    "green": {
+      "@id": "istreamplanet:green",
+      "@type": "@id"
+    },
+    "max_display_mastering_luminance": {
+      "@id": "istreamplanet:max_display_mastering_luminance",
+      "@type": "xsd:decimal"
+    },
+    "min_display_mastering_luminance": {
+      "@id": "istreamplanet:min_display_mastering_luminance",
+      "@type": "xsd:decimal"
+    },
+    "red": {
+      "@id": "istreamplanet:red",
+      "@type": "@id"
+    },
+    "white_point": {
+      "@id": "istreamplanet:white_point",
+      "@type": "@id"
+    },
+    "Moment": "istreamplanet:Moment",
+    "NetStorageSettings": "istreamplanet:NetStorageSettings",
+    "archive_target_types": {
+      "@id": "istreamplanet:archive_target_types",
+      "@container": "@list"
+    },
+    "auto_archive_on_collapse_types": {
+      "@id": "istreamplanet:auto_archive_on_collapse_types",
+      "@container": "@list"
+    },
+    "auto_copy_to_netstorage": {
+      "@id": "istreamplanet:auto_copy_to_netstorage",
+      "@type": "xsd:boolean"
+    },
+    "basedir": {
+      "@id": "istreamplanet:basedir",
+      "@type": "xsd:string"
+    },
+    "copy_collapsed_archive": {
+      "@id": "istreamplanet:copy_collapsed_archive",
+      "@type": "xsd:boolean"
+    },
+    "copy_raw_archive": {
+      "@id": "istreamplanet:copy_raw_archive",
+      "@type": "xsd:boolean"
+    },
+    "cpcode": {
+      "@id": "istreamplanet:cpcode",
+      "@type": "xsd:string"
+    },
+    "hostname": {
+      "@id": "istreamplanet:hostname",
+      "@type": "xsd:string"
+    },
+    "key": {
+      "@id": "istreamplanet:key",
+      "@type": "xsd:string"
+    },
+    "keyname": {
+      "@id": "istreamplanet:keyname",
+      "@type": "xsd:string"
+    },
+    "manifest_updates": {
+      "@id": "istreamplanet:manifest_updates",
+      "@type": "@id"
+    },
+    "NotificationConfig": "istreamplanet:NotificationConfig",
+    "notification_hostname": {
+      "@id": "istreamplanet:notification_hostname",
+      "@type": "xsd:string"
+    },
+    "notification_settings": {
+      "@id": "istreamplanet:notification_settings",
+      "@type": "xsd:string"
+    },
+    "notification_type": {
+      "@id": "istreamplanet:notification_type",
+      "@type": "xsd:string"
+    },
+    "use_channel_api": {
+      "@id": "istreamplanet:use_channel_api",
+      "@type": "xsd:boolean"
+    },
+    "NotificationConfigByEventType": "istreamplanet:NotificationConfigByEventType",
+    "event_types": {
+      "@id": "istreamplanet:event_types",
+      "@container": "@list"
+    },
+    "OrgSummary": "istreamplanet:OrgSummary",
+    "OriginManifestDefaults": "istreamplanet:OriginManifestDefaults",
+    "dash_signaling_formats": {
+      "@id": "istreamplanet:dash_signaling_formats",
+      "@container": "@list"
+    },
+    "drm_system_ids": {
+      "@id": "istreamplanet:drm_system_ids",
+      "@container": "@list"
+    },
+    "duration_seconds": {
+      "@id": "istreamplanet:duration_seconds",
+      "@type": "xsd:integer"
+    },
+    "enable_hls_delta_updates": {
+      "@id": "istreamplanet:enable_hls_delta_updates",
+      "@type": "xsd:boolean"
+    },
+    "encoder_ids": {
+      "@id": "istreamplanet:encoder_ids",
+      "@container": "@list"
+    },
+    "hls_signaling_formats": {
+      "@id": "istreamplanet:hls_signaling_formats",
+      "@container": "@list"
+    },
+    "minimum_update_period_seconds": {
+      "@id": "istreamplanet:minimum_update_period_seconds",
+      "@type": "xsd:integer"
+    },
+    "multi_variant_url_type": {
+      "@id": "istreamplanet:multi_variant_url_type",
+      "@type": "xsd:string"
+    },
+    "pdt_on_every_segment": {
+      "@id": "istreamplanet:pdt_on_every_segment",
+      "@type": "xsd:boolean"
+    },
+    "pre_start_duration_seconds": {
+      "@id": "istreamplanet:pre_start_duration_seconds",
+      "@type": "xsd:integer"
+    },
+    "suggested_presentation_delay_seconds": {
+      "@id": "istreamplanet:suggested_presentation_delay_seconds",
+      "@type": "xsd:integer"
+    },
+    "Package": "istreamplanet:Package",
+    "package_id": {
+      "@id": "istreamplanet:package_id",
+      "@type": "xsd:string"
+    },
+    "PackageUrls": "istreamplanet:PackageUrls",
+    "Packager": "istreamplanet:Packager",
+    "mp2t": {
+      "@id": "istreamplanet:mp2t"
+    },
+    "mp4": {
+      "@id": "istreamplanet:mp4"
+    },
+    "ttml": {
+      "@id": "istreamplanet:ttml"
+    },
+    "web_vtt": {
+      "@id": "istreamplanet:web_vtt"
+    },
+    "Packaging": "istreamplanet:Packaging",
+    "packagers": {
+      "@id": "istreamplanet:packagers"
+    },
+    "PinSourceRequest": "istreamplanet:PinSourceRequest",
+    "ingest_origin": {
+      "@id": "istreamplanet:ingest_origin",
+      "@type": "xsd:string"
+    },
+    "PlayURLBody": "istreamplanet:PlayURLBody",
+    "PlaybackConfiguration": "istreamplanet:PlaybackConfiguration",
+    "fallback_manifest_defaults": {
+      "@id": "istreamplanet:fallback_manifest_defaults",
+      "@type": "@id"
+    },
+    "packager_config": {
+      "@id": "istreamplanet:packager_config",
+      "@type": "@id"
+    },
+    "packager_id": {
+      "@id": "istreamplanet:packager_id",
+      "@type": "xsd:string"
+    },
+    "primary_manifest_defaults": {
+      "@id": "istreamplanet:primary_manifest_defaults",
+      "@type": "@id"
+    },
+    "PlaybackConfigurationLocation": "istreamplanet:PlaybackConfigurationLocation",
+    "fallback_manifest": {
+      "@id": "istreamplanet:fallback_manifest",
+      "@type": "xsd:string"
+    },
+    "primary_manifest": {
+      "@id": "istreamplanet:primary_manifest",
+      "@type": "xsd:string"
+    },
+    "Position": "istreamplanet:Position",
+    "anchor": {
+      "@id": "istreamplanet:anchor",
+      "@type": "xsd:decimal"
+    },
+    "position": {
+      "@id": "istreamplanet:position",
+      "@type": "xsd:decimal"
+    },
+    "PostClipArchiveRequest": "istreamplanet:PostClipArchiveRequest",
+    "PostClipArchiveResponseBody": "istreamplanet:PostClipArchiveResponseBody",
+    "task_errors": {
+      "@id": "istreamplanet:task_errors",
+      "@container": "@list"
+    },
+    "task_ids": {
+      "@id": "istreamplanet:task_ids",
+      "@container": "@list"
+    },
+    "PostClipRequest": "istreamplanet:PostClipRequest",
+    "create_mp4": {
+      "@id": "istreamplanet:create_mp4",
+      "@type": "xsd:boolean"
+    },
+    "mp4_file_path": {
+      "@id": "istreamplanet:mp4_file_path",
+      "@type": "xsd:string"
+    },
+    "PostClipResponseBody": "istreamplanet:PostClipResponseBody",
+    "PostCopyMP4Request": "istreamplanet:PostCopyMP4Request",
+    "override_mp4_path": {
+      "@id": "istreamplanet:override_mp4_path",
+      "@type": "xsd:string"
+    },
+    "PostCopyMP4ResponseBody": "istreamplanet:PostCopyMP4ResponseBody",
+    "PostMakeMP4Request": "istreamplanet:PostMakeMP4Request",
+    "Product": "istreamplanet:Product",
+    "ProductConfig": "istreamplanet:ProductConfig",
+    "archive_settings": {
+      "@id": "istreamplanet:archive_settings",
+      "@type": "@id"
+    },
+    "collapse_config": {
+      "@id": "istreamplanet:collapse_config",
+      "@type": "@id"
+    },
+    "collapse_trigger_config": {
+      "@id": "istreamplanet:collapse_trigger_config",
+      "@type": "@id"
+    },
+    "edc_partial_presentations": {
+      "@id": "istreamplanet:edc_partial_presentations",
+      "@type": "@id"
+    },
+    "edc_transcode_template": {
+      "@id": "istreamplanet:edc_transcode_template"
+    },
+    "notifications": {
+      "@id": "istreamplanet:notifications",
+      "@container": "@list"
+    },
+    "workflow_config": {
+      "@id": "istreamplanet:workflow_config",
+      "@type": "@id"
+    },
+    "Program": "istreamplanet:Program",
+    "published_clip_id": {
+      "@id": "istreamplanet:published_clip_id",
+      "@type": "xsd:integer"
+    },
+    "published_vod_id": {
+      "@id": "istreamplanet:published_vod_id",
+      "@type": "xsd:integer"
+    },
+    "PublishPointHTTP": "istreamplanet:PublishPointHTTP",
+    "basic_auth": {
+      "@id": "istreamplanet:basic_auth"
+    },
+    "compression": {
+      "@id": "istreamplanet:compression",
+      "@type": "xsd:string"
+    },
+    "do_not_monitor": {
+      "@id": "istreamplanet:do_not_monitor",
+      "@type": "xsd:boolean"
+    },
+    "headers": {
+      "@id": "istreamplanet:headers"
+    },
+    "method": {
+      "@id": "istreamplanet:method",
+      "@type": "xsd:string"
+    },
+    "playback_base_url": {
+      "@id": "istreamplanet:playback_base_url",
+      "@type": "xsd:string"
+    },
+    "playback_query_params": {
+      "@id": "istreamplanet:playback_query_params",
+      "@type": "xsd:string"
+    },
+    "publish_base_url": {
+      "@id": "istreamplanet:publish_base_url",
+      "@type": "xsd:string"
+    },
+    "secure_header_auth": {
+      "@id": "istreamplanet:secure_header_auth"
+    },
+    "Publishing": "istreamplanet:Publishing",
+    "closed_caption_streams": {
+      "@id": "istreamplanet:closed_caption_streams",
+      "@container": "@list"
+    },
+    "feature_flags": {
+      "@id": "istreamplanet:feature_flags",
+      "@container": "@list"
+    },
+    "live2vod": {
+      "@id": "istreamplanet:live2vod"
+    },
+    "publications": {
+      "@id": "istreamplanet:publications",
+      "@container": "@list"
+    },
+    "rtmp_publications": {
+      "@id": "istreamplanet:rtmp_publications",
+      "@container": "@list"
+    },
+    "srt_publications": {
+      "@id": "istreamplanet:srt_publications",
+      "@container": "@list"
+    },
+    "PutChannelRequestBody": "istreamplanet:PutChannelRequestBody",
+    "PutQCURequest": "istreamplanet:PutQCURequest",
+    "moments": {
+      "@id": "istreamplanet:moments",
+      "@container": "@list"
+    },
+    "options": {
+      "@id": "istreamplanet:options"
+    },
+    "request_number": {
+      "@id": "istreamplanet:request_number",
+      "@type": "xsd:integer"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "iStreamPlanet API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects iStreamPlanet's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-09) from openapi/istreamplanet-aventus-channels-openapi.yml.",
+  "dcterms:created": "2026-10-09",
+  "dcterms:source": [
+    "openapi/istreamplanet-aventus-channels-openapi.yml"
+  ]
+}

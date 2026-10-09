@@ -1,0 +1,47 @@
+generated: '2026-10-09'
+method: searched
+source: https://api.istreamplanet.com/docs
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: 'openapi/_original/istreamplanet-aventus-channels-openapi.json openapi: 3.1.0'
+- id: oauth2
+  conforms: true
+  evidence: '"WBD Okta supports RFC 6749 OAuth 2.0, both the Authorization Code (with PKCE) and Client Credential grant flows." (info.description)'
+- id: rfc7519-jwt
+  conforms: true
+  evidence: '"Auth is handled via the WBD Okta offering using RFC 7519 JSON Web Tokens (JWT)." (info.description)'
+- id: rfc7807
+  conforms: true
+  evidence: '"Structured errors are returned using RFC 7807 Problem Details for HTTP APIs" (info.description); ErrorModel served as application/problem+json'
+- id: rfc5988-link-pagination
+  conforms: true
+  evidence: '"List calls use RFC 5988 Link relation headers." (info.description)'
+- id: rfc7386-json-merge-patch
+  conforms: true
+  evidence: Partial Updates section, info.description
+- id: rfc6902-json-patch
+  conforms: true
+  evidence: Partial Updates section, info.description
+- id: rfc8631-service-desc
+  conforms: true
+  evidence: '"publicly linked via RFC 8631 service-desc link relation headers" (https://istreamlabs.github.io/docs/cli)'
+- id: http-conditional-requests
+  conforms: true
+  evidence: If-Match / If-Unmodified-Since on put/patch/delete-org-channel
+- id: idempotency-key
+  conforms: false
+  evidence: No idempotency header declared or documented
+- id: scte-35
+  conforms: true
+  evidence: Contract operation insert-org-scte35 (POST /v2/{org}/channels/{channel-id}/scte35) and scte35markers endpoints; SCTE-35 cue insertion
+    is the broadcast ad-signalling standard. Declared by operation, no conformance statement published.
+- id: rfc9457
+  conforms: true
+  evidence: application/problem+json on 549 response(s), e.g. GET /cust/{customer-id}/prod/{product-id}/prog/{program-id} 400
+- id: idempotency
+  conforms: false
+  evidence: no idempotency key parameter on mutating operations
+- id: pagination
+  conforms: true
+  evidence: list operations take cursor, page_size

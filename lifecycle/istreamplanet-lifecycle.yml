@@ -1,0 +1,24 @@
+generated: '2026-10-09'
+method: derived
+source: openapi/istreamplanet-aventus-channels-openapi.yml
+versioning:
+  scheme: URL path major version (/v2/) with semver contract version
+  current: v1.52.0
+  policy: null
+  note: No versioning or deprecation policy page was found in the API reference or the Developer Portal (https://istreamlabs.github.io/docs/). The portal repo istreamlabs/docs-portal is archived (last push 2022-04-06).
+deprecation:
+  policy: null
+  headers: none documented
+  deprecated_operations:
+  - get-deprecated-program
+  - list-deprecated-vods
+  - list-deprecated-clips
+  - get-deprecated-clip
+  - deprecated-clip-make-mp4
+  - deprecated-get-clip-manifest
+  - deprecated-clip-get-mp4
+  - deprecated-clip-get-program-time
+  note: The eight legacy /cust/{customer-id}/prod/{product-id}/prog/... Live2VOD operations are marked deprecated:true in the contract.
+status_page: null
+sla: null
+support_contact: live-control-plane-devs@wbd.com (info.contact in the contract)

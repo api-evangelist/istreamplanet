@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/istreamplanet/main/json-schema/istreamplanet-get-task-response-body-schema.json",
+  "title": "GetTaskResponseBody",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetTaskResponseBody",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "description": "A URL to the JSON Schema for this object.",
+      "format": "uri",
+      "readOnly": true,
+      "type": "string"
+    },
+    "created": {
+      "description": "when the task was created in RFC3339Nano format",
+      "format": "date-time",
+      "type": "string"
+    },
+    "done": {
+      "description": "indicates if the task is done or not",
+      "type": "boolean"
+    },
+    "ended": {
+      "description": "when the task ended in RFC3339Nano format",
+      "format": "date-time",
+      "type": "string"
+    },
+    "error": {
+      "description": "error message if any for this task",
+      "type": "string"
+    },
+    "failure_count": {
+      "description": "number of times the task failed",
+      "format": "int64",
+      "type": "integer"
+    },
+    "id": {
+      "description": "ID for the task",
+      "type": "string"
+    },
+    "params": {
+      "description": "params sent to task",
+      "type": "string"
+    },
+    "progress": {
+      "description": "the progress of the task",
+      "format": "double",
+      "type": "number"
+    },
+    "region": {
+      "description": "Region represents the general geolocation the task is in.",
+      "enum": [
+        "US_WEST",
+        "US_EAST"
+      ],
+      "type": "string"
+    },
+    "status": {
+      "description": "status for the task",
+      "type": "string"
+    },
+    "succeeded": {
+      "description": "indicates if the task succeeded or not",
+      "type": "boolean"
+    },
+    "type": {
+      "description": "type of task",
+      "format": "int64",
+      "type": "integer"
+    },
+    "weight": {
+      "description": "priority",
+      "format": "int64",
+      "type": "integer"
+    },
+    "workerVersion": {
+      "description": "the version of the worker for this task",
+      "type": "string"
+    },
+    "worker_id": {
+      "description": "the id of the worker for the task",
+      "format": "int64",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "params",
+    "weight",
+    "created",
+    "ended",
+    "done",
+    "succeeded",
+    "error",
+    "worker_id",
+    "failure_count",
+    "status",
+    "progress",
+    "workerVersion"
+  ],
+  "type": "object"
+}

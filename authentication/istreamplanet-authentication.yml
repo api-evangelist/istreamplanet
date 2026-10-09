@@ -1,0 +1,41 @@
+generated: '2026-10-09'
+method: searched
+source: https://api.istreamplanet.com/docs
+summary:
+  types:
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+  - clientCredentials
+schemes:
+- name: authcode
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/authorize
+    tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+    scopes: 0
+  sources:
+  - openapi/istreamplanet-aventus-channels-openapi.yml
+- name: m2m
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+    scopes: 0
+  sources:
+  - openapi/istreamplanet-aventus-channels-openapi.yml
+docs: https://api.istreamplanet.com/docs
+derived_from: openapi/istreamplanet-aventus-channels-openapi.yml
+description: Auth is handled via the WBD Okta offering using RFC 7519 JSON Web Tokens (JWT). Clients first make a request
+  to the application's WBD Okta endpoint to get a token, and then provide that token in an `Authorization` header with each
+  request to the API. Tokens are short lived and a new token must be fetched when the token expires. WBD Okta supports RFC
+  6749 OAuth 2.0, both the Authorization Code (with PKCE) and Client Credential grant flows.
+token_format: JWT (RFC 7519)
+identity_provider: WBD Okta (sso.wbd.com)
+pkce: true
+credentials:
+  source: https://istreamlabs.github.io/docs/guide/
+  text: OAuth2 client ID for calling the API (optional) OAuth2 client secret for machine-to-machine use-cases
+  provisioning: contact iStreamPlanet to set up a new organization, or ask your administrator to create a user account in
+    the Portal UI

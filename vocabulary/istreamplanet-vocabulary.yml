@@ -1,0 +1,425 @@
+generated: '2026-10-09'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/istreamplanet-aventus-channels-openapi.yml
+vocabulary:
+  name: iStreamPlanet Domain Vocabulary
+  description: 'Terms declared by iStreamPlanet''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-09'
+  terms:
+  - term: Archive
+    definition: 'Object declared by the contract with fields: s3.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/Archive
+  - term: ArchiveFERRequest
+    definition: 'Object declared by the contract with fields: $schema, correlation_id, global_query_string, notification, packages.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ArchiveFERRequest
+  - term: ArchiveFERResponse
+    definition: 'Object declared by the contract with fields: $schema, correlation_id, task_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ArchiveFERResponse
+  - term: ArchiveSettings
+    definition: 'Object declared by the contract with fields: global_archive_settings, netstorage_connection_settings, s3_archive_settings, workflow_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ArchiveSettings
+  - term: AudioMute
+    definition: 'Object declared by the contract with fields: audio_channel, audio_source_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/AudioMute
+  - term: AudioSourceRemappingSource
+    definition: 'Object declared by the contract with fields: audio_source_id, channel_index.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/AudioSourceRemappingSource
+  - term: AudioTrackInfo
+    definition: 'Object declared by the contract with fields: bitrate, codec_string, id, name, num_channels, sample_rate.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/AudioTrackInfo
+  - term: CancelTaskResponseBody
+    definition: 'Object declared by the contract with fields: $schema, error.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/CancelTaskResponseBody
+  - term: Channel
+    definition: 'Object declared by the contract with fields: $schema, created, description, desired_state, enable_byoip, id, ingest, labels,
+      modified, name, organization, packaging. (7 more)'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/Channel
+  - term: ChannelCostReport
+    definition: 'Object declared by the contract with fields: channel_name, channel_urn, duration_secs, external_id, has_hdr, has_realtime_output,
+      has_uhd, labels, organization, verbit_encoder_count.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ChannelCostReport
+  - term: ChannelPlaybackBody
+    definition: 'Object declared by the contract with fields: $schema, cmaf, dash, hls, origin.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ChannelPlaybackBody
+  - term: ChannelPlaybackConfiguration
+    definition: 'Object declared by the contract with fields: content_protection, partial_presentations, url.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ChannelPlaybackConfiguration
+  - term: ChannelTimelineEntry
+    definition: 'Object declared by the contract with fields: action, agent, query, request_body, status_code, timestamp, trace_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ChannelTimelineEntry
+  - term: Cie1931P
+    definition: 'Object declared by the contract with fields: x, y.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/Cie1931P
+  - term: ClearSegmentConfig
+    definition: 'Object declared by the contract with fields: first_published, store, store_prefix.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ClearSegmentConfig
+  - term: Clip
+    definition: 'Object declared by the contract with fields: clip_id, created, description, duration, end, mp4path, start.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/Clip
+  - term: ClipGroup
+    definition: 'Object declared by the contract with fields: clips, vod_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ClipGroup
+  - term: ClipManifestResponse
+    definition: 'Object declared by the contract with fields: cdnURL, manifestID, path, storepath.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ClipManifestResponse
+  - term: CollapseConfig
+    definition: 'Object declared by the contract with fields: auto_copy_mp4, auto_create_mp4, m3u8_filters_config, use_per_url_collapse_notification,
+      v2_filters_config.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/CollapseConfig
+  - term: CollapseTrigger
+    definition: 'Object declared by the contract with fields: scte35_upid, segmentation_event_id, segmentation_type_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/CollapseTrigger
+  - term: CollapseTriggerConfig
+    definition: 'Object declared by the contract with fields: allow_multiple, collapse_program, collapse_stream, scte35_upid, triggers.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/CollapseTriggerConfig
+  - term: CollapseVODRequest
+    definition: 'Object declared by the contract with fields: $schema, clip_prefix, clip_suffix, disable_auto_prefix, end_time, filterconfig,
+      new_clip_description, new_clip_id, publish_vod, start_time, upid.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/CollapseVODRequest
+  - term: CollapseVODResponseBody
+    definition: 'Object declared by the contract with fields: $schema, clip_id, task_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/CollapseVODResponseBody
+  - term: ColorDescription
+    definition: 'Object declared by the contract with fields: color_primaries, matrix_coeffs, transfer_characteristics.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ColorDescription
+  - term: ContentLightLevelInfo
+    definition: 'Object declared by the contract with fields: max_cll, max_fall.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ContentLightLevelInfo
+  - term: ContentProtection
+    definition: 'Object declared by the contract with fields: atlas, bulk_file, common, cpix, key_rotation, sample_aes, simple.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ContentProtection
+  - term: DeliveryRestrictions
+    definition: 'Object declared by the contract with fields: archive_allowed, device_restrictions, no_regional_blackout, web_delivery_allowed.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeliveryRestrictions
+  - term: DeprecatedGetClipManifestsBodyItem
+    definition: 'Object declared by the contract with fields: cdnURL, manifestID, path, storepath.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedGetClipManifestsBodyItem
+  - term: DeprecatedGetClipResponseBody
+    definition: 'Object declared by the contract with fields: $schema, clipid, created, description, duration, endTime, mp4path, source, startTime.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedGetClipResponseBody
+  - term: DeprecatedGetMp4UrlResponseBody
+    definition: 'Object declared by the contract with fields: $schema, presigned_url.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedGetMp4UrlResponseBody
+  - term: DeprecatedGetProgramResponseBody
+    definition: 'Object declared by the contract with fields: $schema, clear_segment_config, description, file_count, last_published, progid,
+      pub_clip_id, pub_vod_id, retention_days, total_bytes.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedGetProgramResponseBody
+  - term: DeprecatedGetProgramTimeResponseBody
+    definition: 'Object declared by the contract with fields: $schema, duration, program_end, program_start.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedGetProgramTimeResponseBody
+  - term: DeprecatedListClipsResponseBody
+    definition: 'Object declared by the contract with fields: clipid, created, description, duration, endTime, mp4path, source, startTime.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedListClipsResponseBody
+  - term: DeprecatedListVODsResponseBody
+    definition: 'Object declared by the contract with fields: description, file_count, last_published, packaging_format, store, storeprefix, total_bytes,
+      version, vodid.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedListVODsResponseBody
+  - term: DeprecatedMakeMP4Request
+    definition: 'Object declared by the contract with fields: $schema, force.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedMakeMP4Request
+  - term: DeprecatedMakeMP4ResponseBody
+    definition: 'Object declared by the contract with fields: $schema, taskid.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DeprecatedMakeMP4ResponseBody
+  - term: DesiredStateRequestBody
+    definition: 'Object declared by the contract with fields: $schema, desired_state.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DesiredStateRequestBody
+  - term: DynamicNotification
+    definition: 'Object declared by the contract with fields: sns.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DynamicNotification
+  - term: DynamicState
+    definition: 'Object declared by the contract with fields: audio_mutes, graphic_overlays, text_overlays.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DynamicState
+  - term: DynamicStateStatus
+    definition: 'Object declared by the contract with fields: dynamic_state, last_update.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DynamicStateStatus
+  - term: DynamicSyndicationRequest
+    definition: 'Object declared by the contract with fields: $schema, archive, correlation_id, manifest_url, notification, query_string, scc_sidecar,
+      syndication_files.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DynamicSyndicationRequest
+  - term: DynamicSyndicationResponseBody
+    definition: 'Object declared by the contract with fields: $schema, correlation_id, task_id.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/DynamicSyndicationResponseBody
+  - term: EDCPartialPresentation
+    definition: 'Object declared by the contract with fields: name, renditions.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/EDCPartialPresentation
+  - term: EDCPartialPresentations
+    definition: 'Object declared by the contract with fields: presentations.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/EDCPartialPresentations
+  - term: ErrorDetail
+    definition: 'Object declared by the contract with fields: location, message, value.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ErrorDetail
+  - term: ErrorModel
+    definition: 'Object declared by the contract with fields: $schema, detail, errors, instance, status, title, type.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ErrorModel
+  - term: FilterTimespan
+    definition: 'Object declared by the contract with fields: endtime, starttime.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/FilterTimespan
+  - term: GenericSignal
+    definition: 'Object declared by the contract with fields: delivery_restrictions, duration, event_id, segment_type, signal_type, slate_uri,
+      timed_metadata_payload, timed_metadata_type, type, upids.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GenericSignal
+  - term: GenericSignalResult
+    definition: 'Object declared by the contract with fields: error_message, result_code.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GenericSignalResult
+  - term: GetChannelCostReportResponseBody
+    definition: 'Object declared by the contract with fields: $schema, channel_name, channel_urn, duration_secs, external_id, has_hdr, has_realtime_output,
+      has_uhd, labels, organization, verbit_encoder_count.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetChannelCostReportResponseBody
+  - term: GetClipProgramTimeResponseBody
+    definition: 'Object declared by the contract with fields: $schema, duration, program_end, program_start.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetClipProgramTimeResponseBody
+  - term: GetPreviewStreamsResponse
+    definition: 'Object declared by the contract with fields: $schema, audio_tracks, default_audio_track, default_url, default_video_track, token,
+      video_tracks.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetPreviewStreamsResponse
+  - term: GetProductConfigResponseBody
+    definition: 'Object declared by the contract with fields: $schema, errors, product_config.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetProductConfigResponseBody
+  - term: GetProductResponseBody
+    definition: 'Object declared by the contract with fields: $schema, errors, products.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetProductResponseBody
+  - term: GetScte35MarkerByClipIDResponseBody
+    definition: 'Object declared by the contract with fields: $schema, scte35_markers.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetScte35MarkerByClipIDResponseBody
+  - term: GetSourcePreviewStreamResponseBody
+    definition: 'Object declared by the contract with fields: $schema, audio_tracks, default_audio_track, default_url, default_video_track, token,
+      video_tracks.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetSourcePreviewStreamResponseBody
+  - term: GetSourcePreviewTranscoderStatusResponseBody
+    definition: 'Object declared by the contract with fields: $schema, dynamic_state_status, ingest_status.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetSourcePreviewTranscoderStatusResponseBody
+  - term: GetTaskProgramResponseBody
+    definition: 'Object declared by the contract with fields: $schema, tasks.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetTaskProgramResponseBody
+  - term: GetTaskResponseBody
+    definition: 'Object declared by the contract with fields: $schema, created, done, ended, error, failure_count, id, params, progress, region,
+      status, succeeded. (4 more)'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetTaskResponseBody
+  - term: GetVODResponseBody
+    definition: 'Object declared by the contract with fields: $schema, description, file_count, id, last_published, packaging_format, store, store_prefix,
+      total_bytes, version.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetVODResponseBody
+  - term: GlobalArchiveSettings
+    definition: 'Object declared by the contract with fields: aes_key_conversion, enforce_custom_mp4_path, master_url_type, media_url_type, origins,
+      preserve_published_directory_structure, url_type.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GlobalArchiveSettings
+  - term: GraphicOverlay
+    definition: 'Object declared by the contract with fields: resource_id, x, y.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GraphicOverlay
+  - term: HdrSettings
+    definition: 'Object declared by the contract with fields: dolby_vision, hdr10.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/HdrSettings
+  - term: HdrSettingsContentLightLevelInfo
+    definition: 'Object declared by the contract with fields: max_cll, max_fall.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/HdrSettingsContentLightLevelInfo
+  - term: HdrSettingsDolbyVisionProfile81
+    definition: 'Object declared by the contract with fields: clli, level8, mdcv.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/HdrSettingsDolbyVisionProfile81
+  - term: HdrSettingsMasteringDisplayColorVolume
+    definition: 'Object declared by the contract with fields: color_profile, max_dml, min_dml.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/HdrSettingsMasteringDisplayColorVolume
+  - term: Ingest
+    definition: 'Object declared by the contract with fields: slate, source.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/Ingest
+  - term: IngestStatus
+    definition: 'Object declared by the contract with fields: primary_status, secondary_status, source_loss_slate_status, source_merging_active,
+      source_merging_disabled.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/IngestStatus
+  - term: InsertMetadataBody
+    definition: 'Object declared by the contract with fields: $schema, presentation_time.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/InsertMetadataBody
+  - term: InsertMetadataRequest
+    definition: 'Object declared by the contract with fields: $schema, payload.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/InsertMetadataRequest
+  - term: IsBreakingChangeResponseBody
+    definition: 'Object declared by the contract with fields: $schema, currentRevision, isBreakingChange.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/IsBreakingChangeResponseBody
+  - term: JsonPatchOp
+    definition: 'Object declared by the contract with fields: from, op, path, value.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/JsonPatchOp
+  - term: LinkConfig
+    definition: 'Object declared by the contract with fields: filtertypes, include, maintain_markers, timespan.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/LinkConfig
+  - term: ListClipsForVodResponseBody
+    definition: 'Object declared by the contract with fields: $schema, channel_clips, errors.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ListClipsForVodResponseBody
+  - term: ListClipsResponseBody
+    definition: 'Object declared by the contract with fields: $schema, channel_clips, errors.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ListClipsResponseBody
+  - term: ListContentSegmentHistoryResponseBody
+    definition: 'Object declared by the contract with fields: $schema, content_segments.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ListContentSegmentHistoryResponseBody
+  - term: ListProductsResponseBody
+    definition: 'Object declared by the contract with fields: $schema, errors, products.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ListProductsResponseBody
+  - term: ListProgramsResponseBody
+    definition: 'Object declared by the contract with fields: $schema, errors, programs.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ListProgramsResponseBody
+  - term: ListRawSCTEHistoryByChannelResponseBody
+    definition: 'Object declared by the contract with fields: $schema, raw_scte35.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ListRawSCTEHistoryByChannelResponseBody
+  - term: ListRawSCTEHistoryResponseBody
+    definition: 'Object declared by the contract with fields: $schema, raw_scte35.'
+    tags:
+    - Object
+    source: openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/ListRawSCTEHistoryResponseBody

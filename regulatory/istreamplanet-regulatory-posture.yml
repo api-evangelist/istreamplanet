@@ -1,0 +1,25 @@
+generated: '2026-10-09'
+method: none
+probe: true
+source:
+  - https://www.istreamplanet.com/
+  - https://istreamplanet.com/
+  - https://api.istreamplanet.com/docs
+  - https://api.istreamplanet.com/openapi.json
+note: >-
+  No public legal or trust pages could be reached. The pre-flight dossier had no legal_pages
+  (null), and its front_door verdict was "unreachable". Re-probed 2026-10-09:
+  www.istreamplanet.com is a CNAME to d34kodt3g1abuj.cloudfront.net but curl could not
+  resolve it (status 000). The apex istreamplanet.com resolves to CloudFront, but the TLS
+  handshake fails ("sslv3 alert handshake failure", status 000), and so do /privacy and
+  /privacy-policy. The surviving API host serves an 851-byte Swagger UI shell at /docs (200)
+  with no privacy, terms or legal links. Its OpenAPI info block ("WBD Aventus Channels API")
+  has no termsOfService and names only an internal wbd.com contact. No signal could be
+  verified, so none is recorded. This is not a claim that the provider has no obligations.
+probes:
+  - {url: 'https://www.istreamplanet.com/', http_status: null, fetched: '2026-10-09', result: 'could not resolve host'}
+  - {url: 'https://istreamplanet.com/', http_status: null, fetched: '2026-10-09', result: 'TLS handshake failure'}
+  - {url: 'https://www.istreamplanet.com/privacy-policy/', http_status: null, fetched: '2026-10-09', result: 'no response'}
+  - {url: 'https://api.istreamplanet.com/docs', http_status: 200, fetched: '2026-10-09', result: 'Swagger UI shell, no legal links'}
+  - {url: 'https://api.istreamplanet.com/openapi.json', http_status: 200, fetched: '2026-10-09', result: 'info has no termsOfService or license'}
+signals: {}

@@ -1,0 +1,62 @@
+generated: '2026-10-09'
+method: searched
+source: https://istreamlabs.github.io/docs/sdks/golang/
+note: The iStreamPlanet Developer Portal (https://istreamlabs.github.io/docs/) lists Go, Javascript and Python SDKs, all generated from the OpenAPI
+  with OpenAPI Generator. Only the Go SDK is still maintained; the Javascript and Python repos are archived on GitHub and the registry names the
+  portal gives return 404.
+packages:
+- name: github.com/istreamlabs/go-sdk/v2
+  registry: go
+  url: https://pkg.go.dev/github.com/istreamlabs/go-sdk/v2
+  repository: https://github.com/istreamlabs/go-sdk
+  language: Go
+  official: true
+  version: v2.1.13
+  published: '2026-10-05'
+  docs: https://istreamlabs.github.io/docs/sdks/golang/
+  note: Version and date read from proxy.golang.org/github.com/istreamlabs/go-sdk/v2/@latest. The portal's install line is `go get github.com/istreamlabs/go-sdk`
+    (v1 module path).
+- name: github.com/istreamlabs/go-sdk
+  registry: go
+  url: https://pkg.go.dev/github.com/istreamlabs/go-sdk
+  repository: https://github.com/istreamlabs/go-sdk
+  language: Go
+  official: true
+  version: v1.28.6
+  published: '2026-04-16'
+  docs: https://istreamlabs.github.io/docs/sdks/golang/
+  note: v1 module path as documented on the portal; read from proxy.golang.org/github.com/istreamlabs/go-sdk/@latest.
+- name: '@istreamplanet/isp'
+  registry: npm
+  url: https://www.npmjs.com/package/@istreamplanet/sdk
+  repository: https://github.com/istreamlabs/javascript-sdk
+  language: JavaScript
+  official: false
+  version: null
+  published: null
+  docs: https://istreamlabs.github.io/docs/sdks/javascript
+  note: Portal says `yarn add @istreamplanet/isp` and links npmjs.com/package/@istreamplanet/sdk; registry.npmjs.org returned 404 for both names
+    on 2026-10-09. GitHub repo istreamlabs/javascript-sdk is archived (last push 2022-04-28, latest tag v0.0.2).
+  ownership_audit: 'registry has no such package: official downgraded (harvest-packages.py --audit)'
+- name: istreamplanet
+  registry: pypi
+  url: https://pypi.org/project/istreamplanet/
+  repository: https://github.com/istreamlabs/python-sdk
+  language: Python
+  official: false
+  version: null
+  published: null
+  docs: https://istreamlabs.github.io/docs/sdks/python
+  note: Portal says `pip install istreamplanet`; pypi.org/pypi/istreamplanet/json returned 404 on 2026-10-09. GitHub repo istreamlabs/python-sdk
+    is archived (last push 2022-03-25, no tags).
+  ownership_audit: 'registry has no such package: official downgraded (harvest-packages.py --audit)'
+- name: restish
+  registry: homebrew
+  url: https://rest.sh/
+  repository: https://github.com/danielgtaylor/restish
+  language: Go
+  official: false
+  version: null
+  published: null
+  note: Third-party generic OpenAPI CLI (Daniel G. Taylor) that the portal and API reference recommend; the API auto-configures it via the x-cli-config
+    extension. Not an iStreamPlanet package.

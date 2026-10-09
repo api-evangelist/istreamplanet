@@ -1,0 +1,36 @@
+generated: '2026-10-09'
+method: searched
+source: https://istreamlabs.github.io/docs/cli
+name: Restish (recommended CLI for the iStreamPlanet API)
+first_party: false
+note: iStreamPlanet does not ship its own CLI binary. Its "Download CLI" page recommends Restish, a third-party OpenAPI-driven client; "Commands are generated at runtime based on our latest published OpenAPI". The API publishes its OpenAPI via RFC 8631 service-desc link headers and an x-cli-config extension that configures OAuth for Restish.
+install:
+- method: homebrew
+  command: brew tap danielgtaylor/restish && brew install restish
+- method: go
+  command: go get -u github.com/danielgtaylor/restish
+- method: download
+  url: https://github.com/danielgtaylor/restish/releases
+configure:
+- restish api configure isp https://api.istreamplanet.com
+commands:
+- group: orgs
+  examples:
+  - restish isp list-orgs
+- group: sources
+  examples:
+  - restish isp list-sources
+- group: channels
+  examples:
+  - restish isp list-org-channels $YOUR_ORG
+  - restish isp put-org-channel $YOUR_ORG $CHANNEL_ID ingest.source.id: $YOUR_SOURCE_ID
+  - restish isp get-org-channel $YOUR_ORG $CHANNEL_ID
+  - restish edit -i isp/v2/$YOUR_ORG/channels/$CHANNEL_ID
+- group: help
+  examples:
+  - restish isp --help
+  - restish isp put-org-channel --help
+flows:
+- name: templated channel creation
+  description: Save an existing channel body as a template (`restish isp get-org-channel ... -f body >template.json`) and create a new channel from it with overrides passed as shorthand arguments.
+  source: https://api.istreamplanet.com/docs

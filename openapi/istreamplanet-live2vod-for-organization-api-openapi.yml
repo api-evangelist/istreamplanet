@@ -1,0 +1,4472 @@
+openapi: 3.2.0
+info:
+  title: Istreamplanet Live2VOD for Organization API
+  version: v1.52.0
+  contact:
+    email: live-control-plane-devs@wbd.com
+    name: ChannelAPI Support
+    url: https://warnermedia.enterprise.slack.com/archives/C0648UND8SD
+  description: 'Operations tagged Live2VOD for Organization across 2 of this provider''s published API definitions: istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- description: prod
+  url: https://api.istreamplanet.com
+security:
+- authcode: []
+  m2m: []
+tags:
+- name: Live2VOD for Organization
+paths:
+  /v2/tasks:
+    get:
+      description: List all L2V tasks.
+      operationId: list-tasks
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTasksResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '401':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unauthorized
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: List Tasks
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/tasks/failed:
+    get:
+      description: List all permanently failed L2V tasks (exhausted all retries) from the last 14 days.
+      operationId: list-failed-tasks
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTasksResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '401':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unauthorized
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: List Failed Tasks
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/clips:
+    get:
+      description: List all clips for all VODs of the channel identified in the request.
+      operationId: list-org-clips
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListClipsResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: List available clips
+      tags:
+      - Live2VOD for Organization
+    post:
+      description: Starts a job to create a clip for all VODs for the channel identified in the request.
+      operationId: post-org-clip
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostClipRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostClipResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Make a clip for all VODs
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/clips/{clip-id}/archive:
+    post:
+      description: Uses archive settings configured in Live2VOD for the organization and on the channel.
+      operationId: post-org-clip-archive
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostClipArchiveRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostClipArchiveResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Archive a clip
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/clips/{clip-id}/playurl:
+    get:
+      description: Searches for an organization's VODs with a given ClipID and then returns a url for playback.
+      operationId: get-org-clip-playurl
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayURLBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get a playurl for a clip
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/fer:
+    put:
+      description: Uses archive settings from the request to archive a FER
+      operationId: put-org-channel-fer
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveFERRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchiveFERResponse'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Archive a FER
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/qcu:
+    put:
+      description: Creates a QCU task to assemble a playable reel from a list of moments
+      operationId: put-org-channel-qcu
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutQCURequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PutQCUResponse'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Create a QCU reel
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/syndication:
+    post:
+      description: 'Syndication (MP4''s/WAV''s) creation using Aventus Dynamic Manifest Origin.
+
+        Uses archive settings from the request to archive syndication files (mp4/wav) files.'
+      operationId: post-org-channel-syndication
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamicSyndicationRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamicSyndicationResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Dynamic Syndication
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/tasks:
+    get:
+      description: List all L2V tasks for the channel identified in the request.
+      operationId: get-org-program-tasks
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Current page cursor
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          description: Current page cursor
+          type: string
+      - description: Number of items to return
+        explode: false
+        in: query
+        name: page_size
+        schema:
+          default: 100
+          description: Number of items to return
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTaskProgramResponseBody'
+          description: OK
+          headers:
+            Link:
+              schema:
+                type: string
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get Tasks for Program
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/tasks/{task-id}:
+    get:
+      description: Get a L2V task with the taskID.
+      operationId: get-org-task
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: Task ID for a l2v request
+        in: path
+        name: task-id
+        required: true
+        schema:
+          description: Task ID for a l2v request
+          pattern: ^([a-zA-Z0-9_-]*)
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTaskResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get Task
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/tasks/{task-id}/cancel:
+    post:
+      description: Cancel a L2V task with the taskID
+      operationId: post-org-task-cancel
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: Task ID for a l2v request
+        in: path
+        name: task-id
+        required: true
+        schema:
+          description: Task ID for a l2v request
+          pattern: ^([a-zA-Z0-9_-]*)
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelTaskResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Cancel Task
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/tasks/{task-id}/retry:
+    post:
+      description: Retry a L2V task with the taskID.
+      operationId: post-org-task-retry
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: Task ID for a l2v request
+        in: path
+        name: task-id
+        required: true
+        schema:
+          description: Task ID for a l2v request
+          pattern: ^([a-zA-Z0-9_-]*)
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetryTaskResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Retry Task
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods:
+    get:
+      description: 'VODs can be listed after an appropriately configured channel is turned on for the first time.
+
+        If a channel with existing VODs is turned off or deleted, the VODs will still be returned.'
+      operationId: list-org-vods
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ListVODsResponse'
+                type:
+                - array
+                - 'null'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: List VODs
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}:
+    get:
+      description: Get a singular vod for a channel
+      operationId: get-org-vod
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVODResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get VOD
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips:
+    get:
+      description: List all clips for a single VOD in the channel identified in the request.
+      operationId: list-org-clips-vod
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      - description: Current page cursor
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          description: Current page cursor
+          type: string
+      - description: Number of items to return
+        explode: false
+        in: query
+        name: page_size
+        schema:
+          default: 100
+          description: Number of items to return
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListClipsForVodResponseBody'
+          description: OK
+          headers:
+            Link:
+              schema:
+                type: string
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: List available clips for a vod
+      tags:
+      - Live2VOD for Organization
+    post:
+      description: Starts a job to create a clip for a VOD on the channel identified in the request.
+      operationId: post-org-vod-clip
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MakeClipRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MakeClipResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Make a clip for a single VOD
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/copymp4:
+    post:
+      description: Starts a copy mp4 task in l2v to copy an MP4 to another preset storage location
+      operationId: post-copy-mp4
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCopyMP4Request'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostCopyMP4ResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Copy mp4
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/makemp4:
+    post:
+      description: Create a mp4 entity for the clip within a vod
+      operationId: post-org-make-mp4
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostMakeMP4Request'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MakeMP4ResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Create MP4 for Clip
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/manifests:
+    get:
+      description: Retrieves a clip's manifest given a clip id
+      operationId: get-org-clip-manifests
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ClipManifestResponse'
+                type:
+                - array
+                - 'null'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get manifest information for a clip
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/mp4url:
+    get:
+      description: 'Get the mp4url for downloading a mp4 file for a clip
+
+        Takes in a vodid and clipid and returns the url to download the mp4 asset.'
+      operationId: get-org-mp4-url
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MP4URLResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get Clip MP4 URL
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/programtime:
+    get:
+      description: Get the program start and end times for a clip
+      operationId: get-org-vod-clip-program-time
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClipProgramTimeResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get Clip Program Times
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/scte35markers:
+    get:
+      description: Get the scte markers for a clip
+      operationId: get-org-vod-clip-scte35-markers
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      - description: ID for a Clip
+        in: path
+        name: clip-id
+        required: true
+        schema:
+          description: ID for a Clip
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetScte35MarkerByClipIDResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get Scte 35 Markers By Clip
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/channels/{channel-id}/vods/{vod_id}/collapse:
+    post:
+      description: A vod can be collapsed to a specific filter config
+      operationId: collapse-vod
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Unique channel identifier
+        in: path
+        name: channel-id
+        required: true
+        schema:
+          description: Unique channel identifier
+          maxLength: 60
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          type: string
+      - description: ID for a VOD
+        in: path
+        name: vod_id
+        required: true
+        schema:
+          description: ID for a VOD
+          pattern: ^([0-9]+)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollapseVODRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollapseVODResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Collapse Vod
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/products:
+    get:
+      description: Get all the products for a specific organization across all regions
+      operationId: list-org-products
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProductsResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: List Products
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/products/{product-id}:
+    get:
+      description: Get a product with an organization and product id. This will return one from each region if that product id is in multiple regions.
+      operationId: get-org-product
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Product ID for a l2v request
+        in: path
+        name: product-id
+        required: true
+        schema:
+          description: Product ID for a l2v request
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get product
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/products/{product-id}/config:
+    get:
+      description: Get fields for product config
+      operationId: get-org-product-config
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Product ID for a l2v request
+        in: path
+        name: product-id
+        required: true
+        schema:
+          description: Product ID for a l2v request
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductConfigResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Get product config
+      tags:
+      - Live2VOD for Organization
+    post:
+      description: Update fields for product config
+      operationId: post-org-product-config
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Product ID for a l2v request
+        in: path
+        name: product-id
+        required: true
+        schema:
+          description: Product ID for a l2v request
+          pattern: ^([0-9]+)$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductConfigRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '408':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Timeout
+        '413':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Request Entity Too Large
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: Update config
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+  /v2/{org}/products/{product-id}/programs:
+    get:
+      description: Get all the programs for a specific organization and product
+      operationId: list-org-products-programs
+      parameters:
+      - description: Organization name
+        in: path
+        name: org
+        required: true
+        schema:
+          description: Organization name
+          type: string
+      - description: Product ID for a l2v request
+        in: path
+        name: product-id
+        required: true
+        schema:
+          description: Product ID for a l2v request
+          pattern: ^([0-9]+)$
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProgramsResponseBody'
+          description: OK
+        '400':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Bad Request
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+        '501':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Implemented
+        '503':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Service Unavailable
+      summary: List Programs
+      tags:
+      - Live2VOD for Organization
+    servers:
+    - description: prod
+      url: https://api.istreamplanet.com
+components:
+  schemas:
+    PutQCURequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PutQCURequest.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Correlation ID for this QCU request
+          type: string
+        moments:
+          description: List of moments to process
+          items:
+            $ref: '#/components/schemas/Moment'
+          type:
+          - array
+          - 'null'
+        notification:
+          $ref: '#/components/schemas/DynamicNotification'
+          description: Notification settings
+        options:
+          additionalProperties:
+            type: string
+          description: Optional key/value configuration pairs
+          type: object
+        packages:
+          description: Aventus Origin playback configurations to decorate per moment. The caller is responsible for selecting which packages to include; the worker emits the decorated URLs in the matching positions of the QCU notification.
+          items:
+            $ref: '#/components/schemas/QCUPackage'
+          type:
+          - array
+          - 'null'
+        request_number:
+          description: Order of the QCU request for an event, 1-based
+          format: int64
+          type: integer
+      required:
+      - correlation_id
+      - request_number
+      - moments
+      - packages
+      - notification
+      type: object
+    GetProductResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetProductResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        errors:
+          description: Errors when fetching product
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        products:
+          description: Product Array
+          items:
+            $ref: '#/components/schemas/Product'
+          type:
+          - array
+          - 'null'
+      required:
+      - products
+      - errors
+      type: object
+    S3ArchiveSettings:
+      additionalProperties: false
+      properties:
+        access_key_id:
+          type: string
+        archive_target_types:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        auto_archive:
+          type: boolean
+        auto_archive_on_collapse_types:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        bucket:
+          type: string
+        endpoint:
+          type: string
+        prefix:
+          type: string
+        region:
+          type: string
+        secret_access_key:
+          type: string
+        session_token:
+          type: string
+      required:
+      - auto_archive
+      - region
+      - bucket
+      - prefix
+      type: object
+    PostClipResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PostClipResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        clips:
+          description: List of clip identifiers paired with each VodID that was clipped
+          items:
+            $ref: '#/components/schemas/VodClip'
+          type:
+          - array
+          - 'null'
+        correlation_id:
+          description: Identifer that is carried through archive and collapse notifications for the clip creation
+          type: string
+        task_errors:
+          description: Reports failures of individual clip tasks. Empty if all are successful
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        task_ids:
+          description: Identifies clipping tasks, each task producing N VodItems
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+      required:
+      - task_ids
+      - clips
+      - task_errors
+      type: object
+    PutQCUResponse:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PutQCUResponse.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Identifier that is carried through the QCU request
+          type: string
+        task_id:
+          description: Task ID for the QCU task started by the L2V service
+          type: string
+      required:
+      - task_id
+      type: object
+    DynamicSyndicationRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/DynamicSyndicationRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        archive:
+          $ref: '#/components/schemas/Archive'
+          description: Archive settings
+        correlation_id:
+          description: Correlation ID for this FER archive request
+          type: string
+        manifest_url:
+          description: URL of the main manifest to reference for the mp4
+          type: string
+        notification:
+          $ref: '#/components/schemas/DynamicNotification'
+          description: Notification Settings
+        query_string:
+          description: Query string containing params for the manifest url
+          type: string
+        scc_sidecar:
+          $ref: '#/components/schemas/SCCSidecarConfig'
+          description: SCC sidecar caption file generation settings
+        syndication_files:
+          description: List of files to be created by Syndication
+          items:
+            $ref: '#/components/schemas/SyndicationMediaFile'
+          minItems: 1
+          type:
+          - array
+          - 'null'
+      required:
+      - correlation_id
+      - syndication_files
+      - query_string
+      - manifest_url
+      - archive
+      - notification
+      type: object
+    ListTasksResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ListTasksResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        errors:
+          description: Errors when fetching tasks
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        tasks:
+          description: Task Array
+          items:
+            $ref: '#/components/schemas/Task'
+          type:
+          - array
+          - 'null'
+      required:
+      - tasks
+      - errors
+      type: object
+    SyndicationMediaFile:
+      additionalProperties: false
+      properties:
+        audio_encoder_id:
+          type: string
+        file_path:
+          type: string
+        manifest_path:
+          type: string
+        video_encoder_id:
+          type: string
+      required:
+      - file_path
+      - audio_encoder_id
+      type: object
+    PostCopyMP4ResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PostCopyMP4ResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        task_ids:
+          description: Array of task ids for each copymp4 destination task successfully started by Live2VOD
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+      required:
+      - task_ids
+      type: object
+    VODFilterConfig:
+      additionalProperties: false
+      properties:
+        scte_35:
+          $ref: '#/components/schemas/ScteFilterConfig'
+          description: SCTE-based filtering
+        time:
+          description: Time-based filtering
+          items:
+            $ref: '#/components/schemas/Timespan'
+          type:
+          - array
+          - 'null'
+      type: object
+    ProductConfig:
+      additionalProperties: false
+      properties:
+        archive_settings:
+          $ref: '#/components/schemas/ArchiveSettings'
+          description: Archive settings for collapses
+        collapse_config:
+          $ref: '#/components/schemas/CollapseConfig'
+          description: Collapse filter options
+        collapse_trigger_config:
+          $ref: '#/components/schemas/CollapseTriggerConfig'
+          description: Options for when to trigger collapses
+        edc_partial_presentations:
+          $ref: '#/components/schemas/EDCPartialPresentations'
+          description: Partial presentation definitions
+        edc_transcode_template:
+          additionalProperties: {}
+          description: Template to transcode mp4 to hls
+          type: object
+        notifications:
+          description: Notifiaction settings for collapses
+          items:
+            $ref: '#/components/schemas/NotificationConfigByEventType'
+          type:
+          - array
+          - 'null'
+        region:
+          description: Region represents the general geolocation the product is in.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        store:
+          description: store for product
+          type: string
+        workflow_config:
+          $ref: '#/components/schemas/WorkflowConfig'
+          description: Config variables for workflows
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
+    CollapseConfig:
+      additionalProperties: false
+      properties:
+        auto_copy_mp4:
+          type: boolean
+        auto_create_mp4:
+          type: boolean
+        m3u8_filters_config:
+          $ref: '#/components/schemas/M3U8FilterConfig'
+        use_per_url_collapse_notification:
+          type: boolean
+        v2_filters_config:
+          $ref: '#/components/schemas/V2FilterConfig'
+      type: object
+    GlobalArchiveSettings:
+      additionalProperties: false
+      properties:
+        aes_key_conversion:
+          type: string
+        enforce_custom_mp4_path:
+          type: boolean
+        master_url_type:
+          type: string
+        media_url_type:
+          type: string
+        origins:
+          additionalProperties:
+            $ref: '#/components/schemas/client.Origin'
+          type: object
+        preserve_published_directory_structure:
+          type: boolean
+        url_type:
+          type: string
+      type: object
+    WorkflowConfig:
+      additionalProperties: false
+      properties:
+        cutprogram_padding_in_seconds:
+          format: int64
+          type: integer
+        make_mp4:
+          type: boolean
+        mp4-feature-flag:
+          type: string
+      type: object
+    GetClipProgramTimeResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetClipProgramTimeResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        duration:
+          description: Duration of the clip in ms
+          examples:
+          - 356966566667000
+          format: int64
+          type: integer
+        program_end:
+          description: Program End of Clip
+          examples:
+          - '2023-04-06T17:17:37.5Z'
+          type: string
+        program_start:
+          description: Program Start of Clip
+          examples:
+          - '2023-04-06T16:17:37.5Z'
+          type: string
+      required:
+      - program_start
+      - program_end
+      - duration
+      type: object
+    PostCopyMP4Request:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PostCopyMP4Request.json
+          format: uri
+          readOnly: true
+          type: string
+        override_mp4_path:
+          description: override path for writing an mp4 to destination.
+          maxLength: 1024
+          type: string
+      type: object
+    PostClipArchiveRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PostClipArchiveRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Identifer that is carried through the archive request
+          type: string
+      type: object
+    ClipGroup:
+      additionalProperties: false
+      properties:
+        clips:
+          description: List of clips associated with the VOD
+          items:
+            $ref: '#/components/schemas/Clip'
+          type:
+          - array
+          - 'null'
+        vod_id:
+          description: ID of the VOD from which the clips were created
+          type: string
+      required:
+      - vod_id
+      - clips
+      type: object
+    Package:
+      additionalProperties: false
+      properties:
+        archive:
+          $ref: '#/components/schemas/Archive'
+        dash:
+          $ref: '#/components/schemas/Location'
+        hls:
+          $ref: '#/components/schemas/Location'
+        package_id:
+          type: string
+      required:
+      - archive
+      - package_id
+      type: object
+    MP4URLResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/MP4URLResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        mp4url:
+          description: URL for mp4 of a clip
+          type: string
+      required:
+      - mp4url
+      type: object
+    M3U8FilterConfig:
+      additionalProperties: false
+      properties:
+        links:
+          items:
+            $ref: '#/components/schemas/LinkConfig'
+          type:
+          - array
+          - 'null'
+      required:
+      - links
+      type: object
+    client.Origin:
+      additionalProperties: false
+      properties:
+        headers:
+          additionalProperties:
+            type: string
+          type: object
+        hostname:
+          type: string
+      required:
+      - hostname
+      - headers
+      type: object
+    EDCPartialPresentation:
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        renditions:
+          items:
+            format: int64
+            type: integer
+          type:
+          - array
+          - 'null'
+      required:
+      - name
+      - renditions
+      type: object
+    CollapseTriggerConfig:
+      additionalProperties: false
+      properties:
+        allow_multiple:
+          type: boolean
+        collapse_program:
+          type: boolean
+        collapse_stream:
+          type: boolean
+        scte35_upid:
+          type: string
+        triggers:
+          items:
+            $ref: '#/components/schemas/CollapseTrigger'
+          type:
+          - array
+          - 'null'
+      required:
+      - collapse_program
+      - allow_multiple
+      - collapse_stream
+      type: object
+    PostClipRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PostClipRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Identifer that is carried through archive and collapse notifications for the clip creation
+          type: string
+        create_mp4:
+          description: 'If true, creates the mp4. Default: false'
+          type: boolean
+        description:
+          description: Description of the clip being created
+          maxLength: 80
+          type: string
+        end:
+          description: End timestamp in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          type: string
+        mp4_file_path:
+          description: If set, overrides the mp4 file path for archiving.
+          maxLength: 1024
+          type: string
+        overwrite:
+          description: 'Overwrite existing clip. Default: false'
+          type: boolean
+        start:
+          description: Start timestamp in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          type: string
+      required:
+      - start
+      - end
+      type: object
+    Program:
+      additionalProperties: false
+      properties:
+        description:
+          description: Description for the Program
+          type: string
+        file_count:
+          description: Number of files in the program
+          format: int64
+          type: integer
+        id:
+          description: ID for the program
+          type: string
+        last_published:
+          description: Last published time for the program
+          examples:
+          - '2023-04-06T16:17:45Z'
+          format: date-time
+          type: string
+        published_clip_id:
+          description: Clip ID published for program
+          format: int64
+          type: integer
+        published_vod_id:
+          description: VOD ID published for program
+          format: int64
+          type: integer
+        region:
+          description: Region represents the general geolocation the program is in.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        retention_days:
+          description: How many days the program is retained for
+          format: int64
+          type: integer
+        total_bytes:
+          description: Total Bytes of the Program
+          format: int64
+          type: integer
+      required:
+      - id
+      - description
+      - total_bytes
+      - file_count
+      - last_published
+      - published_vod_id
+      - published_clip_id
+      - retention_days
+      type: object
+    MakeClipResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/MakeClipResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        clip_id:
+          description: Identifier for the clip created from the VOD
+          type: string
+        task_id:
+          description: Identifier for the task from which the clip was created
+          type: string
+      required:
+      - task_id
+      - clip_id
+      type: object
+    Sns:
+      additionalProperties: false
+      properties:
+        region:
+          type: string
+        topic_arn:
+          type: string
+      required:
+      - topic_arn
+      - region
+      type: object
+    ListVODsResponse:
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+        file_count:
+          format: int64
+          type: integer
+        id:
+          type: string
+        last_published:
+          format: date-time
+          type: string
+        packaging_format:
+          enum:
+          - HLS
+          - DASH
+          - CMAF
+          type: string
+        store:
+          type: string
+        store_prefix:
+          type: string
+        total_bytes:
+          format: int64
+          type: integer
+        version:
+          type: string
+      required:
+      - id
+      - description
+      - version
+      - file_count
+      - total_bytes
+      - store
+      - store_prefix
+      type: object
+    EDCPartialPresentations:
+      additionalProperties: false
+      properties:
+        presentations:
+          items:
+            $ref: '#/components/schemas/EDCPartialPresentation'
+          type:
+          - array
+          - 'null'
+      required:
+      - presentations
+      type: object
+    Archive:
+      additionalProperties: false
+      properties:
+        s3:
+          $ref: '#/components/schemas/S3'
+      required:
+      - s3
+      type: object
+    ArchiveFERRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ArchiveFERRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Correlation ID for this FER archive request
+          type: string
+        global_query_string:
+          description: Portion of the query string that applies to all packages
+          type: string
+        notification:
+          $ref: '#/components/schemas/DynamicNotification'
+          description: Notification settings
+        packages:
+          description: Packages to be archived as FERs
+          items:
+            $ref: '#/components/schemas/Package'
+          type:
+          - array
+          - 'null'
+      required:
+      - correlation_id
+      - global_query_string
+      - packages
+      - notification
+      type: object
+    NetStorageSettings:
+      additionalProperties: false
+      properties:
+        archive_target_types:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        auto_archive_on_collapse_types:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        auto_copy_to_netstorage:
+          type: boolean
+        basedir:
+          type: string
+        copy_collapsed_archive:
+          type: boolean
+        copy_raw_archive:
+          type: boolean
+        cpcode:
+          type: string
+        hostname:
+          type: string
+        key:
+          type: string
+        keyname:
+          type: string
+        manifest_updates:
+          $ref: '#/components/schemas/ManifestUpdates'
+      required:
+      - hostname
+      - key
+      - keyname
+      - cpcode
+      - auto_copy_to_netstorage
+      - copy_raw_archive
+      - copy_collapsed_archive
+      type: object
+    NotificationConfigByEventType:
+      additionalProperties: false
+      properties:
+        event_types:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        name:
+          type: string
+        notification:
+          $ref: '#/components/schemas/NotificationConfig'
+      required:
+      - name
+      - event_types
+      - notification
+      type: object
+    ListProgramsResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ListProgramsResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        errors:
+          description: Errors when fetching programs
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        programs:
+          description: Program Array
+          items:
+            $ref: '#/components/schemas/Program'
+          type:
+          - array
+          - 'null'
+      required:
+      - programs
+      - errors
+      type: object
+    PostClipArchiveResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PostClipArchiveResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Identifer that is carried through the archive request
+          type: string
+        task_errors:
+          description: Set if Live2VOD failed to start an archive task for any configured archive destination. Empty if all are successful
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        task_ids:
+          description: Array of task ids for each archive destination task started by Live2VOD
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+      required:
+      - task_ids
+      - task_errors
+      type: object
+    GetProductConfigResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetProductConfigResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        errors:
+          description: Errors when fetching product config
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        product_config:
+          description: Product Config for a given org and product id
+          items:
+            $ref: '#/components/schemas/ProductConfig'
+          type:
+          - array
+          - 'null'
+      required:
+      - product_config
+      - errors
+      type: object
+    DynamicSyndicationResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/DynamicSyndicationResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Identifier that is carried through the syndication request
+          type: string
+        task_id:
+          description: Task ID for the syndication task started by the L2V service
+          type: string
+      required:
+      - task_id
+      type: object
+    ArchiveFERResponse:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ArchiveFERResponse.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Identifier that is carried through the archive request
+          type: string
+        task_id:
+          description: Task ID for the archive task started by the L2V service
+          type: string
+      required:
+      - task_id
+      type: object
+    PackageUrls:
+      additionalProperties: false
+      properties:
+        fallback_url:
+          type: string
+        primary_url:
+          type: string
+      required:
+      - primary_url
+      - fallback_url
+      type: object
+    GetTaskProgramResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetTaskProgramResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        tasks:
+          description: List of tasks for the program
+          items:
+            $ref: '#/components/schemas/TaskSummary'
+          type:
+          - array
+          - 'null'
+      required:
+      - tasks
+      type: object
+    ListClipsForVodResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ListClipsForVodResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        channel_clips:
+          description: List of clips for the channel
+          items:
+            $ref: '#/components/schemas/ClipGroup'
+          type:
+          - array
+          - 'null'
+        errors:
+          description: Reports failures to fetch the clips of a single VOD. Empty if clips from all VODs are successfully fetched.
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+      required:
+      - channel_clips
+      - errors
+      type: object
+    CollapseTrigger:
+      additionalProperties: false
+      properties:
+        scte35_upid:
+          type: string
+        segmentation_event_id:
+          format: int32
+          minimum: 0
+          type: integer
+        segmentation_type_id:
+          format: int32
+          type: integer
+      required:
+      - segmentation_type_id
+      type: object
+    FilterTimespan:
+      additionalProperties: false
+      properties:
+        endtime:
+          format: date-time
+          type: string
+        starttime:
+          format: date-time
+          type: string
+      required:
+      - starttime
+      type: object
+    MakeMP4ResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/MakeMP4ResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        taskid:
+          description: Task ID for makemp4 task
+          type: string
+      required:
+      - taskid
+      type: object
+    CancelTaskResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/CancelTaskResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+          description: Error when canceling task
+      required:
+      - error
+      type: object
+    CollapseVODRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/CollapseVODRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        clip_prefix:
+          description: Prefix for clip
+          type: string
+        clip_suffix:
+          description: Suffix for clip
+          type: string
+        disable_auto_prefix:
+          description: Disable any autoprefix
+          type: boolean
+        end_time:
+          description: EndTime of VOD
+          format: date-time
+          type: string
+        filterconfig:
+          $ref: '#/components/schemas/VODFilterConfig'
+          description: SCTE/TIME based filtering on collapses
+        new_clip_description:
+          description: Description for new collapsed clip
+          type: string
+        new_clip_id:
+          description: New Clip ID for collapsed clip
+          format: int64
+          type: integer
+        publish_vod:
+          description: Publish newly created VOD
+          type: boolean
+        start_time:
+          description: StartTime of VOD
+          format: date-time
+          type: string
+        upid:
+          description: UPID for VOD
+          type: string
+      required:
+      - new_clip_id
+      - new_clip_description
+      type: object
+    Scte35Marker:
+      additionalProperties: false
+      properties:
+        created_time:
+          format: date-time
+          type: string
+        cue_id:
+          format: int32
+          minimum: 0
+          type: integer
+        marker_id:
+          format: int64
+          type: integer
+        progress:
+          type: string
+        timeline_event:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        type:
+          type: string
+      required:
+      - created_time
+      - timestamp
+      - type
+      - cue_id
+      - progress
+      - timeline_event
+      - marker_id
+      type: object
+    ManifestUpdates:
+      additionalProperties: false
+      properties:
+        playback_absolute_base_url:
+          type: string
+        remove_cross_playback_urls:
+          type: boolean
+      required:
+      - remove_cross_playback_urls
+      type: object
+    Clip:
+      additionalProperties: false
+      properties:
+        clip_id:
+          description: Primary ID for the clip
+          type: string
+        created:
+          description: Created timestamp in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        description:
+          description: Description for the clip
+          type: string
+        duration:
+          description: Duration of the clip in seconds
+          format: int64
+          type: integer
+        end:
+          description: End timestamp in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        mp4path:
+          description: Path for the MP4 for the clip
+          type: string
+        start:
+          description: Start timestamp in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+      required:
+      - clip_id
+      - description
+      - mp4path
+      - created
+      - start
+      - end
+      - duration
+      type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ErrorModel.json
+          format: uri
+          readOnly: true
+          type: string
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
+          type: string
+      type: object
+    ScteFilterOptions:
+      additionalProperties: false
+      properties:
+        signal_removed_provider_ad:
+          description: Signal removal of provider ads
+          type: boolean
+      required:
+      - signal_removed_provider_ad
+      type: object
+    Timespan:
+      additionalProperties: false
+      properties:
+        end:
+          description: end time of the time window of segments
+          format: date-time
+          type: string
+        include:
+          description: should include boundary within the VOD
+          type: boolean
+        start:
+          description: start time of the time window of segments
+          format: date-time
+          type: string
+      required:
+      - start
+      - end
+      - include
+      type: object
+    Location:
+      additionalProperties: false
+      properties:
+        fallback_url:
+          type: string
+        primary_url:
+          type: string
+        query_string:
+          type: string
+      required:
+      - query_string
+      - primary_url
+      - fallback_url
+      type: object
+    Task:
+      additionalProperties: false
+      properties:
+        created:
+          description: when the task was created in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        done:
+          description: indicates if the task is done or not
+          type: boolean
+        ended:
+          description: when the task ended in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        error:
+          description: error message if any for this task
+          type: string
+        failure_count:
+          description: number of times the task failed
+          format: int64
+          type: integer
+        id:
+          description: ID for the task
+          type: string
+        params:
+          description: params sent to task
+          type: string
+        progress:
+          description: the progress of the task
+          format: double
+          type: number
+        region:
+          description: Region represents the general geolocation the task is in.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        status:
+          description: status for the task
+          type: string
+        succeeded:
+          description: indicates if the task succeeded or not
+          type: boolean
+        type:
+          description: type of task
+          format: int64
+          type: integer
+        weight:
+          description: priority
+          format: int64
+          type: integer
+        workerVersion:
+          description: the version of the worker for this task
+          type: string
+        worker_id:
+          description: the id of the worker for the task
+          format: int64
+          type: integer
+      required:
+      - id
+      - type
+      - params
+      - weight
+      - created
+      - ended
+      - done
+      - succeeded
+      - error
+      - worker_id
+      - failure_count
+      - status
+      - progress
+      - workerVersion
+      type: object
+    GetTaskResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetTaskResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        created:
+          description: when the task was created in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        done:
+          description: indicates if the task is done or not
+          type: boolean
+        ended:
+          description: when the task ended in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        error:
+          description: error message if any for this task
+          type: string
+        failure_count:
+          description: number of times the task failed
+          format: int64
+          type: integer
+        id:
+          description: ID for the task
+          type: string
+        params:
+          description: params sent to task
+          type: string
+        progress:
+          description: the progress of the task
+          format: double
+          type: number
+        region:
+          description: Region represents the general geolocation the task is in.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        status:
+          description: status for the task
+          type: string
+        succeeded:
+          description: indicates if the task succeeded or not
+          type: boolean
+        type:
+          description: type of task
+          format: int64
+          type: integer
+        weight:
+          description: priority
+          format: int64
+          type: integer
+        workerVersion:
+          description: the version of the worker for this task
+          type: string
+        worker_id:
+          description: the id of the worker for the task
+          format: int64
+          type: integer
+      required:
+      - id
+      - type
+      - params
+      - weight
+      - created
+      - ended
+      - done
+      - succeeded
+      - error
+      - worker_id
+      - failure_count
+      - status
+      - progress
+      - workerVersion
+      type: object
+    Product:
+      additionalProperties: false
+      properties:
+        description:
+          description: Description for the product
+          type: string
+        file_count:
+          description: Number of files in the product
+          format: int64
+          type: integer
+        id:
+          description: ID for the product
+          format: int64
+          type: integer
+        name:
+          description: Name of the product
+          type: string
+        region:
+          description: Region represents the general geolocation the product is in.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        total_bytes:
+          description: Total Bytes of the product
+          format: int64
+          type: integer
+      required:
+      - id
+      - description
+      - total_bytes
+      - file_count
+      - name
+      type: object
+    RetryTaskResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/RetryTaskResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        error:
+          $ref: '#/components/schemas/ErrorDetail'
+          description: Error when retrying task
+      required:
+      - error
+      type: object
+    PlayURLBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PlayURLBody.json
+          format: uri
+          readOnly: true
+          type: string
+        url:
+          description: URL for playback of a clip
+          type: string
+      required:
+      - url
+      type: object
+    ListClipsResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ListClipsResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        channel_clips:
+          description: List of clips for the channel
+          items:
+            $ref: '#/components/schemas/ClipGroup'
+          type:
+          - array
+          - 'null'
+        errors:
+          description: Reports failures to fetch the clips of a single VOD. Empty if clips from all VODs are successfully fetched.
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+      required:
+      - channel_clips
+      - errors
+      type: object
+    ListProductsResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ListProductsResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        errors:
+          description: Errors when fetching products
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        products:
+          description: Product Array
+          items:
+            $ref: '#/components/schemas/Product'
+          type:
+          - array
+          - 'null'
+      required:
+      - products
+      - errors
+      type: object
+    QCUPackage:
+      additionalProperties: false
+      properties:
+        dash:
+          $ref: '#/components/schemas/PackageUrls'
+        hls:
+          $ref: '#/components/schemas/PackageUrls'
+        id:
+          type: string
+      required:
+      - id
+      type: object
+    TaskSummary:
+      additionalProperties: false
+      properties:
+        created:
+          description: when the task was created in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        done:
+          description: indicates if the task is done or not
+          type: boolean
+        ended:
+          description: when the task ended in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          format: date-time
+          type: string
+        error:
+          description: error message if any for this task
+          type: string
+        failure_count:
+          description: number of times the task failed
+          format: int64
+          type: integer
+        id:
+          description: ID for the task
+          type: string
+        params:
+          description: params sent to task
+          type: string
+        progress:
+          description: the progress of the task
+          format: double
+          type: number
+        region:
+          description: Region represents the general geolocation the task is in.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        self:
+          description: Link to this resource
+          format: uri
+          readOnly: true
+          type: string
+        status:
+          description: status for the task
+          type: string
+        succeeded:
+          description: indicates if the task succeeded or not
+          type: boolean
+        type:
+          description: type of task
+          format: int64
+          type: integer
+        weight:
+          description: priority
+          format: int64
+          type: integer
+        workerVersion:
+          description: the version of the worker for this task
+          type: string
+        worker_id:
+          description: the id of the worker for the task
+          format: int64
+          type: integer
+      required:
+      - id
+      - type
+      - params
+      - weight
+      - created
+      - ended
+      - done
+      - succeeded
+      - error
+      - worker_id
+      - failure_count
+      - status
+      - progress
+      - workerVersion
+      type: object
+    Moment:
+      additionalProperties: false
+      properties:
+        end:
+          format: date-time
+          type: string
+        id:
+          type: string
+        start:
+          format: date-time
+          type: string
+      required:
+      - id
+      - start
+      - end
+      type: object
+    GetVODResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetVODResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        description:
+          description: Description of a vod
+          type: string
+        file_count:
+          description: File count for the vod
+          format: int64
+          type: integer
+        id:
+          description: ID of a vod
+          type: string
+        last_published:
+          description: Last published time for VOD
+          format: date-time
+          type: string
+        packaging_format:
+          description: Packaging Format for VOD
+          enum:
+          - HLS
+          - DASH
+          - CMAF
+          type: string
+        store:
+          description: Store address for vod
+          examples:
+          - '{"s3region":"us-west-2","s3bucket":"test","localpath":""}'
+          type: string
+        store_prefix:
+          type: string
+        total_bytes:
+          description: Total bytes of a vod
+          format: int64
+          type: integer
+        version:
+          description: Vod version (either v1 or v2)
+          type: string
+      required:
+      - id
+      - description
+      - version
+      - file_count
+      - total_bytes
+      - store
+      - store_prefix
+      type: object
+    VodClip:
+      additionalProperties: false
+      properties:
+        clip_id:
+          description: Identifier for the clip created from the VOD
+          type: string
+        vod_id:
+          description: Identifier for the VOD from which the clip was created
+          type: string
+      required:
+      - vod_id
+      - clip_id
+      type: object
+    ClipManifestResponse:
+      additionalProperties: false
+      properties:
+        cdnURL:
+          description: CDN Url for manifest
+          type: string
+        manifestID:
+          description: Manifest ID for clip
+          format: int64
+          type: integer
+        path:
+          description: Manifest path
+          type: string
+        storepath:
+          description: VOD storepath for manifest
+          type: string
+      required:
+      - manifestID
+      - path
+      - storepath
+      - cdnURL
+      type: object
+    GetScte35MarkerByClipIDResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetScte35MarkerByClipIDResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        scte35_markers:
+          description: List of scte markers for clip
+          items:
+            $ref: '#/components/schemas/Scte35Marker'
+          type:
+          - array
+          - 'null'
+      required:
+      - scte35_markers
+      type: object
+    LinkConfig:
+      additionalProperties: false
+      properties:
+        filtertypes:
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        include:
+          type: boolean
+        maintain_markers:
+          type: boolean
+        timespan:
+          items:
+            $ref: '#/components/schemas/FilterTimespan'
+          type:
+          - array
+          - 'null'
+      required:
+      - include
+      - filtertypes
+      type: object
+    S3:
+      additionalProperties: false
+      properties:
+        bucket_name:
+          type: string
+        key:
+          type: string
+        region:
+          type: string
+      required:
+      - region
+      - bucket_name
+      - key
+      type: object
+    DynamicNotification:
+      additionalProperties: false
+      properties:
+        sns:
+          $ref: '#/components/schemas/Sns'
+      required:
+      - sns
+      type: object
+    ScteFilterConfig:
+      additionalProperties: false
+      properties:
+        break:
+          description: Filter out SCTE-35 break
+          type: boolean
+        chapter:
+          description: Filter out chapters
+          type: boolean
+        distributor_ads:
+          description: Filter out distributor ads
+          type: boolean
+        options:
+          $ref: '#/components/schemas/ScteFilterOptions'
+          description: Additional SCTE filter options
+        provider_ads:
+          description: Filter out provider ads
+          type: boolean
+        upid:
+          description: Filter out SCTE-35 message upid
+          type: string
+      required:
+      - break
+      - distributor_ads
+      - provider_ads
+      - chapter
+      - upid
+      type: object
+    V2FilterConfig:
+      additionalProperties: false
+      properties:
+        scte_35:
+          $ref: '#/components/schemas/ScteFilterConfig'
+          description: SCTE-based filtering
+        time:
+          description: Time-based filtering
+          items:
+            $ref: '#/components/schemas/Timespan'
+          type:
+          - array
+          - 'null'
+      type: object
+    ArchiveSettings:
+      additionalProperties: false
+      properties:
+        global_archive_settings:
+          $ref: '#/components/schemas/GlobalArchiveSettings'
+        netstorage_connection_settings:
+          items:
+            $ref: '#/components/schemas/NetStorageSettings'
+          type:
+          - array
+          - 'null'
+        s3_archive_settings:
+          items:
+            $ref: '#/components/schemas/S3ArchiveSettings'
+          type:
+          - array
+          - 'null'
+        workflow_id:
+          type: string
+      type: object
+    PostMakeMP4Request:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PostMakeMP4Request.json
+          format: uri
+          readOnly: true
+          type: string
+        override_mp4_path:
+          description: override path for writing an mp4 to destination.
+          maxLength: 1024
+          type: string
+      type: object
+    SCCSidecarConfig:
+      additionalProperties: false
+      properties:
+        enabled:
+          type: boolean
+      type: object
+    NotificationConfig:
+      additionalProperties: false
+      properties:
+        notification_hostname:
+          type: string
+        notification_settings:
+          type: string
+        notification_type:
+          type: string
+        use_channel_api:
+          type: boolean
+      required:
+      - notification_type
+      - notification_settings
+      type: object
+    UpdateProductConfigRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/UpdateProductConfigRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        archive_settings:
+          $ref: '#/components/schemas/ArchiveSettings'
+          description: Archive settings for collapses
+        collapse_config:
+          $ref: '#/components/schemas/CollapseConfig'
+          description: Collapse filter options
+        collapse_trigger_config:
+          $ref: '#/components/schemas/CollapseTriggerConfig'
+          description: Options for when to trigger collapses
+        edc_partial_presentations:
+          $ref: '#/components/schemas/EDCPartialPresentations'
+          description: Partial presentation definitions
+        edc_transcode_template:
+          additionalProperties: {}
+          description: Template to transcode mp4 to hls
+          type: object
+        notifications:
+          description: Notifiaction settings for collapses
+          items:
+            $ref: '#/components/schemas/NotificationConfigByEventType'
+          type:
+          - array
+          - 'null'
+        region:
+          description: Region represents the general geolocation the product is in.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        store:
+          description: store for product
+          type: string
+        workflow_config:
+          $ref: '#/components/schemas/WorkflowConfig'
+          description: Config variables for workflows
+      type: object
+    MakeClipRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/MakeClipRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        correlation_id:
+          description: Identifer that is carried through archive and collapse notifications for the clip creation
+          type: string
+        description:
+          description: Description of the clip being created
+          maxLength: 80
+          type: string
+        end:
+          description: End timestamp in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          type: string
+        overwrite:
+          description: 'Overwrite existing clip. Default: false'
+          type: boolean
+        start:
+          description: Start timestamp in RFC3339Nano format
+          examples:
+          - '2006-01-02T15:04:05.9999Z'
+          type: string
+      required:
+      - start
+      - end
+      type: object
+    CollapseVODResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/CollapseVODResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        clip_id:
+          description: New Clip ID for collapsed vod
+          format: int64
+          type: integer
+        task_id:
+          description: Identifies collapse task id
+          type: string
+      required:
+      - task_id
+      - clip_id
+      type: object
+  securitySchemes:
+    authcode:
+      flows:
+        authorizationCode:
+          authorizationUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/authorize
+          scopes: null
+          tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+      type: oauth2
+    m2m:
+      flows:
+        clientCredentials:
+          scopes: null
+          tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+      type: oauth2
+x-refined-from:
+- istreamplanet-aventus-channels-openapi.json
+- istreamplanet-aventus-channels-openapi.yml
+x-cli-config:
+  params:
+    authorize_url: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/authorize
+    client_id: 0oa125bj1lwLZRxjD0x8
+    redirect_url: http://auth.rest.sh:8484
+    scopes: offline_access,Groups
+    state: non-empty
+    token_url: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+  security: authcode

@@ -1,0 +1,312 @@
+overlay: 1.0.0
+info:
+  title: iStreamPlanet Aventus Channels API agent overlay
+  version: 1.0.0
+extends: ../openapi/_original/istreamplanet-aventus-channels-openapi.yml
+x-generated: '2026-10-09'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-provider: iStreamPlanet (Warner Bros. Discovery)
+    x-apis-json: https://raw.githubusercontent.com/api-evangelist/istreamplanet/refs/heads/main/apis.yml
+    x-lifecycle-note: iStreamPlanet was shut down by Warner Bros. Discovery in August 2023.
+- target: $.info
+  update:
+    x-spectral-ruleset: https://github.com/istreamlabs/rest-api-lint/blob/98553242c3d8d4e64c628aa53ce33f9d27dde10b/isp-rules.yaml
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}'].get
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod'].get
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip'].get
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}'].get
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/_makemp4'].post
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/clipManifest'].get
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/mp4url'].get
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/programtime'].get
+  update:
+    deprecated: true
+    x-agent-hint: Legacy /cust/.../prog program-era path; prefer the /v2/{org} equivalents.
+- target: $.paths['/v2/channels'].get
+  update:
+    x-mcp-tool: list_channels
+    x-agent-readonly: true
+- target: $.paths['/v2/orgs'].get
+  update:
+    x-mcp-tool: list_orgs
+    x-agent-readonly: true
+- target: $.paths['/v2/scte-history'].get
+  update:
+    x-mcp-tool: list_raw_scte_history
+    x-agent-readonly: true
+- target: $.paths['/v2/tasks'].get
+  update:
+    x-mcp-tool: list_tasks
+    x-agent-readonly: true
+- target: $.paths['/v2/tasks/failed'].get
+  update:
+    x-mcp-tool: list_failed_tasks
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels'].get
+  update:
+    x-mcp-tool: list_org_channels
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}'].delete
+  update:
+    x-mcp-tool: delete_org_channel
+    x-agent-readonly: false
+    x-agent-destructive: true
+- target: $.paths['/v2/{org}/channels/{channel-id}'].get
+  update:
+    x-mcp-tool: get_org_channel
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}'].patch
+  update:
+    x-mcp-tool: patch_org_channel
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}'].put
+  update:
+    x-mcp-tool: put_org_channel
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/beta/logs/signaling'].get
+  update:
+    x-mcp-tool: get_org_signal_logs
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/clips'].get
+  update:
+    x-mcp-tool: list_org_clips
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/clips'].post
+  update:
+    x-mcp-tool: post_org_clip
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/clips/{clip-id}/archive'].post
+  update:
+    x-mcp-tool: post_org_clip_archive
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/clips/{clip-id}/playurl'].get
+  update:
+    x-mcp-tool: get_org_clip_playurl
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/content-segment-history'].get
+  update:
+    x-mcp-tool: list_content_segment_history
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/cost-report'].get
+  update:
+    x-mcp-tool: get_channel_cost_report
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/desired-state'].put
+  update:
+    x-mcp-tool: put_org_channel_desired_state
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/dvr-window'].delete
+  update:
+    x-mcp-tool: clear_org_dvr_window
+    x-agent-readonly: false
+    x-agent-destructive: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/fer'].put
+  update:
+    x-mcp-tool: put_org_channel_fer
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/id3'].post
+  update:
+    x-mcp-tool: insert_org_id3
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/ingest-pin'].delete
+  update:
+    x-mcp-tool: org_unpin_ingest
+    x-agent-readonly: false
+    x-agent-destructive: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/ingest-pin'].put
+  update:
+    x-mcp-tool: org_pin_ingest
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/is-breaking-change'].put
+  update:
+    x-mcp-tool: org_is_breaking_change
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/playback'].get
+  update:
+    x-mcp-tool: get_org_playback_config
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/preview-image'].get
+  update:
+    x-mcp-tool: get_org_preview_image
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/preview-streams'].get
+  update:
+    x-mcp-tool: org_preview_streams
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/qcu'].put
+  update:
+    x-mcp-tool: put_org_channel_qcu
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/rotate-key'].put
+  update:
+    x-mcp-tool: org_rotate_key
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/scte-history'].get
+  update:
+    x-mcp-tool: list_raw_scte_history_by_channel
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/scte35'].post
+  update:
+    x-mcp-tool: insert_org_scte35
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/signals'].get
+  update:
+    x-mcp-tool: get_org_signals
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/signals'].post
+  update:
+    x-mcp-tool: post_org_signals
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/syndication'].post
+  update:
+    x-mcp-tool: post_org_channel_syndication
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/tasks'].get
+  update:
+    x-mcp-tool: get_org_program_tasks
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/tasks/{task-id}'].get
+  update:
+    x-mcp-tool: get_org_task
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/tasks/{task-id}/cancel'].post
+  update:
+    x-mcp-tool: post_org_task_cancel
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/tasks/{task-id}/retry'].post
+  update:
+    x-mcp-tool: post_org_task_retry
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/timeline'].get
+  update:
+    x-mcp-tool: get_org_channel_timeline
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/transcoder-dynamic-state'].put
+  update:
+    x-mcp-tool: org_set_transcoder_dynamic_state
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/transcoder-status'].get
+  update:
+    x-mcp-tool: org_get_transcoder_status
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods'].get
+  update:
+    x-mcp-tool: list_org_vods
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}'].get
+  update:
+    x-mcp-tool: get_org_vod
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips'].get
+  update:
+    x-mcp-tool: list_org_clips_vod
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips'].post
+  update:
+    x-mcp-tool: post_org_vod_clip
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/copymp4'].post
+  update:
+    x-mcp-tool: post_copy_mp4
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/makemp4'].post
+  update:
+    x-mcp-tool: post_org_make_mp4
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/manifests'].get
+  update:
+    x-mcp-tool: get_org_clip_manifests
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/mp4url'].get
+  update:
+    x-mcp-tool: get_org_mp4_url
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/programtime'].get
+  update:
+    x-mcp-tool: get_org_vod_clip_program_time
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/scte35markers'].get
+  update:
+    x-mcp-tool: get_org_vod_clip_scte35_markers
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/channels/{channel-id}/vods/{vod_id}/collapse'].post
+  update:
+    x-mcp-tool: collapse_vod
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/cost-report'].get
+  update:
+    x-mcp-tool: list_organization_cost_reports
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/products'].get
+  update:
+    x-mcp-tool: list_org_products
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/products/{product-id}'].get
+  update:
+    x-mcp-tool: get_org_product
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/products/{product-id}/config'].get
+  update:
+    x-mcp-tool: get_org_product_config
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/products/{product-id}/config'].post
+  update:
+    x-mcp-tool: post_org_product_config
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/products/{product-id}/programs'].get
+  update:
+    x-mcp-tool: list_org_products_programs
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/sources'].get
+  update:
+    x-mcp-tool: list_org_sources
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/sources/{source-id}'].get
+  update:
+    x-mcp-tool: get_org_source
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/sources/{source-id}/preview'].put
+  update:
+    x-mcp-tool: put_source_preview
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/sources/{source-id}/preview/ingest-pin'].delete
+  update:
+    x-mcp-tool: source_preview_unpin_ingest
+    x-agent-readonly: false
+    x-agent-destructive: true
+- target: $.paths['/v2/{org}/sources/{source-id}/preview/ingest-pin'].put
+  update:
+    x-mcp-tool: source_preview_pin_ingest
+    x-agent-readonly: false
+- target: $.paths['/v2/{org}/sources/{source-id}/preview/stream'].get
+  update:
+    x-mcp-tool: get_source_preview_stream
+    x-agent-readonly: true
+- target: $.paths['/v2/{org}/sources/{source-id}/preview/transcoder-status'].get
+  update:
+    x-mcp-tool: get_source_preview_transcoder_status
+    x-agent-readonly: true

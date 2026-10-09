@@ -1,0 +1,920 @@
+generated: '2026-10-09'
+method: generated
+source: openapi/istreamplanet-aventus-channels-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 73
+  by_action_class:
+    connected: 44
+    acting: 29
+  by_consequence:
+    read: 44
+    write: 29
+  human_in_the_loop_required: 0
+operations:
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}
+  method: get
+  operationId: get-deprecated-program
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod
+  method: get
+  operationId: list-deprecated-vods
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip
+  method: get
+  operationId: list-deprecated-clips
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}
+  method: get
+  operationId: get-deprecated-clip
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/_makemp4
+  method: post
+  operationId: deprecated-clip-make-mp4
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/clipManifest
+  method: get
+  operationId: deprecated-get-clip-manifest
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/mp4url
+  method: get
+  operationId: deprecated-clip-get-mp4
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cust/{customer-id}/prod/{product-id}/prog/{program-id}/vod/{vod_id}/clip/{clip-id}/programtime
+  method: get
+  operationId: deprecated-clip-get-program-time
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/channels
+  method: get
+  operationId: list-channels
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/orgs
+  method: get
+  operationId: list-orgs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/scte-history
+  method: get
+  operationId: list-raw-scte-history
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/tasks
+  method: get
+  operationId: list-tasks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/tasks/failed
+  method: get
+  operationId: list-failed-tasks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels
+  method: get
+  operationId: list-org-channels
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}
+  method: delete
+  operationId: delete-org-channel
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}
+  method: get
+  operationId: get-org-channel
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}
+  method: patch
+  operationId: patch-org-channel
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}
+  method: put
+  operationId: put-org-channel
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/beta/logs/signaling
+  method: get
+  operationId: get-org-signal-logs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/clips
+  method: get
+  operationId: list-org-clips
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/clips
+  method: post
+  operationId: post-org-clip
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/clips/{clip-id}/archive
+  method: post
+  operationId: post-org-clip-archive
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/clips/{clip-id}/playurl
+  method: get
+  operationId: get-org-clip-playurl
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/content-segment-history
+  method: get
+  operationId: list-content-segment-history
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/cost-report
+  method: get
+  operationId: get-channel-cost-report
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/desired-state
+  method: put
+  operationId: put-org-channel-desired-state
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/dvr-window
+  method: delete
+  operationId: clear-org-dvr-window
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/fer
+  method: put
+  operationId: put-org-channel-fer
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/id3
+  method: post
+  operationId: insert-org-id3
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/ingest-pin
+  method: delete
+  operationId: org-unpin-ingest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/ingest-pin
+  method: put
+  operationId: org-pin-ingest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/is-breaking-change
+  method: put
+  operationId: org-is-breaking-change
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/playback
+  method: get
+  operationId: get-org-playback-config
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/preview-image
+  method: get
+  operationId: get-org-preview-image
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/preview-streams
+  method: get
+  operationId: org-preview-streams
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/qcu
+  method: put
+  operationId: put-org-channel-qcu
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/rotate-key
+  method: put
+  operationId: org-rotate-key
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/scte-history
+  method: get
+  operationId: list-raw-scte-history-by-channel
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/scte35
+  method: post
+  operationId: insert-org-scte35
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/signals
+  method: get
+  operationId: get-org-signals
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/signals
+  method: post
+  operationId: post-org-signals
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/syndication
+  method: post
+  operationId: post-org-channel-syndication
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/tasks
+  method: get
+  operationId: get-org-program-tasks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/tasks/{task-id}
+  method: get
+  operationId: get-org-task
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/tasks/{task-id}/cancel
+  method: post
+  operationId: post-org-task-cancel
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/tasks/{task-id}/retry
+  method: post
+  operationId: post-org-task-retry
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/timeline
+  method: get
+  operationId: get-org-channel-timeline
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/transcoder-dynamic-state
+  method: put
+  operationId: org-set-transcoder-dynamic-state
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/transcoder-status
+  method: get
+  operationId: org-get-transcoder-status
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods
+  method: get
+  operationId: list-org-vods
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}
+  method: get
+  operationId: get-org-vod
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips
+  method: get
+  operationId: list-org-clips-vod
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips
+  method: post
+  operationId: post-org-vod-clip
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/copymp4
+  method: post
+  operationId: post-copy-mp4
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/makemp4
+  method: post
+  operationId: post-org-make-mp4
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/manifests
+  method: get
+  operationId: get-org-clip-manifests
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/mp4url
+  method: get
+  operationId: get-org-mp4-url
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/programtime
+  method: get
+  operationId: get-org-vod-clip-program-time
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/scte35markers
+  method: get
+  operationId: get-org-vod-clip-scte35-markers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/collapse
+  method: post
+  operationId: collapse-vod
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/cost-report
+  method: get
+  operationId: list-organization-cost-reports
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/products
+  method: get
+  operationId: list-org-products
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/products/{product-id}
+  method: get
+  operationId: get-org-product
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/products/{product-id}/config
+  method: get
+  operationId: get-org-product-config
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/products/{product-id}/config
+  method: post
+  operationId: post-org-product-config
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/products/{product-id}/programs
+  method: get
+  operationId: list-org-products-programs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/sources
+  method: get
+  operationId: list-org-sources
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/sources/{source-id}
+  method: get
+  operationId: get-org-source
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/sources/{source-id}/preview
+  method: put
+  operationId: put-source-preview
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/sources/{source-id}/preview/ingest-pin
+  method: delete
+  operationId: source-preview-unpin-ingest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/sources/{source-id}/preview/ingest-pin
+  method: put
+  operationId: source-preview-pin-ingest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/{org}/sources/{source-id}/preview/stream
+  method: get
+  operationId: get-source-preview-stream
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/{org}/sources/{source-id}/preview/transcoder-status
+  method: get
+  operationId: get-source-preview-transcoder-status
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

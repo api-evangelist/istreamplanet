@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/istreamplanet/main/json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json",
+  "title": "GetSourcePreviewStreamResponseBody",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/istreamplanet-aventus-channels-openapi.yml#/components/schemas/GetSourcePreviewStreamResponseBody",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "description": "A URL to the JSON Schema for this object.",
+      "format": "uri",
+      "readOnly": true,
+      "type": "string"
+    },
+    "audio_tracks": {
+      "description": "Lists of all audio and video tracks that are available. Note: the default audio and video track info will also appear here.",
+      "items": {
+        "$ref": "#/$defs/AudioTrackInfo"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "default_audio_track": {
+      "$ref": "#/$defs/AudioTrackInfo",
+      "description": "Audio and Video Track info provided so that callers have easy access to track information of default tracks in the above default_url."
+    },
+    "default_url": {
+      "description": "default_url contains the default URL that can be used to start playback. Ex: https://example.com/cluster/org/isp/ext_id/foo/play?vid_id=2&aud_id=6 The vid_id and aud_id can be changed utilizing the ones provided by the 'audio_tracks' and 'video_tracks' fields to see different combinations.",
+      "type": "string"
+    },
+    "default_video_track": {
+      "$ref": "#/$defs/VideoTrackInfo"
+    },
+    "token": {
+      "description": "JWT Bearer token that shall be supplied with a 'pre-flight' to myriapod.js to send the auth token to the server.",
+      "type": "string"
+    },
+    "video_tracks": {
+      "items": {
+        "$ref": "#/$defs/VideoTrackInfo"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    }
+  },
+  "type": "object",
+  "$defs": {
+    "AudioTrackInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "bitrate": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "codec_string": {
+          "description": "codec_string will be set to the RFC 6381 compliant string that represents the specific codec in this AudioTrackInfo. ex. 'mp4a.40.2' for AAC Low-Complexity.",
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "description": "Friendly name of the AudioTrack.",
+          "type": "string"
+        },
+        "num_channels": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "sample_rate": {
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "VideoTrackInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "bitrate": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "codec_string": {
+          "description": "codec_string will be set to the RFC 6381 compliant string that represents the specific codec in this VideoTrackInfo. ex. 'avc1.4d401e' for H.264 and 'hvc1.2.4.L150.90' for H.265. This can be used to verify track+browser compatibility.",
+          "type": "string"
+        },
+        "frame_rate": {
+          "format": "float",
+          "type": "number"
+        },
+        "height": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "description": "Friendly name of the VideoTrack.",
+          "type": "string"
+        },
+        "width": {
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

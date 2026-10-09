@@ -1,0 +1,557 @@
+aid: istreamplanet:mcp
+name: iStreamPlanet Aventus Channels MCP (candidate)
+type: MCPServer
+generated: '2026-10-09'
+method: derived
+source: openapi/istreamplanet-aventus-channels-openapi.yml
+status: candidate
+description: No official MCP server found for iStreamPlanet / WBD Aventus. Probed https://api.istreamplanet.com/mcp (404)
+  and https://api.istreamplanet.com/.well-known/mcp.json (404); a web search for an Aventus MCP server returned nothing. This
+  is a candidate tool list derived one-to-one from the non-deprecated operations of the WBD Aventus Channels API OpenAPI 3.1
+  contract (v1.52.0). iStreamPlanet was shut down by Warner Bros. Discovery in August 2023; the API host still answers.
+deployment:
+  mode: none
+  auth: oauth
+  verified: derived
+evidence:
+- url: https://api.istreamplanet.com/mcp
+  status: 404
+- url: https://api.istreamplanet.com/.well-known/mcp.json
+  status: 404
+auth:
+  schemes:
+  - oauth2 authorizationCode (authcode)
+  - oauth2 clientCredentials (m2m)
+  tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+tools:
+- name: list_channels
+  description: List channels
+  operationId: list-channels
+  method: GET
+  path: /v2/channels
+  tag: Channels
+  readOnly: true
+  destructive: false
+- name: list_orgs
+  description: List Organizations
+  operationId: list-orgs
+  method: GET
+  path: /v2/orgs
+  tag: Organizations
+  readOnly: true
+  destructive: false
+- name: list_raw_scte_history
+  description: Get SCTE-35 History
+  operationId: list-raw-scte-history
+  method: GET
+  path: /v2/scte-history
+  tag: Transcoder Telemetry
+  readOnly: true
+  destructive: false
+- name: list_tasks
+  description: List Tasks
+  operationId: list-tasks
+  method: GET
+  path: /v2/tasks
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: list_failed_tasks
+  description: List Failed Tasks
+  operationId: list-failed-tasks
+  method: GET
+  path: /v2/tasks/failed
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: list_org_channels
+  description: List channels
+  operationId: list-org-channels
+  method: GET
+  path: /v2/{org}/channels
+  tag: Channels for Organization
+  readOnly: true
+  destructive: false
+- name: delete_org_channel
+  description: Delete channel
+  operationId: delete-org-channel
+  method: DELETE
+  path: /v2/{org}/channels/{channel-id}
+  tag: Channels for Organization
+  readOnly: false
+  destructive: true
+- name: get_org_channel
+  description: Get Channel
+  operationId: get-org-channel
+  method: GET
+  path: /v2/{org}/channels/{channel-id}
+  tag: Channels for Organization
+  readOnly: true
+  destructive: false
+- name: patch_org_channel
+  description: Patch org-channel
+  operationId: patch-org-channel
+  method: PATCH
+  path: /v2/{org}/channels/{channel-id}
+  tag: Channels for Organization
+  readOnly: false
+  destructive: false
+- name: put_org_channel
+  description: Create/Update channel
+  operationId: put-org-channel
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}
+  tag: Channels for Organization
+  readOnly: false
+  destructive: false
+- name: get_org_signal_logs
+  description: Signal Logs
+  operationId: get-org-signal-logs
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/beta/logs/signaling
+  tag: Channel Operations for Organization
+  readOnly: true
+  destructive: false
+- name: list_org_clips
+  description: List available clips
+  operationId: list-org-clips
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/clips
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: post_org_clip
+  description: Make a clip for all VODs
+  operationId: post-org-clip
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/clips
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: post_org_clip_archive
+  description: Archive a clip
+  operationId: post-org-clip-archive
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/clips/{clip-id}/archive
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: get_org_clip_playurl
+  description: Get a playurl for a clip
+  operationId: get-org-clip-playurl
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/clips/{clip-id}/playurl
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: list_content_segment_history
+  description: List Channel Content Segments History
+  operationId: list-content-segment-history
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/content-segment-history
+  tag: Transcoder Telemetry
+  readOnly: true
+  destructive: false
+- name: get_channel_cost_report
+  description: Get Channel Cost Report
+  operationId: get-channel-cost-report
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/cost-report
+  tag: Transcoder Telemetry
+  readOnly: true
+  destructive: false
+- name: put_org_channel_desired_state
+  description: Update Desired State
+  operationId: put-org-channel-desired-state
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}/desired-state
+  tag: Channels for Organization
+  readOnly: false
+  destructive: false
+- name: clear_org_dvr_window
+  description: Clear DVR Window
+  operationId: clear-org-dvr-window
+  method: DELETE
+  path: /v2/{org}/channels/{channel-id}/dvr-window
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: true
+- name: put_org_channel_fer
+  description: Archive a FER
+  operationId: put-org-channel-fer
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}/fer
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: insert_org_id3
+  description: Insert ID3
+  operationId: insert-org-id3
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/id3
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: false
+- name: org_unpin_ingest
+  description: Unpin Ingest
+  operationId: org-unpin-ingest
+  method: DELETE
+  path: /v2/{org}/channels/{channel-id}/ingest-pin
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: true
+- name: org_pin_ingest
+  description: Pin Ingest
+  operationId: org-pin-ingest
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}/ingest-pin
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: false
+- name: org_is_breaking_change
+  description: Validate Breaking Change
+  operationId: org-is-breaking-change
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}/is-breaking-change
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: false
+- name: get_org_playback_config
+  description: Get Channel Playback Config
+  operationId: get-org-playback-config
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/playback
+  tag: Channels for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_preview_image
+  description: Get Preview Image
+  operationId: get-org-preview-image
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/preview-image
+  tag: Channel Operations for Organization
+  readOnly: true
+  destructive: false
+- name: org_preview_streams
+  description: Get Preview Streams
+  operationId: org-preview-streams
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/preview-streams
+  tag: Channel Operations for Organization
+  readOnly: true
+  destructive: false
+- name: put_org_channel_qcu
+  description: Create a QCU reel
+  operationId: put-org-channel-qcu
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}/qcu
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: org_rotate_key
+  description: Rotate Key
+  operationId: org-rotate-key
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}/rotate-key
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: false
+- name: list_raw_scte_history_by_channel
+  description: Get Channel SCTE-35 History
+  operationId: list-raw-scte-history-by-channel
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/scte-history
+  tag: Transcoder Telemetry
+  readOnly: true
+  destructive: false
+- name: insert_org_scte35
+  description: Insert SCTE-35
+  operationId: insert-org-scte35
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/scte35
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: false
+- name: get_org_signals
+  description: Get Signals
+  operationId: get-org-signals
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/signals
+  tag: Channel Operations for Organization
+  readOnly: true
+  destructive: false
+- name: post_org_signals
+  description: Generic Signal
+  operationId: post-org-signals
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/signals
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: false
+- name: post_org_channel_syndication
+  description: Dynamic Syndication
+  operationId: post-org-channel-syndication
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/syndication
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: get_org_program_tasks
+  description: Get Tasks for Program
+  operationId: get-org-program-tasks
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/tasks
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_task
+  description: Get Task
+  operationId: get-org-task
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/tasks/{task-id}
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: post_org_task_cancel
+  description: Cancel Task
+  operationId: post-org-task-cancel
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/tasks/{task-id}/cancel
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: post_org_task_retry
+  description: Retry Task
+  operationId: post-org-task-retry
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/tasks/{task-id}/retry
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: get_org_channel_timeline
+  description: Get Channel Timeline
+  operationId: get-org-channel-timeline
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/timeline
+  tag: Audit Operations for Organization
+  readOnly: true
+  destructive: false
+- name: org_set_transcoder_dynamic_state
+  description: Set Dynamic State
+  operationId: org-set-transcoder-dynamic-state
+  method: PUT
+  path: /v2/{org}/channels/{channel-id}/transcoder-dynamic-state
+  tag: Channel Operations for Organization
+  readOnly: false
+  destructive: false
+- name: org_get_transcoder_status
+  description: Get Transcoder Status
+  operationId: org-get-transcoder-status
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/transcoder-status
+  tag: Channel Operations for Organization
+  readOnly: true
+  destructive: false
+- name: list_org_vods
+  description: List VODs
+  operationId: list-org-vods
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/vods
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_vod
+  description: Get VOD
+  operationId: get-org-vod
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: list_org_clips_vod
+  description: List available clips for a vod
+  operationId: list-org-clips-vod
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: post_org_vod_clip
+  description: Make a clip for a single VOD
+  operationId: post-org-vod-clip
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: post_copy_mp4
+  description: Copy mp4
+  operationId: post-copy-mp4
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/copymp4
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: post_org_make_mp4
+  description: Create MP4 for Clip
+  operationId: post-org-make-mp4
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/makemp4
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: get_org_clip_manifests
+  description: Get manifest information for a clip
+  operationId: get-org-clip-manifests
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/manifests
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_mp4_url
+  description: Get Clip MP4 URL
+  operationId: get-org-mp4-url
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/mp4url
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_vod_clip_program_time
+  description: Get Clip Program Times
+  operationId: get-org-vod-clip-program-time
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/programtime
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_vod_clip_scte35_markers
+  description: Get Scte 35 Markers By Clip
+  operationId: get-org-vod-clip-scte35-markers
+  method: GET
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/clips/{clip-id}/scte35markers
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: collapse_vod
+  description: Collapse Vod
+  operationId: collapse-vod
+  method: POST
+  path: /v2/{org}/channels/{channel-id}/vods/{vod_id}/collapse
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: list_organization_cost_reports
+  description: List Organization Cost Reports
+  operationId: list-organization-cost-reports
+  method: GET
+  path: /v2/{org}/cost-report
+  tag: Transcoder Telemetry
+  readOnly: true
+  destructive: false
+- name: list_org_products
+  description: List Products
+  operationId: list-org-products
+  method: GET
+  path: /v2/{org}/products
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_product
+  description: Get product
+  operationId: get-org-product
+  method: GET
+  path: /v2/{org}/products/{product-id}
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: get_org_product_config
+  description: Get product config
+  operationId: get-org-product-config
+  method: GET
+  path: /v2/{org}/products/{product-id}/config
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: post_org_product_config
+  description: Update config
+  operationId: post-org-product-config
+  method: POST
+  path: /v2/{org}/products/{product-id}/config
+  tag: Live2VOD for Organization
+  readOnly: false
+  destructive: false
+- name: list_org_products_programs
+  description: List Programs
+  operationId: list-org-products-programs
+  method: GET
+  path: /v2/{org}/products/{product-id}/programs
+  tag: Live2VOD for Organization
+  readOnly: true
+  destructive: false
+- name: list_org_sources
+  description: List Sources
+  operationId: list-org-sources
+  method: GET
+  path: /v2/{org}/sources
+  tag: Available Sources
+  readOnly: true
+  destructive: false
+- name: get_org_source
+  description: Get Source
+  operationId: get-org-source
+  method: GET
+  path: /v2/{org}/sources/{source-id}
+  tag: Available Sources
+  readOnly: true
+  destructive: false
+- name: put_source_preview
+  description: Create Source Preview
+  operationId: put-source-preview
+  method: PUT
+  path: /v2/{org}/sources/{source-id}/preview
+  tag: Source Previews
+  readOnly: false
+  destructive: false
+- name: source_preview_unpin_ingest
+  description: Unpin Ingest
+  operationId: source-preview-unpin-ingest
+  method: DELETE
+  path: /v2/{org}/sources/{source-id}/preview/ingest-pin
+  tag: Source Previews
+  readOnly: false
+  destructive: true
+- name: source_preview_pin_ingest
+  description: Pin Ingest
+  operationId: source-preview-pin-ingest
+  method: PUT
+  path: /v2/{org}/sources/{source-id}/preview/ingest-pin
+  tag: Source Previews
+  readOnly: false
+  destructive: false
+- name: get_source_preview_stream
+  description: Get Source Preview Stream
+  operationId: get-source-preview-stream
+  method: GET
+  path: /v2/{org}/sources/{source-id}/preview/stream
+  tag: Source Previews
+  readOnly: true
+  destructive: false
+- name: get_source_preview_transcoder_status
+  description: Get Transcoder Status
+  operationId: get-source-preview-transcoder-status
+  method: GET
+  path: /v2/{org}/sources/{source-id}/preview/transcoder-status
+  tag: Source Previews
+  readOnly: true
+  destructive: false
+excluded:
+  reason: deprecated /cust/{customer-id}/prod/... program-era operations
+  operations:
+  - get-deprecated-program
+  - list-deprecated-vods
+  - list-deprecated-clips
+  - get-deprecated-clip
+  - deprecated-clip-make-mp4
+  - deprecated-get-clip-manifest
+  - deprecated-clip-get-mp4
+  - deprecated-clip-get-program-time

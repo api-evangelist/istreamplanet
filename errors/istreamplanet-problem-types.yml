@@ -1,0 +1,23 @@
+generated: '2026-10-09'
+method: searched
+source: https://api.istreamplanet.com/docs
+format: application/problem+json (RFC 7807)
+envelope:
+  fields: [$schema, type, title, status, detail, instance, errors]
+  errors_item: [message, location, value]
+  text: Structured errors are returned using RFC 7807 Problem Details for HTTP APIs with an optional `errors` detail array that contains `message`, `location`, and `value` fields when relevant. The location is a path from the root of the request and can include `header`, `path`, `query`, or the `body`.
+note: The docs publish the envelope and one example; no per-type catalogue of `type` URIs is published. Statuses below are those the contract declares with the ErrorModel schema.
+problems:
+- status: 422
+  title: Unprocessable Entity
+  type: null
+  description: 'Documented example: detail "Error while processing input parameters", errors[].location "body.transcode.video_encoders.0.bit_rate", message "Must be greater than 0".'
+  remediation: Fix the field named in errors[].location.
+- {status: 400, title: Bad Request, type: null, description: Declared on all 73 operations., remediation: null}
+- {status: 401, title: Unauthorized, type: null, description: Missing or expired JWT; tokens are short lived., remediation: Fetch a new token from WBD Okta.}
+- {status: 404, title: Not Found, type: null, description: null, remediation: null}
+- {status: 409, title: Conflict, type: null, description: null, remediation: null}
+- {status: 412, title: Precondition Failed, type: null, description: Conditional request (If-Match / If-Unmodified-Since) did not match., remediation: Re-read the resource ETag and retry.}
+- {status: 429, title: Too Many Requests, type: null, description: Declared only on put-org-channel-desired-state., remediation: null}
+- {status: 500, title: Internal Server Error, type: null, description: null, remediation: null}
+- {status: 503, title: Service Unavailable, type: null, description: null, remediation: null}

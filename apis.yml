@@ -1,23 +1,354 @@
 aid: istreamplanet
+
 name: iStreamPlanet
-description: 'iStreamPlanet is a company surfaced via the API Evangelist harvest backlog (source: spectral-ruleset-github)
-  and added to the network as a stub for full-pipeline profiling.'
+
+description: iStreamPlanet was a Las Vegas-based live video streaming company, founded in 2000, whose cloud-based Aventus live video workflow
+  platform delivered live events and linear channels over the internet to multiple platforms and devices. Turner Broadcasting took a majority
+  stake in 2015; the company later sat under WarnerMedia and then Warner Bros. Discovery, which shut it down in August 2023. Its open-source arm,
+  iStreamPlanet Labs (github.com/istreamlabs), publishes Apache 2.0 projects including the rest-api-lint Spectral ruleset.
+
 url: https://raw.githubusercontent.com/api-evangelist/istreamplanet/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:spectral-ruleset-github
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-09 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-10-09'
+
 modified: '2026-10-09'
+
 tags:
 - Company
-apis: []
+- Video Streaming
+- Live Streaming
+- Media
+- Cloud Video
+- Spectral
+- API Governance
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
+image: https://avatars.githubusercontent.com/u/30184888?v=4
+
 common:
+- type: AgenticAccess
+  url: agentic-access/istreamplanet-agentic-access.yml
+- type: Spectral
+  url: rules/istreamplanet-rules.yml
+- type: Spectral
+  url: rules/istreamplanet-rest-api-lint-spectral-rules.yml
+- type: JSONLD
+  url: json-ld/istreamplanet-context.jsonld
+- type: Vocabulary
+  url: vocabulary/istreamplanet-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/istreamplanet-data-model.yml
+- type: CLI
+  url: cli/istreamplanet-cli.yml
+- type: Conventions
+  url: conventions/istreamplanet-conventions.yml
+- type: Deprecation
+  url: lifecycle/istreamplanet-lifecycle.yml
+- type: Lifecycle
+  url: lifecycle/istreamplanet-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/istreamplanet-problem-types.yml
+- type: Conformance
+  url: conformance/istreamplanet-conformance.yml
+- type: Overlay
+  url: overlays/istreamplanet-aventus-channels-overlay.yaml
+- type: Hosts
+  url: hosts/istreamplanet-hosts.yml
+- type: Vendors
+  url: vendors/istreamplanet-vendors.yml
+- type: SDKs
+  url: packages/istreamplanet-packages.yml
+- type: Packages
+  url: packages/istreamplanet-packages.yml
+- type: OAuthScopes
+  url: scopes/istreamplanet-scopes.yml
+- type: Authentication
+  url: authentication/istreamplanet-authentication.yml
+- type: DomainSecurity
+  url: security/istreamplanet-domain-security.yml
 - type: Website
   url: https://www.istreamplanet.com/
+- type: SpectralRules
+  url: https://github.com/istreamlabs/rest-api-lint/blob/98553242c3d8d4e64c628aa53ce33f9d27dde10b/isp-rules.yaml
+- type: GitHubOrganization
+  url: https://github.com/istreamlabs
+- type: LinkedIn
+  url: https://www.linkedin.com/company/istreamplanet
+
+apis:
+- aid: istreamplanet:istreamplanet-audit-operations-for-organization-api
+  name: iStreamPlanet Audit Operations for Organization API
+  description: >-
+    The Audit Operations for Organization API from iStreamPlanet — 1 operation(s) for audit operations
+    for organization.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Audit Operations for Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-audit-operations-for-organization-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-available-sources-api
+  name: iStreamPlanet Available Sources API
+  description: The Available Sources API from iStreamPlanet — 2 operation(s) for available sources.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Available Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-available-sources-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-channel-operations-for-organization-api
+  name: iStreamPlanet Channel Operations for Organization API
+  description: >-
+    The Channel Operations for Organization API from iStreamPlanet — 12 operation(s) for channel operations
+    for organization.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Channel Operations for Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-channel-operations-for-organization-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-channels-api
+  name: iStreamPlanet Channels API
+  description: The Channels API from iStreamPlanet — 1 operation(s) for channels.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Channels
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-channels-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-channels-for-organization-api
+  name: iStreamPlanet Channels for Organization API
+  description: >-
+    The Channels for Organization API from iStreamPlanet — 4 operation(s) for channels for organization.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Channels for Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-channels-for-organization-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-deprecated-live2vod-api
+  name: iStreamPlanet Deprecated Live2VOD API
+  description: The Deprecated Live2VOD API from iStreamPlanet — 8 operation(s) for deprecated live2vod.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Deprecated Live2VOD
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-deprecated-live2vod-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-live2vod-for-organization-api
+  name: iStreamPlanet Live2VOD for Organization API
+  description: >-
+    The Live2VOD for Organization API from iStreamPlanet — 26 operation(s) for live2vod for organization.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Live2VOD for Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-live2vod-for-organization-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-organizations-api
+  name: iStreamPlanet Organizations API
+  description: The Organizations API from iStreamPlanet — 1 operation(s) for organizations.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-source-previews-api
+  name: iStreamPlanet Source Previews API
+  description: The Source Previews API from iStreamPlanet — 4 operation(s) for source previews.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Source Previews
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-source-previews-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+- aid: istreamplanet:istreamplanet-transcoder-telemetry-api
+  name: iStreamPlanet Transcoder Telemetry API
+  description: >-
+    The Transcoder Telemetry API from iStreamPlanet — 5 operation(s) for transcoder telemetry.
+  humanURL: https://api.istreamplanet.com/docs
+  baseURL: https://api.istreamplanet.com
+  tags:
+  - Transcoder Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/istreamplanet-transcoder-telemetry-api-openapi.yml
+  - type: Documentation
+    url: https://api.istreamplanet.com/docs
+  - type: JSONSchema
+    url: json-schema/istreamplanet-put-channel-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-channel-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-generic-signal-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-task-response-body-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-segment-schema.json
+  - type: JSONSchema
+    url: json-schema/istreamplanet-get-source-preview-stream-response-body-schema.json
+x-enrichment:
+  date: '2026-10-09'
+  status: enriched
+  artifacts_added: 35
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=anthropic,regulatory=anthropic
+x-coverage:
+  state: covered
+  reason: identity-verified
+  detail: 'Enriched 2026-10-09: website and identity verified (verified) from the provider''s own pages; probed URLs below.'
+  evidence:
+  - url: https://raw.githubusercontent.com/api-evangelist/istreamplanet/refs/heads/main/apis.yml
+    status: null

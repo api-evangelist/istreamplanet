@@ -1,0 +1,45 @@
+{
+  "provider": "istreamplanet",
+  "sources": [
+    "_original/istreamplanet-aventus-channels-openapi.json",
+    "istreamplanet-aventus-channels-openapi.yml"
+  ],
+  "outputs": [
+    "istreamplanet-audit-operations-for-organization-api-openapi.yml",
+    "istreamplanet-available-sources-api-openapi.yml",
+    "istreamplanet-channel-operations-for-organization-api-openapi.yml",
+    "istreamplanet-channels-api-openapi.yml",
+    "istreamplanet-channels-for-organization-api-openapi.yml",
+    "istreamplanet-deprecated-live2vod-api-openapi.yml",
+    "istreamplanet-live2vod-for-organization-api-openapi.yml",
+    "istreamplanet-organizations-api-openapi.yml",
+    "istreamplanet-source-previews-api-openapi.yml",
+    "istreamplanet-transcoder-telemetry-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/istreamplanet-aventus-channels-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "istreamplanet-aventus-channels-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "istreamplanet-aventus-channels-openapi.json: declared missing tag: Deprecated Live2VOD",
+    "istreamplanet-aventus-channels-openapi.json: declared missing tag: Transcoder Telemetry",
+    "istreamplanet-aventus-channels-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "istreamplanet-aventus-channels-openapi.yml: declared missing tag: Deprecated Live2VOD",
+    "istreamplanet-aventus-channels-openapi.yml: declared missing tag: Transcoder Telemetry",
+    "tag 'Audit Operations for Organization' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Available Sources' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Channel Operations for Organization' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Channels' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Channels for Organization' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Deprecated Live2VOD' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Live2VOD for Organization' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Organizations' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Source Previews' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "tag 'Transcoder Telemetry' spans 2 source specs (istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml): per-path servers applied",
+    "apis.yml register: written (+10 apis, 10 total)"
+  ],
+  "skipped": []
+}

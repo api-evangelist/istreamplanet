@@ -1,0 +1,185 @@
+# harvested from https://github.com/istreamlabs/rest-api-lint/blob/98553242c3d8d4e64c628aa53ce33f9d27dde10b/isp-rules.yaml on 2026-10-09 — a Spectral ruleset published in the provider's own GitHub repository (istreamlabs/rest-api-lint); found by GitHub code search, fetched verbatim
+x-method: harvested
+x-stamped: 2026-10-09
+x-source-url: https://github.com/istreamlabs/rest-api-lint/blob/98553242c3d8d4e64c628aa53ce33f9d27dde10b/isp-rules.yaml
+formats:
+  - "oas3"
+extends: spectral:oas
+functionsDir: isp-functions
+functions:
+  - contains
+  - english
+  - iso8601
+  - noun
+rules:
+  # English recommendations for description fields
+  english:
+    severity: warn
+    given: $..description
+    then:
+      function: english
+  # Use JSON as much as possible
+  json-responses:
+    severity: error
+    message: "{{description}}: {{error}}"
+    given: $..responses.[?(@property == '200' || @ == '201' || @ == '202' || @ == '400' || @ == '401' || @ == '403' || @ == '404' || @ == '422' || @ == '500')].content
+    then:
+      function: contains
+      functionOptions:
+        match: "json"
+  patch-request-content-type:
+    severity: error
+    description: "`PATCH` requests cannot use `application/json`"
+    given: $.paths.*.[?(@property == 'patch')].requestBody.content[?(@property == 'application/json')]^
+    then:
+      function: falsy
+  patch-prefer-merge:
+    severity: warn
+    description: Prefer `application/merge-patch+json` for `PATCH` requests
+    given: $.paths.*.[?(@property == 'patch')].requestBody.content
+    then:
+      function: contains
+      functionOptions:
+        match: 'application/merge-patch\+json'
+  # Reduce duplication in data structures
+  # TODO... maybe detect similar strings in JSON paths?
+  # Version the API
+  server-version:
+    severity: error
+    description: Server URL must include version in the path (except localhost)
+    given: $.servers.[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: "localhost|/v[0-9]+$"
+  # Use ISO 8601 for dates
+  iso8601:
+    severity: warn
+    given: $..parameters[?(@ != null)]
+    then:
+      function: iso8601
+  # Auth? TODO
+  # Resource plural nouns
+  resource-nouns:
+    severity: error
+    given: $.paths.*~
+    then:
+      function: noun
+  # DNS & URL friendliness
+  dns-friendly:
+    severity: error
+    description: Identifier parameter missing DNS-friendly pattern, e.g. ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
+    # 'upid_id' is specifically excluded since it is not an internally defined ID. It is the ID part of a UPID
+    # which should allow any string value.
+    given: $..parameters[?(@ != null && (@.name || '').toString().match(/^id[ -_A-Z]|[ -_]id$|[a-z0-9]Id$/) && (@.name || '').toString() !== 'upid_id')]
+    then:
+      # Currently this just checks for existence of any pattern, but it should
+      # both catch small mistakes and not be too limited if params have
+      # additional constraints (e.g. not limited to a specific pattern).
+      field: schema.pattern
+      function: truthy
+  # Resources should have schemas with descriptions
+  resource-schemas:
+    severity: error
+    given: $..['application/json']
+    then:
+      field: schema
+      function: truthy
+  schema-descriptions:
+    severity: warn
+    given: $..properties.*
+    then:
+      field: description
+      function: truthy
+  # Resource field casing
+  properties-lower-snake-case:
+    severity: error
+    given: $..properties[?(!@property.toString().startsWith("$"))]
+    then:
+      function: casing
+      functionOptions:
+        type: snake
+  # Don't POST with identifier
+  post-with-id:
+    severity: error
+    description: Use PUT/PATCH rather than POSTing with a user-supplied identifier
+    given: $.paths.[?(@property.toString().match(/[ -_]id}$|[a-z]Id}$/))]
+    then:
+      field: post
+      function: falsy
+  # Listing should return a list & include pagination
+  listing-returns-list:
+    severity: warn
+    message: Type "{{value}}" should be "array" when returning a list of resources
+    given: $.paths.[?(!@property.toString().includes("}"))].get.responses.[?(@property.toString().startsWith("2"))].content.*.schema
+    then:
+      field: type
+      function: enumeration
+      functionOptions:
+        values:
+          - array
+  # Create/update should either repond 204 or with a JSON body
+  disallow-body:
+    severity: error
+    description: 204 response should have no body. Use e.g. 200 otherwise.
+    given: $..responses.204
+    then:
+      field: content
+      function: falsy
+  # requiring a body fails for image/json and cannot because because of a spectral
+  # bug that prevents image/jpeg with type:"string" from parsing.
+  # TODO: Readd this if spectral ever fixes that bug.
+  # require-body:
+  #   severity: error
+  #   description: 200 response must have a body. Use 201/204 otherwise.
+  #   given: $..responses.200
+  #   then:
+  #     field: content
+  #     function: truthy
+  delete-response:
+    severity: error
+    description: Delete should return an HTTP 204
+    given: $.paths.*[?(@property === 'delete')].responses
+    then:
+      field: "204"
+      function: truthy
+  # Errors must include a `detail` field
+  error-detail:
+    severity: error
+    # 429 returns from the API Gateway, so we exclude it
+    description: Errors must be problem+JSON or text/plain and include a "detail" field
+    given: $..responses.[?((@property.toString().startsWith("4") || @property.toString() === "500") && @property.toString() != "429")]
+    then:
+      - field: content
+        function: truthy
+      - field: content.application/problem+json.schema
+        function: truthy
+      - field: content.application/problem+json.schema.properties.detail
+        function: truthy
+  # Header & parameter casing
+  headers-hyphenated-pascal-case:
+    severity: error
+    given: "$..parameters[?(@ != null && @.in == 'header')].name"
+    description: "'HTTP' headers MUST follow 'Hyphenated-Pascal-Case' notation"
+    then:
+      function: pattern
+      functionOptions:
+        match: "/^([A-Z][a-z0-9]-)*([A-Z][a-z0-9])+/"
+  params-lower-snake-case:
+    severity: error
+    message: "`{{value}}` must follow `snake` notation"
+    given: "$..parameters[?(@ != null && (@.in == 'query' || @ == 'path'))].name"
+    then:
+      function: casing
+      functionOptions:
+        type: snake
+  # Parameter location constraints
+  params-location:
+    severity: error
+    description: Required parameters must be in the URL path or header
+    given: $..parameters[?(@ != null && @.in != 'path' && @.in != 'header')]
+    then:
+      field: required
+      function: falsy
+  # Date/time ranges
+  # TODO

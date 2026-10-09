@@ -1,0 +1,12 @@
+generated: '2026-10-09'
+method: none
+source: https://istreamlabs.github.io/docs/guide/
+name: iStreamPlanet plans and pricing
+audience: unclear
+pricing_basis: negotiated
+published: false
+plan_count: 0
+plans: []
+delivery:
+  mode: managed
+note: 'No pricing page is published. Access is by organization: "If your company has no existing relationship with iStreamPlanet, then contact us to set up a new organization." Usage is billed per channel ("Every channel you create may incur billing charges", https://istreamlabs.github.io/docs/guide/create-channel) and the contract exposes cost reports (get-channel-cost-report, list-organization-cost-reports), but no prices are stated. www.istreamplanet.com was unreachable from pre-flight.'

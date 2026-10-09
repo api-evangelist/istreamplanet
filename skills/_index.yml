@@ -1,0 +1,11 @@
+generated: '2026-10-09'
+method: generated
+source: openapi/istreamplanet-aventus-channels-openapi.yml
+note: No provider-published skills or AGENTS.md found; iStreamPlanet was shut down in August 2023. Skills are grounded in operationIds from the saved Aventus Channels OpenAPI.
+skills:
+  - name: istreamplanet-channel-lifecycle
+    path: skills/istreamplanet-channel-lifecycle.md
+  - name: istreamplanet-live-to-vod-clip
+    path: skills/istreamplanet-live-to-vod-clip.md
+  - name: istreamplanet-ad-signaling
+    path: skills/istreamplanet-ad-signaling.md

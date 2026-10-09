@@ -1,0 +1,66 @@
+generated: '2026-10-09'
+method: searched
+source: https://api.istreamplanet.com/docs
+derived_from: openapi/istreamplanet-aventus-channels-openapi.yml
+auth:
+  style: OAuth 2.0 bearer JWT in the Authorization header (WBD Okta; authorization code with PKCE, client credentials)
+  see: authentication/istreamplanet-authentication.yml
+idempotency:
+  coverage: none
+  mechanism: none
+  note: No idempotency-key header is documented or declared. Writes are mostly PUT (inherently idempotent by HTTP semantics) and delete-org-channel states "This action is idempotent.", but the 14 POST operations carry no replay protection. Optimistic concurrency is offered instead via conditional requests (If-Match / If-Unmodified-Since).
+concurrency:
+  mechanism: conditional requests
+  headers: [If-Match, If-Unmodified-Since, If-None-Match, If-Modified-Since]
+  text: You may opt-in by setting the `If-Match` header to the resource's `ETag`, or the `If-Unmodified-Since` header to the resource's `Last-Modified` time.
+dry_run:
+  supported: partial
+  parameter: validate_only
+  operations: [put-org-channel, patch-org-channel]
+  text: Validate request but do not otherwise process it
+  related: org-is-breaking-change validates whether a configuration change is compatible with downstream services.
+pagination:
+  style: cursor + RFC 5988 Link header
+  params: [cursor, page_size]
+  response: Link header with `next` relation
+  text: List calls use RFC 5988 Link relation headers. Clients *should* read this header and follow the `next` link to read all pages of results.
+links:
+  text: Many resources have `self` links ... Most resources have a `describedby` link, which links to a JSON Schema description of the resource.
+  schema_field: $schema
+partial_updates:
+  formats: [JSON Merge Patch (RFC 7386), JSON Patch (RFC 6902)]
+  default: JSON Merge Patch when no Content-Type is sent
+content_negotiation:
+  accept: [application/json, application/yaml, application/cbor]
+  encoding: [gzip, br]
+errors:
+  envelope: RFC 7807 application/problem+json with optional errors[] (message, location, value)
+  see: errors/istreamplanet-problem-types.yml
+versioning:
+  style: URL path prefix (/v2/); contract info.version v1.52.0
+  see: lifecycle/istreamplanet-lifecycle.yml
+rate_limit_signaling:
+  note: Only put-org-channel-desired-state declares a 429 Too Many Requests (problem+json) response; no limits or rate-limit headers are documented.
+  see: rate-limits/istreamplanet-rate-limits.yml
+request_id: {documented: false}
+reversibility:
+  status: documented
+  note: No reversal windows are stated anywhere in the docs; none are asserted here.
+  surfaces:
+  - write: put-org-channel (create/run a channel)
+    reversal: delete-org-channel
+    window: null
+    text: Delete a channel and stop publishing. This action is idempotent.
+    docs: https://istreamlabs.github.io/docs/guide/create-channel
+  - write: put-org-channel-desired-state (ON)
+    reversal: put-org-channel-desired-state (OFF)
+    window: null
+  - write: org-pin-ingest / source-preview-pin-ingest
+    reversal: org-unpin-ingest / source-preview-unpin-ingest
+    window: null
+  - write: Live2VOD tasks (post-org-clip, post-org-make-mp4 ...)
+    reversal: post-org-task-cancel
+    window: null
+  irreversible_notes:
+  - clear-org-dvr-window, insert-org-scte35, insert-org-id3 and org-rotate-key have no documented reversal.
+  - "Channel creation is entirely self-service. iStreamPlanet will not stop or cleanup your channels. Every channel you create may incur billing charges"

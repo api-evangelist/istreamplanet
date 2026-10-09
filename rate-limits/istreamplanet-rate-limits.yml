@@ -1,0 +1,8 @@
+generated: '2026-10-09'
+method: none
+source: https://api.istreamplanet.com/docs
+name: iStreamPlanet Aventus Channels API rate limits
+limit_count: 0
+limits: []
+status_on_exhaustion: 429
+note: No rate limits or rate-limit headers are published in the API reference or the Developer Portal (https://istreamlabs.github.io/docs/). The contract declares a 429 Too Many Requests problem+json response on one operation only (put-org-channel-desired-state).

@@ -1,0 +1,25 @@
+generated: '2026-10-09'
+method: derived
+source: openapi/istreamplanet-aventus-channels-openapi.yml
+note: 'Both oauth2 securitySchemes declare `scopes: null`, and no scopes/permissions reference page was found in the API reference (https://api.istreamplanet.com/docs) or the iStreamPlanet Developer Portal (https://istreamlabs.github.io/docs/guide/). The only scope names in the contract are the two the spec''s x-cli-config extension tells Restish to request on the authorization-code flow; they are WBD Okta token scopes, not per-resource API permissions.'
+schemes:
+- name: authcode
+  source: openapi/istreamplanet-aventus-channels-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/authorize
+    tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+- name: m2m
+  source: openapi/istreamplanet-aventus-channels-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
+scopes:
+- name: offline_access
+  scheme: authcode
+  description: Requested by the CLI auto-configuration (x-cli-config.params.scopes "offline_access,Groups"); standard OIDC scope for a refresh token.
+  source: openapi/_original/istreamplanet-aventus-channels-openapi.json#/x-cli-config
+- name: Groups
+  scheme: authcode
+  description: Requested by the CLI auto-configuration (x-cli-config.params.scopes "offline_access,Groups"); no further description is published.
+  source: openapi/_original/istreamplanet-aventus-channels-openapi.json#/x-cli-config
