@@ -1,12 +1,12 @@
 openapi: 3.2.0
 info:
-  title: Istreamplanet Channels for Organization API
-  version: v1.52.0
   contact:
     email: live-control-plane-devs@wbd.com
     name: ChannelAPI Support
     url: https://warnermedia.enterprise.slack.com/archives/C0648UND8SD
-  description: 'Operations tagged Channels for Organization across 2 of this provider''s published API definitions: istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: This API provides a way to list, create, and run channels.
+  title: WBD Aventus Channels Channels for Organization API
+  version: v1.52.0
 servers:
 - description: prod
   url: https://api.istreamplanet.com
@@ -119,9 +119,6 @@ paths:
       summary: List channels
       tags:
       - Channels for Organization
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
   /v2/{org}/channels/{channel-id}:
     delete:
       description: 'Delete a channel and stop publishing. This action is idempotent.
@@ -4071,9 +4068,6 @@ paths:
       summary: Create/Update channel
       tags:
       - Channels for Organization
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
   /v2/{org}/channels/{channel-id}/desired-state:
     put:
       description: Update Channel DesiredState to ON/OFF
@@ -4223,9 +4217,6 @@ paths:
       summary: Update Desired State
       tags:
       - Channels for Organization
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
   /v2/{org}/channels/{channel-id}/playback:
     get:
       description: Get a channel's playback configuration
@@ -4298,509 +4289,58 @@ paths:
       summary: Get Channel Playback Config
       tags:
       - Channels for Organization
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
 components:
   schemas:
-    ChannelPlaybackBody:
+    Summary:
       additionalProperties: false
       properties:
-        $schema:
-          description: A URL to the JSON Schema for this object.
-          examples:
-          - https://api.istreamplanet.com/schemas/ChannelPlaybackBody.json
-          format: uri
-          readOnly: true
-          type: string
-        cmaf:
-          description: CMAF playback configurations
-          items:
-            $ref: '#/components/schemas/ChannelPlaybackConfiguration'
-          type:
-          - array
-          - 'null'
-        dash:
-          description: Dash playback configurations
-          items:
-            $ref: '#/components/schemas/ChannelPlaybackConfiguration'
-          type:
-          - array
-          - 'null'
-        hls:
-          description: HLS playback configurations
-          items:
-            $ref: '#/components/schemas/ChannelPlaybackConfiguration'
-          type:
-          - array
-          - 'null'
-        origin:
-          description: Origin playback configurations
-          items:
-            $ref: '#/components/schemas/PlaybackConfiguration'
-          type:
-          - array
-          - 'null'
-      type: object
-    Channel:
-      additionalProperties: false
-      properties:
-        $schema:
-          description: A URL to the JSON Schema for this object.
-          examples:
-          - https://api.istreamplanet.com/schemas/Channel.json
-          format: uri
-          readOnly: true
-          type: string
-        created:
-          description: Date and time the channel was created.
-          format: date-time
-          readOnly: true
-          type: string
-        description:
-          description: A human-readable description of the channel.
-          type: string
         desired_state:
-          description: Desired running state for a channel.
+          description: Desired state of channel
           enum:
           - 'ON'
           - 'OFF'
-          type: string
-        enable_byoip:
-          description: Indicates whether the channel's transcoder needs to run in a designated IP range.
-          type: boolean
-        id:
-          description: External Channel ID provided at channel creation time
           examples:
-          - my-channel
-          minLength: 1
-          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
-          readOnly: true
+          - 'ON'
           type: string
-        ingest:
-          $ref: '#/components/schemas/Ingest'
-          description: Ingest configures inputs for the transcoder.
+        etag:
+          description: Content hash
+          examples:
+          - 4bc54fd8
+          type: string
+        id:
+          description: Unique channel ID
+          examples:
+          - hbo-west
+          type: string
         labels:
-          description: Optional labels for a channel. Any included labels must be at least 1 character long, but no greater than 256 characters. The maximum number of labels is 50.
+          description: Channel Labels
           items:
             type: string
-          maxItems: 50
           type:
           - array
           - 'null'
-        modified:
-          description: Date and time the channel was last modified.
-          format: date-time
-          readOnly: true
-          type: string
         name:
-          description: A friendly human-readable name for the channel. This will get displayed in user interfaces.
+          description: Friendly channel description
           examples:
-          - My Channel
+          - HBO West
           type: string
-        organization:
-          minLength: 1
-          type: string
-        packaging:
-          $ref: '#/components/schemas/Packaging'
-          description: Packaging configures media format and content protection settings.
-        publishing:
-          $ref: '#/components/schemas/Publishing'
-          description: Publishing configures playlist formats and where to send video and playlist data.
-        region:
-          description: Region represents the general geolocation for transcoding and stream egress from iStreamPlanet. If no region is provided at channel creation time, then 'US_WEST' is used.
-          enum:
-          - US_WEST
-          - US_EAST
-          type: string
-        resource_class:
-          description: If the ResourceClass is unspecified the channel will default to run in the 'DYNAMIC' ResourceClass. Note that changing the ResourceClass for a running channel is supported and will be performed with no downtime.
-          enum:
-          - DYNAMIC
-          - STATIC
+        org:
+          description: Organization
           type: string
         self:
-          description: Self link for the channel.
-          format: uri-reference
+          description: Link to this resource
+          format: uri
           readOnly: true
           type: string
-        signaling:
-          $ref: '#/components/schemas/Signaling'
-          description: Signaling configures in-band signaling (i.e. SCTE-35).
-        tags:
-          $ref: '#/components/schemas/Tags'
-          description: Use ChannelMetadata when possible instead of tags.
-        transcode:
-          $ref: '#/components/schemas/Transcode'
-          description: Transcode configures audio/video conversion settings.
-      required:
-      - ingest
-      - transcode
-      type: object
-    Ingest:
-      additionalProperties: false
-      properties:
-        slate:
-          additionalProperties: false
-          properties:
-            source_loss_url:
-              description: Source loss URL defines the location of the TS file to play when no source is available. It must have one audio and one video stream. Either MPEG2 or H.264 can be used.
-              examples:
-              - https://example.com/slate.ts
-              format: uri-reference
-              type: string
-          type: object
         source:
-          additionalProperties: false
-          properties:
-            audio_sources:
-              items:
-                additionalProperties: false
-                properties:
-                  id:
-                    minLength: 1
-                    type: string
-                  language:
-                    description: RFC 5646, e.g. 'en' 'en-US'
-                    minLength: 1
-                    type: string
-                  license:
-                    description: License specifies how the audio in this source is licensed. If license is not AUDIO_LICENSE_UNSPECIFIED, any remapped AudioSource which names this AudioSource in its remapping table must have the same license value as this AudioSource.
-                    enum:
-                    - LIVE
-                    - REPLAY
-                    type: string
-                  name:
-                    description: Language fiendly name, e.g. 'English', 'Spanish'
-                    minLength: 1
-                    type: string
-                  remapping:
-                    additionalProperties: false
-                    properties:
-                      back_left:
-                        additionalProperties: false
-                        properties:
-                          audio_source_id:
-                            description: Identifies the ID of the elementary audio source from which this channel will be sourced.
-                            minLength: 1
-                            type: string
-                          channel_index:
-                            description: 'Identifies the zero-based channel index within the audio decoded from audio_source_id which is used for this channel mapping. If this index is out of bounds, the audio for this channel will be silent. For SMPTE-302M inputs, channel indices are always in the range 0-8 (unless the Aventus-specific extension for carrying more than 8 channels in one elementary stream is in use) and name the Nth channel of the input. I.e., the base channel index indicated by the input stream is ignored. For non-SMPTE-302M inputs with 1, 2, or 6 channels, the following index-to-channel mapping always applies: - 0 is front left (i.e. the only channel for mono) - 1 is front right - 2 is front center - 3 is LFE - 4 is side left - 5 is side right For non-SMPTE-302M inputs with 3, 4, or 5 channels, no index mapping is guaranteed. For non-SMPTE-302M inputs with more than 6 channels, the index mapping that would be used for 6 channels is guaranteed, and no specific mapping for the other channels is guaranteed.'
-                            format: int32
-                            minimum: 0
-                            type: integer
-                        type: object
-                      back_right:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      front_center:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      front_left:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      front_right:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      low_frequency:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      side_left:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      side_right:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      top_back_left:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      top_back_right:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      top_front_left:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      top_front_right:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      top_side_left:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      top_side_right:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      wide_left:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                      wide_right:
-                        $ref: '#/components/schemas/AudioSourceRemappingSource'
-                    type: object
-                  selector:
-                    description: Expression for choosing an audio track in the stream for this AudioSource https://wbdstreaming.atlassian.net/wiki/spaces/LIVE/pages/250351679/Proposal+Audio+Track+Selection An AudioSource which specifies a selector is an 'elementary audio source' which corresponds to exactly one elementary stream in the input.
-                    type: string
-                type: object
-              minItems: 1
-              type:
-              - array
-              - 'null'
-            captions_source:
-              description: Closed captions source embedding. If unspecified, defaults to ATSC_A53.
-              enum:
-              - ATSC_A53
-              - SMPTE_2038
-              type: string
-            id:
-              description: Unique identifier for this source.
-              examples:
-              - s-examplej95ah2qab
-              type: string
-            self:
-              description: Self link for the source.
-              format: uri-reference
-              type: string
-            video_source:
-              additionalProperties: false
-              properties:
-                dynamic_range:
-                  description: The highest dynamic range the source will ever send to the transcoder.
-                  enum:
-                  - SDR
-                  - HDR
-                  type: string
-                jpeg_xs:
-                  description: If true, the source may be JPEG-XS. Enables allocation of additional resources required to handle the higher bitrate and decode JPEG-XS. If not enabled, JPEG-XS inputs will result in the source-loss slate.
-                  type: boolean
-                max_resolution:
-                  description: The maximum resolution the source will ever send to the transcoder.
-                  enum:
-                  - SD
-                  - HD
-                  - FHD
-                  - TwoK
-                  - QHD
-                  - UHD
-                  type: string
-              type: object
-          required:
-          - id
-          type: object
+          $ref: '#/components/schemas/SourceSummary'
+          description: Channel source
       required:
+      - org
+      - id
+      - etag
       - source
-      type: object
-    Packager:
-      additionalProperties: false
-      properties:
-        content_protection:
-          additionalProperties: false
-          properties:
-            atlas:
-              additionalProperties: false
-              properties:
-                asset_id:
-                  description: The Asset Identifier which was taken from the token entitlement service request.
-                  type: string
-                company_id:
-                  description: The Identifier of the Company that this token belongs.
-                  type: string
-                drms:
-                  description: DRM system keys to request
-                  items:
-                    enum:
-                    - WIDEVINE
-                    - FAIRPLAY
-                    - PRIMETIME
-                    - PLAYREADY
-                    - W3C_COMMON_CLEAR_KEY
-                    - BULK_FILE
-                    type: string
-                  type:
-                  - array
-                  - 'null'
-                  uniqueItems: true
-                widevine_v0_pssh_box:
-                  description: When TRUE the KeyID is not embedded in the pssh box which sets the version to 0. Defaults to generating v1 pssh_boxes that includes the key_id
-                  type: boolean
-              type: object
-            bulk_file:
-              additionalProperties: false
-              properties:
-                iv_rotation:
-                  description: How often the IV should be rotated and how it should be created
-                  enum:
-                  - RANDOM_PER_KEY
-                  - PER_SEGMENT_NUMBER
-                  - UNIQUE_PER_SEGMENT
-                  type: string
-              type: object
-            common:
-              additionalProperties: false
-              properties:
-                scheme_type:
-                  description: Defines the scheme that can be used with Common Encryption
-                  enum:
-                  - CENC
-                  - CBCS
-                  type: string
-              type: object
-            cpix:
-              additionalProperties: false
-              properties:
-                certificates_id:
-                  description: Unique ID used for certificate settings, unique per distributor.
-                  type: string
-                content_id:
-                  description: (Optional) Content ID that identifies this channel in the CPIX service. Value is defined by the DRM system owner, and if defined will be included as part of a POST request.
-                  type: string
-                credentials_id:
-                  description: Unique ID used for credentials settings, unique per distributor.
-                  type: string
-                decryption_key_id:
-                  description: Unique ID of the decryption key to use in case the server response contains content keys encrypted. The key is unique per distirutor, and configured ahead of time by the publishing team and the CPIX service owner.
-                  type: string
-                drms:
-                  description: (Optional) DRM system keys to request. If not defined a GET request will be done, and any key returned will be handled. If defined, random kid(s) (key ids) will be generated on rotation for each DRM system, and a POST request will be done to create them.
-                  items:
-                    enum:
-                    - WIDEVINE
-                    - FAIRPLAY
-                    - PRIMETIME
-                    - PLAYREADY
-                    - W3C_COMMON_CLEAR_KEY
-                    - BULK_FILE
-                    type: string
-                  type:
-                  - array
-                  - 'null'
-                  uniqueItems: true
-                headers_id:
-                  description: (Optional) An identifier to a list of HTTP headers to be added to the request sent to the CPIX service.
-                  type: string
-                uri:
-                  description: CPIX service URI
-                  format: uri-reference
-                  minLength: 1
-                  type: string
-              type: object
-            key_rotation:
-              additionalProperties: false
-              properties:
-                interval_secs:
-                  description: Rotate keys based on the specified time interval. If Program is also provided then this time interval will only apply to media segments that are outside of program boundaries. If Program is NOT provided then only this time interval will be used to decided when to rotate keys.
-                  format: float
-                  minimum: 300
-                  type: number
-                program:
-                  description: Rotate keys on (SCTE35) program boundaries such that no two programs will be protected with the same key.
-                  type: boolean
-                program_overlap_skip_encrypt:
-                  description: Do not encrypt segments that are part of more than one SCTE-35 program.
-                  type: boolean
-              type: object
-            sample_aes:
-              additionalProperties: false
-              type: object
-            simple:
-              additionalProperties: false
-              properties:
-                publish_points:
-                  description: Pub points where keys should be published. If multiple are specified, only one needs to succeed to consider the key successfully published.
-                  items:
-                    additionalProperties: false
-                    properties:
-                      basic_auth:
-                        additionalProperties: false
-                        properties:
-                          password:
-                            description: Plain text password for basic auth.
-                            type: string
-                          username:
-                            description: Username for basic auth.
-                            type: string
-                        type: object
-                      compression:
-                        description: Configures whether or not (and how) to compress manifests being published to the origin. If not specified, manifests will not be compressed.
-                        enum:
-                        - NONE
-                        - GZIP
-                        type: string
-                      do_not_monitor:
-                        description: (Optional) Specifies if this pubpoint should not be monitored by PLM.
-                        type: boolean
-                      headers:
-                        additionalProperties:
-                          type: string
-                        description: Allows custom HTTP headers to be set via configuration for all HTTP requests.
-                        type: object
-                      method:
-                        description: Method overrides what HTTP method to specify in requests to the Publish Point. If not specified the service will default to POST.
-                        type: string
-                      playback_base_url:
-                        description: The base URL where published playlists will be able to be obtained. This is often different than the publish_base_url for CDN publishing workflows.
-                        format: uri-reference
-                        type: string
-                      playback_query_params:
-                        description: 'Specifies any query parameters that will be added to playback urls. Should not include the initial ''?'' Example: ''foo=bar&q=golang'''
-                        type: string
-                      publish_base_url:
-                        description: The base URL where generated playlists will be sent/published. Each publish point requires a unique 'publish_base_url'.
-                        format: uri-reference
-                        type: string
-                      secure_header_auth:
-                        additionalProperties: false
-                        properties:
-                          arn:
-                            description: arn is the AWS Secret ARN that contains the secure header list to be applied.
-                            type: string
-                          version_id:
-                            description: version_id is the AWS Secret's version ID that contains the version of the secret to be applied.
-                            type: string
-                        type: object
-                    type: object
-                  type:
-                  - array
-                  - 'null'
-                require_publish:
-                  description: Indicates which publish points must succeed for segment publishing to use the keys.
-                  enum:
-                  - ANY
-                  - ALL
-                  type: string
-              type: object
-          type: object
-        mp2t:
-          additionalProperties: false
-          properties:
-            force_unmuxed_audio:
-              description: Forces the Video and Audio Encodings to be unmuxed when there is one audio encodings. This setting will have to be uniformed across MP2T packagers within a config. When there are two or more audio encodings, unmuxed will be used automatically.
-              type: boolean
-            insert_id3_utc_time:
-              description: If true, insert ID3 tags that include a UTC timestamp. This is a Turner/WM-specific extension.
-              type: boolean
-          type: object
-        mp4:
-          additionalProperties: false
-          properties:
-            caption_placement:
-              description: CaptionPlacement defines where caption messages should be placed in the output MP4.
-              enum:
-              - SEI_PAYLOAD
-              - CLCP_TRACK
-              type: string
-            insert_pssh_box:
-              description: Insert pssh boxes generated by content protection into packaged segments. Defaults to not insert pssh boxes to the packaged segments.
-              type: boolean
-          type: object
-        ttml:
-          additionalProperties: false
-          type: object
-        web_vtt:
-          additionalProperties: false
-          properties:
-            file_format:
-              description: The file format used to encapsulate the WebVTT segments.
-              enum:
-              - TEXT
-              - MP4
-              type: string
-          type: object
-      type: object
-    Tags:
-      additionalProperties: false
-      properties:
-        custom:
-          additionalProperties:
-            type: string
-          description: Custom tags to be added to metrics and logs for this channel. In Datadog, the tags will be prefixed with 'dy_' to avoid collisions with system tags.
-          type: object
-        monitored:
-          description: Indicates whether this channel is monitored by automation.
-          type: boolean
+      - desired_state
       type: object
     Transcode:
       additionalProperties: false
@@ -5453,1073 +4993,6 @@ components:
           - array
           - 'null'
       type: object
-    Signaling:
-      additionalProperties: false
-      properties:
-        blackout_settings:
-          additionalProperties: false
-          properties:
-            default_blackout_slate_url:
-              description: Default slate URL to use for blackouts. Can be overridden by the 'slates' field.
-              examples:
-              - https://example.com/blackout.ts
-              format: uri-reference
-              type: string
-            force_blackout_segments:
-              description: List of signaling segment types to force blackout, e.g. add 'SPLICE_INSERT' to blackout all ads signaled via SCTE-35 splice_insert.
-              items:
-                enum:
-                - SPLICE_INSERT
-                - CONTENT_ID
-                - PROGRAM
-                - PROGRAM_BLACKOUT_OVERRIDE
-                - PROGRAM_BREAKAWAY
-                - CHAPTER
-                - BREAK
-                - OPENING_CREDIT
-                - CLOSING_CREDIT
-                - PROVIDER_PLACEMENT_OP
-                - DISTRIBUTOR_PLACEMENT_OP
-                - PROVIDER_OVERLAY_OP
-                - DISTRIBUTOR_OVERLAY_OP
-                - PROVIDER_AD
-                - DISTRIBUTOR_AD
-                - UNSCHEDULED_EVENT
-                - NETWORK
-                - SLATE
-                - NOT_INDICATED
-                - TIMED_METADATA
-                - TIMED_METADATA_MARKER_OVER_SLATE
-                type: string
-              type:
-              - array
-              - 'null'
-            honor_web_delivery_restriction:
-              description: Determines whether to honor the web_delivery_allowed attribute in SCTE-35 segmentation descriptors. When this is enabled, a segmentation descriptor with web_delivery_allowed=false will trigger a blackout.
-              type: boolean
-            slates:
-              description: Per-segment type slate overrides.
-              items:
-                additionalProperties: false
-                properties:
-                  blackout_slate_url:
-                    description: Blackout slate URL to use for the specified segments. It must have one audio and one video stream. Either MPEG2 or H.264 can be used.
-                    examples:
-                    - https://example.com/blackout.ts
-                    format: uri-reference
-                    type: string
-                  segments:
-                    description: Segment types that shall utilize the blackout slate URL. Any segment type defined here _must_ also be present in the parent signaling configuration.
-                    items:
-                      enum:
-                      - SPLICE_INSERT
-                      - CONTENT_ID
-                      - PROGRAM
-                      - PROGRAM_BLACKOUT_OVERRIDE
-                      - PROGRAM_BREAKAWAY
-                      - CHAPTER
-                      - BREAK
-                      - OPENING_CREDIT
-                      - CLOSING_CREDIT
-                      - PROVIDER_PLACEMENT_OP
-                      - DISTRIBUTOR_PLACEMENT_OP
-                      - PROVIDER_OVERLAY_OP
-                      - DISTRIBUTOR_OVERLAY_OP
-                      - PROVIDER_AD
-                      - DISTRIBUTOR_AD
-                      - UNSCHEDULED_EVENT
-                      - NETWORK
-                      - SLATE
-                      - NOT_INDICATED
-                      - TIMED_METADATA
-                      - TIMED_METADATA_MARKER_OVER_SLATE
-                      type: string
-                    type:
-                    - array
-                    - 'null'
-                  upids:
-                    description: Exclusive list of hex string encoded colon separated UPID Type:ID pairs (e.g. '0A:1A2B3C4D') to enable this blackout slate on.
-                    items:
-                      type: string
-                    type:
-                    - array
-                    - 'null'
-                type: object
-              type:
-              - array
-              - 'null'
-          type: object
-        disable_inband_parsing:
-          description: Disable parsing SCTE-35 in-band signaling. Out-of-band signaling is still allowed.
-          type: boolean
-        scte_pid:
-          description: Defines the specific PID containing the SCTE that the transcoder should process. Using '0' (default value) will pick the first PID containing SCTE-35 in the PMT.
-          format: int32
-          minimum: 0
-          type: integer
-        segment_settings:
-          description: Settings that apply to specific segments.
-          items:
-            additionalProperties: false
-            properties:
-              default_duration_secs:
-                description: Specifies the duration of a segment when the in-band SCTE-35 that initiates it (e.g. Distributor Placement Opportunity Start) is missing an explicit duration. N.B. for program and ad types, this also affects 'Simple Program' and 'Simple Ad' markers, respectively.
-                format: int32
-                maximum: 172800
-                minimum: 0
-                type: integer
-              emit_default_duration:
-                description: Determines whether to include the default duration in the output SCTE-35 messages when the input SCTE-35 message did not specify a duration.
-                type: boolean
-              offset_millis:
-                description: Specifies a 'correction' to the splice_time of in-band SCTE-35 in milliseconds.
-                format: int32
-                maximum: 4000
-                minimum: -4000
-                type: integer
-              segment_end_mode:
-                description: Determines which Segment End signaling mode to use for the provided segments. If unspecified, defaults to MATCH_END_EVENT_ID.
-                enum:
-                - MATCH_END_EVENT_ID
-                - IGNORE_END_EVENT_ID
-                - IGNORE_END_SIGNAL
-                type: string
-              segments:
-                description: Specifies the list of which segment types this setting applies to. Any segment type defined here _must_ also be present in the parent signaling configuration.
-                items:
-                  enum:
-                  - SPLICE_INSERT
-                  - CONTENT_ID
-                  - PROGRAM
-                  - PROGRAM_BLACKOUT_OVERRIDE
-                  - PROGRAM_BREAKAWAY
-                  - CHAPTER
-                  - BREAK
-                  - OPENING_CREDIT
-                  - CLOSING_CREDIT
-                  - PROVIDER_PLACEMENT_OP
-                  - DISTRIBUTOR_PLACEMENT_OP
-                  - PROVIDER_OVERLAY_OP
-                  - DISTRIBUTOR_OVERLAY_OP
-                  - PROVIDER_AD
-                  - DISTRIBUTOR_AD
-                  - UNSCHEDULED_EVENT
-                  - NETWORK
-                  - SLATE
-                  - NOT_INDICATED
-                  - TIMED_METADATA
-                  - TIMED_METADATA_MARKER_OVER_SLATE
-                  type: string
-                type:
-                - array
-                - 'null'
-                uniqueItems: true
-              tier_filter:
-                additionalProperties: false
-                properties:
-                  explicit_tier:
-                    additionalProperties: false
-                    properties:
-                      values:
-                        items:
-                          format: int32
-                          type: integer
-                        type:
-                        - array
-                        - 'null'
-                    type: object
-                type: object
-            type: object
-          type:
-          - array
-          - 'null'
-        segments:
-          description: Segment types to process for in-band signaling.
-          items:
-            enum:
-            - SPLICE_INSERT
-            - CONTENT_ID
-            - PROGRAM
-            - PROGRAM_BLACKOUT_OVERRIDE
-            - PROGRAM_BREAKAWAY
-            - CHAPTER
-            - BREAK
-            - OPENING_CREDIT
-            - CLOSING_CREDIT
-            - PROVIDER_PLACEMENT_OP
-            - DISTRIBUTOR_PLACEMENT_OP
-            - PROVIDER_OVERLAY_OP
-            - DISTRIBUTOR_OVERLAY_OP
-            - PROVIDER_AD
-            - DISTRIBUTOR_AD
-            - UNSCHEDULED_EVENT
-            - NETWORK
-            - SLATE
-            - NOT_INDICATED
-            - TIMED_METADATA
-            - TIMED_METADATA_MARKER_OVER_SLATE
-            type: string
-          type:
-          - array
-          - 'null'
-          uniqueItems: true
-      type: object
-    HdrSettingsDolbyVisionProfile81:
-      additionalProperties: false
-      properties:
-        clli:
-          additionalProperties: false
-          properties:
-            max_cll:
-              description: Maximum Content Light Level (nits).
-              format: double
-              maximum: 10000
-              minimum: 0
-              type: number
-            max_fall:
-              description: Maximum Frame-Average Light Level (nits).
-              format: double
-              maximum: 10000
-              minimum: 0
-              type: number
-          type: object
-        level8:
-          description: Configures custom Level 8 metadata. Each target may be configured at most once. Unconfigured targets use the Dolby LDP SIDK defaults.
-          items:
-            additionalProperties: false
-            properties:
-              clip_trim:
-                description: Control the clipping of whites. A positive value will clip highlights and bright whites less, while a negative value will clip more.
-                format: double
-                maximum: 1
-                minimum: -1
-                type: number
-              ms_weight_plus_one:
-                description: Amount of multiscale detail to apply. This is offset from the values used in Dolby documentation so that the Protobuf default of 0.0 corresponds to the Dolby default of -1.0. Values > 1.0 will retain more details when Dolby Vision is mapping down to a lower luminance. Values < 1.0 will lower detail contrast when Dolby Vision is mapping down to a lower luminance. The special value of 0.0 will disable multiscale detail.
-                format: double
-                maximum: 2
-                minimum: 0
-                type: number
-              target:
-                description: Identifies which Level 8 trim target is being configured.
-                enum:
-                - REC709_100NITS
-                - BT2020_600NITS
-                - BT2020_1000NITS
-                - CUSTOM
-                type: string
-              target_mid_contrast:
-                description: Controls the contrast of midtones. A positive value will increase the midtone contrast, while a negative value will decrease the midtone contrast.
-                format: double
-                maximum: 1
-                minimum: -1
-                type: number
-              trim_chroma_weight:
-                description: ChromaWeight to apply. Additional mapping for saturated colors. Higher value implies stronger effect.
-                format: double
-                maximum: 1
-                minimum: -1
-                type: number
-              trim_gain:
-                description: Gain to apply. This is a scaling factor for code values in a color component.
-                format: double
-                maximum: 1
-                minimum: -1
-                type: number
-              trim_gamma:
-                description: Gamma to apply. This is a power function in normalized code value in a color component.
-                format: double
-                maximum: 1
-                minimum: -1
-                type: number
-              trim_lift:
-                description: Lift to apply. This is an offset of code values in a color component.
-                format: double
-                maximum: 1
-                minimum: -1
-                type: number
-              trim_saturation_gain:
-                description: Saturation gain to apply. Gain on P and T components. Higher value implies stronger effect.
-                format: double
-                maximum: 1
-                minimum: -1
-                type: number
-            type: object
-          type:
-          - array
-          - 'null'
-        mdcv:
-          additionalProperties: false
-          properties:
-            color_profile:
-              description: Identifies color primaries and white point.
-              enum:
-              - BT2020
-              - P3_D65
-              - BT709
-              type: string
-            max_dml:
-              description: Maximum display mastering luminance (nits). Must be greater than min_dml.
-              format: double
-              maximum: 10000
-              minimum: 0
-              type: number
-            min_dml:
-              description: Minimum display mastering luminance (nits).
-              format: double
-              maximum: 10000
-              minimum: 0
-              type: number
-          type: object
-      type: object
-    DesiredStateRequestBody:
-      additionalProperties: false
-      properties:
-        $schema:
-          description: A URL to the JSON Schema for this object.
-          examples:
-          - https://api.istreamplanet.com/schemas/DesiredStateRequestBody.json
-          format: uri
-          readOnly: true
-          type: string
-        desired_state:
-          description: Desired state
-          enum:
-          - 'ON'
-          - 'OFF'
-          examples:
-          - 'ON'
-          type: string
-      required:
-      - desired_state
-      type: object
-    Summary:
-      additionalProperties: false
-      properties:
-        desired_state:
-          description: Desired state of channel
-          enum:
-          - 'ON'
-          - 'OFF'
-          examples:
-          - 'ON'
-          type: string
-        etag:
-          description: Content hash
-          examples:
-          - 4bc54fd8
-          type: string
-        id:
-          description: Unique channel ID
-          examples:
-          - hbo-west
-          type: string
-        labels:
-          description: Channel Labels
-          items:
-            type: string
-          type:
-          - array
-          - 'null'
-        name:
-          description: Friendly channel description
-          examples:
-          - HBO West
-          type: string
-        org:
-          description: Organization
-          type: string
-        self:
-          description: Link to this resource
-          format: uri
-          readOnly: true
-          type: string
-        source:
-          $ref: '#/components/schemas/SourceSummary'
-          description: Channel source
-      required:
-      - org
-      - id
-      - etag
-      - source
-      - desired_state
-      type: object
-    Publishing:
-      additionalProperties: false
-      properties:
-        closed_caption_streams:
-          description: Configures how captioning information, which references CEA-608 captions embedded in video segments, is published.
-          items:
-            additionalProperties: false
-            properties:
-              auto_select:
-                description: Indicates that the client should play the captioning media selection group if the user has not indicated a user preference. If both auto_select and default are not set, the first captioning media selection group will be used.
-                enum:
-                - 'NO'
-                - 'YES'
-                type: string
-              default:
-                description: Configures the captioning media selection group that will be played if the user has not indicated a user preference. If both auto_select and default are not set, the first captioning media selection group will be used.
-                enum:
-                - 'NO'
-                - 'YES'
-                type: string
-              language:
-                description: Language code as RFC 5646, e.g. 'en' 'en-US'.
-                type: string
-              name:
-                description: Source stream name.
-                type: string
-            type: object
-          type:
-          - array
-          - 'null'
-        feature_flags:
-          description: Set of string identifiers corresponding to features that this Channel is opting in.
-          items:
-            type: string
-          type:
-          - array
-          - 'null'
-        live2vod:
-          additionalProperties: false
-          properties:
-            clear_capture:
-              description: BETA - (Optional) Indicates whether the system should send the unpackaged segments produced from the transcoder to the L2V system for purposes of creating mp4s and/or repackaging.
-              type: boolean
-            product_id:
-              description: Product ID that VODs will be associated with in the Live2VOD system. The value of this ID is pre-configured in the Live2VOD portal.
-              minLength: 1
-              type: string
-            retention_days:
-              description: Specifies the retention time, in days, for archived content.
-              format: int32
-              maximum: 30
-              minimum: 1
-              type: integer
-          type: object
-        publications:
-          description: A set of individual configurations that each can configure a specific destination and mechanism of delivery for segments and/or playlists.
-          items:
-            additionalProperties: false
-            properties:
-              audio_encoder_ids:
-                description: Optionally specify which audio encoders should be used for this publication. If none are specified, all audio encoders configured for the transcoder will be used.
-                items:
-                  type: string
-                type:
-                - array
-                - 'null'
-                uniqueItems: true
-              create_vods:
-                description: Create VODs for all publish points in this publication. Note that Live2VOD must also be configured for the parent |Channel|.
-                type: boolean
-              dash:
-                additionalProperties: false
-                properties:
-                  minimum_update_period_secs:
-                    description: Sets the minimumUpdatePeriod field in MPD to be this value. If set to 0 (default), segment duration is used. The value shall not exceed the 'suggested_presentation_delay_secs'.
-                    format: int32
-                    type: integer
-                  signaling_formats:
-                    description: Signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering playlists.
-                    items:
-                      enum:
-                      - SCTE35_SPLICE_INFO_SECTION
-                      - SCTE35_BIN
-                      type: string
-                    type:
-                    - array
-                    - 'null'
-                    uniqueItems: true
-                  suggested_presentation_delay_secs:
-                    description: The suggested amount of time (in seconds) the player should be behind the live stream. This value must be greater or equal to 'minimum_update_period_secs'.
-                    format: int32
-                    minimum: 0
-                    type: integer
-                  url_type:
-                    description: If set to 'URL_TYPE_UNDEFINED' playlist generation will use 'RELATIVE'.
-                    enum:
-                    - RELATIVE
-                    - ABSOLUTE
-                    - HOST_RELATIVE
-                    type: string
-                type: object
-              drms:
-                description: Optionally specify which DRMs to advertise in the playlist. If specified, this must be a subset of the DRMs specified by the packager associated with this publication. If omitted or empty, all DRMs specified by the packager will be advertised. This setting can only be used for HLS playlists.
-                items:
-                  enum:
-                  - WIDEVINE
-                  - FAIRPLAY
-                  - PRIMETIME
-                  - PLAYREADY
-                  - W3C_COMMON_CLEAR_KEY
-                  - BULK_FILE
-                  type: string
-                type:
-                - array
-                - 'null'
-                uniqueItems: true
-              dvr_window_secs:
-                description: DVR window is the max sum(duration of media segments) that will be kept in a manifest at a given time in seconds. The max supported DVR window is 10 hours.
-                format: int32
-                maximum: 36000
-                minimum: 0
-                type: integer
-              fer_audio_encoder_ids:
-                description: Optionally specify which audio encoders should be used when generating the FER of this Presentation, this overrides the 'audio_encoder_ids' used during the live portion. If none are specified, the 'audio_encoder_ids' field will be used.
-                items:
-                  type: string
-                type:
-                - array
-                - 'null'
-                uniqueItems: true
-              hls:
-                additionalProperties: false
-                properties:
-                  audio_only_variants:
-                    description: 'Defines how audio only variant streams are included in the master playlist, where the variant streams are defined by #EXT-X-STREAM-INF tag, the tag attributes provide information about the Stream. The INCLUDE_DEFAULT option - only the default ''audio only variant stream'' is included in master playlist. This is the most common use case. INCLUDE_NONE - no audio only variant streams are included in the master playlist. INCLUDE_ALL - include all audio only variant streams in the master playlist.'
-                    enum:
-                    - INCLUDE_DEFAULT
-                    - INCLUDE_NONE
-                    - INCLUDE_ALL
-                    type: string
-                  gap_tags:
-                    description: 'Allows turning gap tags ON/OFF. When turned ON - the tag ''#EXT-X-GAP'' is inserted into media playlist for a missing segment. When turned OFF - Discontinuity is inserted into the playlist for missing segment(s). The default option UNDEFINED is mapped to OFF. Note: Gap tags are always inserted for the missing thumbnail segments independently of this setting'
-                    enum:
-                    - 'ON'
-                    - 'OFF'
-                    type: string
-                  master_publish_frequency_secs:
-                    description: 'How often the multi-variant playlist(s) should be published (in seconds) once a channel is started. If 0 (not provided), defaults to 1 hour. The following can also result in re-publishing of multi-variant playlists: - Configuration changes related to transcoding configuration (i.e. adding, removing, changing encoders). - Service code changes related to manifest generation.'
-                    format: int32
-                    type: integer
-                  master_url_type:
-                    description: Allows specifying url type for HLS master playlists. If not provided, playlist generation will use 'RELATIVE'.
-                    enum:
-                    - RELATIVE
-                    - ABSOLUTE
-                    - HOST_RELATIVE
-                    type: string
-                  media_url_type:
-                    description: Allows specifying url type for HLS media playlists. If not provided, playlist generation will use 'RELATIVE'.
-                    enum:
-                    - RELATIVE
-                    - ABSOLUTE
-                    - HOST_RELATIVE
-                    type: string
-                  partial_presentations:
-                    description: Specify which partial presentations should be used for this presentation. Partial presentations are additional master playlists that point to a subset of the parent presentation's media streams/variant playlists.
-                    items:
-                      additionalProperties: false
-                      properties:
-                        audio_encoder_ids:
-                          description: Specify which audio encoders should be used for this presentation. If none are specified, all audio encoders configured for the parent Publication will be used.
-                          items:
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        fer_audio_encoder_ids:
-                          description: 'Optionally specify which audio encoders should be used when generating the FER of this Partial Presentation, this overrides the ''audio_encoder_ids'' used during the live portion. If none are specified, the ''audio_encoder_ids'' field will be used. NOTE: This MUST only be used with push based manifest. Ignore this field when using Aventus Origin with Dynamic Manifests. Instead use the AudioSource.License field.'
-                          items:
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        iframe_only_encoder_ids:
-                          description: List of video encoder IDs that should have I-Frame only playlists generated for them. If no 'iframe_only_encoder_ids' are given then no I-Frame playlists will be in the Partial Presentation.
-                          items:
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        playlist_path:
-                          description: Sub-path that will be appended onto the publish and playback base URLs of HTTP PublishPoints for published playlist files.
-                          minLength: 1
-                          type: string
-                        thumbnail_encoder_ids:
-                          description: Specify which thumbnail encoders should be used for this presentation. If no 'thumbnail_encoder_ids' are given then no thumbnail playlists will be in the Partial Presentation.
-                          items:
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        video_encoder_ids:
-                          description: Specify which video encoders should be used for this presentation. If none are specified, all video encoders configured for the parent Publication will be used.
-                          items:
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                      type: object
-                    type:
-                    - array
-                    - 'null'
-                  pdt_on_every_segment:
-                    description: 'When true a #EXT-X-PROGRAM-DATE-TIME tag will be placed on every media segment in media playlists. When false, the default behavior, the PDT tag is set according to the HLS specification.'
-                    type: boolean
-                  signaling_formats:
-                    description: Signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering playlists.
-                    items:
-                      enum:
-                      - APPLE_SCTE35
-                      - AD_SIMPLE
-                      - SCTE35
-                      type: string
-                    type:
-                    - array
-                    - 'null'
-                    uniqueItems: true
-                  utc_in_segment_title:
-                    description: 'Include a UTC timestamp (that is equivalent in value to #EXT-X-PROGRAM-DATE-TIME) in the title of each media segment in media playlists. Ex. #EXTINF:6.006,LTC=2020-01-01T12:00:00.000Z'
-                    type: boolean
-                type: object
-              iframe_only_encoder_ids:
-                description: List of video encoder IDs that should have I-Frame only playlists generated for them.
-                items:
-                  type: string
-                type:
-                - array
-                - 'null'
-                uniqueItems: true
-              master_playlist_name:
-                description: Optional master manifest name. When not supplied a default of 'master' will be used.
-                type: string
-              origin:
-                additionalProperties: false
-                properties:
-                  alternate_manifest_defaults:
-                    additionalProperties:
-                      additionalProperties: false
-                      properties:
-                        dash_signaling_formats:
-                          description: DASH Signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering DASH manifests.
-                          items:
-                            enum:
-                            - SCTE35_SPLICE_INFO_SECTION
-                            - SCTE35_BIN
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        drm_system_ids:
-                          description: 'Specify which DRMs to advertise in the playlist. If specified, this must be a subset of the DRMs specified by the packager associated with this origin. If omitted or empty, all DRMs specified by the packager will be advertised. Only honored for Alternate Manifests. Example: ''81376844-f976-481e-a84e-cc25d39b0b33'' for bulk file encryption ID'
-                          items:
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        duration_seconds:
-                          description: Duration is the length of content that will be included in the manifest, in seconds. The max supported DVR window is 12 hours. If not specified, the default duration will be 30 seconds.
-                          format: int32
-                          maximum: 43200
-                          minimum: 0
-                          type: integer
-                        enable_hls_delta_updates:
-                          description: When true enables HLS Delta updates for this particular origin.
-                          type: boolean
-                        encoder_ids:
-                          description: Specify which encoders (video, audio, thumbnail) should be used for this origin manifest. If none are specified, all video encoders configured for the origin will be used. Only honored for Alternate Manifests.
-                          items:
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        hls_signaling_formats:
-                          description: HLS signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering playlists.
-                          items:
-                            enum:
-                            - APPLE_SCTE35
-                            - AD_SIMPLE
-                            - SCTE35
-                            type: string
-                          type:
-                          - array
-                          - 'null'
-                          uniqueItems: true
-                        media_url_type:
-                          description: Allows specifying url type for HLS media playlists and DASH manifests. If not provided, playlist generation will use 'RELATIVE'.
-                          enum:
-                          - RELATIVE
-                          - ABSOLUTE
-                          - HOST_RELATIVE
-                          type: string
-                        minimum_update_period_seconds:
-                          description: Sets the minimumUpdatePeriod field in MPD to be this value. If set to 0 (default), segment duration is used. The value shall not exceed the 'suggested_presentation_delay_secs'.
-                          format: int32
-                          minimum: 0
-                          type: integer
-                        multi_variant_url_type:
-                          description: Allows specifying url type for HLS multi-variant playlists. If not provided, playlist generation will use 'RELATIVE'.
-                          enum:
-                          - RELATIVE
-                          - ABSOLUTE
-                          - HOST_RELATIVE
-                          type: string
-                        pdt_on_every_segment:
-                          description: 'When true a #EXT-X-PROGRAM-DATE-TIME tag will be placed on every media segment in HLS media playlists. When false, the default behavior, the PDT tag is set according to the HLS specification.'
-                          type: boolean
-                        pre_start_duration_seconds:
-                          description: Pre Start Duration is the length of content that will be included in the manifest when the start time of a manifest is in the future. When a manifest is near the start time but does not contain 'pre_start_duration_seconds' content Manifest Origin will keep content before the start time to make the manifest length at least 'pre_start_duration_seconds'. If not specified requesting a manifest in the future will result in a 404.
-                          format: int32
-                          maximum: 43200
-                          minimum: 0
-                          type: integer
-                        suggested_presentation_delay_seconds:
-                          description: Sets the suggestedPresentationDelay field in MPD to be this value. This value must be greater or equal to 'minimum_update_period_secs'. If unset, the default value will be calculated as 3 * segment target duration.
-                          format: int32
-                          minimum: 0
-                          type: integer
-                      type: object
-                    description: 'AlternateManifestDefaults specifies a map of alternately named manifests for Legacy playback. Ex: ''ph'' = ''main.ph.m3u8'', with a specific set of partial playlists supported by the system. If the rules are expanded to allow for more than 5 characters, ''iframe'' is a reserved acronym for iframe playlists.'
-                    type: object
-                  fallback_defaults:
-                    $ref: '#/components/schemas/OriginManifestDefaults'
-                    description: FallbackDefaults specifies the alternative behavior of the dynamic manifest generator. This behavior is intended to be a simplified configuration comparead to the default behavior so that it can be used as a fallback for when players are encountering issues with the default behavior. Specific behaviors can be overwritten using appropriate query string parameters when making the request for the manifest.
-                  manifest_defaults:
-                    $ref: '#/components/schemas/OriginManifestDefaults'
-                    description: ManifestDefaults specifies the default behavior of the dynamic manifest generator. Specific behaviors can be overwritten using appropriate query string parameters when making the request for the manifest.
-                  retention_minutes:
-                    description: RetentionMinutes specifies how long data is retained, in minutes. Live linear (24/7) channels should set this to the longest expected DVR window (a few hours). Live event channels should set this to how Live2VOD playlists are expected to be available. If unspecified, the default will be 60 minutes. The maximum value is 15 days (21600 minutes).
-                    format: int32
-                    maximum: 21600
-                    minimum: 0
-                    type: integer
-                  segments:
-                    additionalProperties: false
-                    properties:
-                      redundancy:
-                        enum:
-                        - SingleRegion
-                        - DualRegion
-                        type: string
-                    type: object
-                type: object
-              packager_id:
-                description: Determines how segments in this publication are packaged. Must reference a packager in 'packaging.packagers'. However, if this is a playlist-only publication (i.e. contains publish points that specify 'playlist_only_for'), this must remain unset as the packager will be inferred from the publication this one is providing playlists for.
-                type: string
-              publish_points:
-                description: Publish points specify where to output.
-                items:
-                  additionalProperties: false
-                  properties:
-                    http:
-                      $ref: '#/components/schemas/PublishPointHTTP'
-                      description: HTTP destination where media segments and playlists will be published.
-                    id:
-                      description: uniquely identifies this publish_point within a channel configuration. Can be referenced by other publish_points in the 'playlist_only_for' field.
-                      type: string
-                    playlist_only_for:
-                      description: playlist_only_for identifies the id of the publish_point that has the segments for this publish_point, which is only publishing a playlist for those segments. All publish_points within a publication must either have 'playlist_only_for' all set or all not set.
-                      type: string
-                  type: object
-                type:
-                - array
-                - 'null'
-              redundant_publishing:
-                description: When redundant publishing is enabled succeeding to publish a given media segment to at least one HTTPPublishPoint in publish_points will result in that segment showing up in manifests as playable content. Will require at least two publish_points defined within the same publication.
-                type: boolean
-              startover:
-                additionalProperties: false
-                properties:
-                  first_program_start:
-                    additionalProperties: false
-                    type: object
-                  on_airing_id:
-                    additionalProperties: false
-                    properties:
-                      airing_id:
-                        description: Airing Id is a SCTE-35 Segmentation Unique Program ID (UPID) of type 0x08 used to specify the unique airing of a program. Is a 8 byte hex encoded string that is prepended with '0x'.
-                        pattern: ^0x[0-9a-fA-F]{16}$
-                        type: string
-                    type: object
-                type: object
-              thumbnail_encoder_ids:
-                description: 'Optional: Specify what thumbnail_encoders should be in this Publication'
-                items:
-                  type: string
-                type:
-                - array
-                - 'null'
-                uniqueItems: true
-              use_strict_bitrate:
-                description: Optional, indicates whether we should pad the bitrate (false) or use what is explicitly provided (true)
-                type: boolean
-              video_encoder_ids:
-                description: Optionally specify which video encoders should be used for this publication. If none are specified, all video encoders configured for the transcoder will be used.
-                items:
-                  type: string
-                type:
-                - array
-                - 'null'
-                uniqueItems: true
-            type: object
-          type:
-          - array
-          - 'null'
-        rtmp_publications:
-          description: A set of configurations for delivering RTMP streams
-          items:
-            additionalProperties: false
-            properties:
-              audio_encoder_id:
-                description: Only AAC encoders are supported
-                minLength: 1
-                type: string
-              id:
-                description: RTMP publication ID. Must be unique.
-                minLength: 1
-                pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
-                type: string
-              url:
-                format: uri
-                minLength: 1
-                pattern: ^rtmps?://
-                type: string
-              video_encoder_id:
-                description: Only h264 encoders are supported
-                minLength: 1
-                type: string
-            type: object
-          type:
-          - array
-          - 'null'
-        srt_publications:
-          description: A set of configurations for delivering SRT streams
-          items:
-            additionalProperties: false
-            properties:
-              audio_encoders:
-                items:
-                  additionalProperties: false
-                  properties:
-                    id:
-                      minLength: 1
-                      type: string
-                    pid:
-                      description: Output MPEG-TS PID. PIDs should be set on the PMT, SCTE-35 and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
-                      exclusiveMaximum: 8191
-                      format: int32
-                      type: integer
-                  type: object
-                minItems: 1
-                type:
-                - array
-                - 'null'
-              id:
-                description: SRT publication ID. Must be unique.
-                minLength: 1
-                pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
-                type: string
-              pmt_pid:
-                description: MPEG-TS PMT PID. PIDs should be set on the PMT, SCTE-35 and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
-                exclusiveMaximum: 8191
-                format: int32
-                type: integer
-              scte35_pid:
-                description: MPEG-TS SCTE-35 PID. PIDs should be set on the PMT, SCTE-35, and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
-                exclusiveMaximum: 8191
-                format: int32
-                type: integer
-              url:
-                format: uri
-                minLength: 1
-                pattern: ^srt://
-                type: string
-              video_encoders:
-                items:
-                  $ref: '#/components/schemas/SrtPublicationEncoder'
-                minItems: 1
-                type:
-                - array
-                - 'null'
-            type: object
-          type:
-          - array
-          - 'null'
-      type: object
-    PlaybackConfiguration:
-      additionalProperties: false
-      properties:
-        dash:
-          $ref: '#/components/schemas/PlaybackConfigurationLocation'
-          description: Dash can be an empty value if Aventus Origin does not have a valid Dash url for the packaged segments.
-        fallback_manifest_defaults:
-          $ref: '#/components/schemas/OriginManifestDefaults'
-        hls:
-          $ref: '#/components/schemas/PlaybackConfigurationLocation'
-          description: HLS can be an empty value if Aventus Origin does not have a valid HLS url for the packaged segments.
-        packager_config:
-          $ref: '#/components/schemas/Packager'
-        packager_id:
-          description: packager_id is the ID used to identify the packager_config within the channel configuration.
-          type: string
-        primary_manifest_defaults:
-          $ref: '#/components/schemas/OriginManifestDefaults'
-      type: object
-    SourceSummary:
-      additionalProperties: false
-      properties:
-        id:
-          description: Station source ID
-          examples:
-          - stn-knc54ts9kazynm97
-          type: string
-        name:
-          description: Source name
-          examples:
-          - HBO
-          type: string
-        self:
-          description: Link to this resource
-          format: uri
-          readOnly: true
-          type: string
-      required:
-      - id
-      type: object
-    HdrSettings:
-      additionalProperties: false
-      properties:
-        dolby_vision:
-          additionalProperties: false
-          properties:
-            profile101:
-              additionalProperties: false
-              properties:
-                clli:
-                  additionalProperties: false
-                  properties:
-                    max_cll:
-                      description: Maximum Content Light Level (nits).
-                      format: double
-                      maximum: 10000
-                      minimum: 0
-                      type: number
-                    max_fall:
-                      description: Maximum Frame-Average Light Level (nits).
-                      format: double
-                      maximum: 10000
-                      minimum: 0
-                      type: number
-                  type: object
-                level8:
-                  description: Configures custom Level 8 metadata. Each target may be configured at most once. Unconfigured targets use the Dolby LDP SIDK defaults.
-                  items:
-                    additionalProperties: false
-                    properties:
-                      clip_trim:
-                        description: Control the clipping of whites. A positive value will clip highlights and bright whites less, while a negative value will clip more.
-                        format: double
-                        maximum: 1
-                        minimum: -1
-                        type: number
-                      ms_weight_plus_one:
-                        description: Amount of multiscale detail to apply. This is offset from the values used in Dolby documentation so that the Protobuf default of 0.0 corresponds to the Dolby default of -1.0. Values > 1.0 will retain more details when Dolby Vision is mapping down to a lower luminance. Values < 1.0 will lower detail contrast when Dolby Vision is mapping down to a lower luminance. The special value of 0.0 will disable multiscale detail.
-                        format: double
-                        maximum: 2
-                        minimum: 0
-                        type: number
-                      target:
-                        description: Identifies which Level 8 trim target is being configured.
-                        enum:
-                        - REC709_100NITS
-                        - BT2020_600NITS
-                        - BT2020_1000NITS
-                        - CUSTOM
-                        type: string
-                      target_mid_contrast:
-                        description: Controls the contrast of midtones. A positive value will increase the midtone contrast, while a negative value will decrease the midtone contrast.
-                        format: double
-                        maximum: 1
-                        minimum: -1
-                        type: number
-                      trim_chroma_weight:
-                        description: ChromaWeight to apply. Additional mapping for saturated colors. Higher value implies stronger effect.
-                        format: double
-                        maximum: 1
-                        minimum: -1
-                        type: number
-                      trim_gain:
-                        description: Gain to apply. This is a scaling factor for code values in a color component.
-                        format: double
-                        maximum: 1
-                        minimum: -1
-                        type: number
-                      trim_gamma:
-                        description: Gamma to apply. This is a power function in normalized code value in a color component.
-                        format: double
-                        maximum: 1
-                        minimum: -1
-                        type: number
-                      trim_lift:
-                        description: Lift to apply. This is an offset of code values in a color component.
-                        format: double
-                        maximum: 1
-                        minimum: -1
-                        type: number
-                      trim_saturation_gain:
-                        description: Saturation gain to apply. Gain on P and T components. Higher value implies stronger effect.
-                        format: double
-                        maximum: 1
-                        minimum: -1
-                        type: number
-                    type: object
-                  type:
-                  - array
-                  - 'null'
-                mdcv:
-                  additionalProperties: false
-                  properties:
-                    color_profile:
-                      description: Identifies color primaries and white point.
-                      enum:
-                      - BT2020
-                      - P3_D65
-                      - BT709
-                      type: string
-                    max_dml:
-                      description: Maximum display mastering luminance (nits). Must be greater than min_dml.
-                      format: double
-                      maximum: 10000
-                      minimum: 0
-                      type: number
-                    min_dml:
-                      description: Minimum display mastering luminance (nits).
-                      format: double
-                      maximum: 10000
-                      minimum: 0
-                      type: number
-                  type: object
-              type: object
-            profile5:
-              additionalProperties: false
-              type: object
-            profile81:
-              $ref: '#/components/schemas/HdrSettingsDolbyVisionProfile81'
-              description: Only one of ['profile5', 'profile81', 'profile84', 'profile101'] may be set.
-            profile84:
-              additionalProperties: false
-              type: object
-          type: object
-        hdr10:
-          additionalProperties: false
-          properties:
-            clli:
-              $ref: '#/components/schemas/HdrSettingsContentLightLevelInfo'
-            mdcv:
-              $ref: '#/components/schemas/HdrSettingsMasteringDisplayColorVolume'
-          type: object
-      type: object
     Packaging:
       additionalProperties: false
       properties:
@@ -6744,19 +5217,6 @@ components:
           description: Defines the list of packagers available for Publications.
           type: object
       type: object
-    AudioSourceRemappingSource:
-      additionalProperties: false
-      properties:
-        audio_source_id:
-          description: Identifies the ID of the elementary audio source from which this channel will be sourced.
-          minLength: 1
-          type: string
-        channel_index:
-          description: 'Identifies the zero-based channel index within the audio decoded from audio_source_id which is used for this channel mapping. If this index is out of bounds, the audio for this channel will be silent. For SMPTE-302M inputs, channel indices are always in the range 0-8 (unless the Aventus-specific extension for carrying more than 8 channels in one elementary stream is in use) and name the Nth channel of the input. I.e., the base channel index indicated by the input stream is ignored. For non-SMPTE-302M inputs with 1, 2, or 6 channels, the following index-to-channel mapping always applies: - 0 is front left (i.e. the only channel for mono) - 1 is front right - 2 is front center - 3 is LFE - 4 is side left - 5 is side right For non-SMPTE-302M inputs with 3, 4, or 5 channels, no index mapping is guaranteed. For non-SMPTE-302M inputs with more than 6 channels, the index mapping that would be used for 6 channels is guaranteed, and no specific mapping for the other channels is guaranteed.'
-          format: int32
-          minimum: 0
-          type: integer
-      type: object
     ContentProtection:
       additionalProperties: false
       properties:
@@ -6934,116 +5394,43 @@ components:
               type: string
           type: object
       type: object
-    PublishPointHTTP:
+    PlaybackConfiguration:
       additionalProperties: false
       properties:
-        basic_auth:
-          additionalProperties: false
-          properties:
-            password:
-              description: Plain text password for basic auth.
-              type: string
-            username:
-              description: Username for basic auth.
-              type: string
-          type: object
-        compression:
-          description: Configures whether or not (and how) to compress manifests being published to the origin. If not specified, manifests will not be compressed.
-          enum:
-          - NONE
-          - GZIP
+        dash:
+          $ref: '#/components/schemas/PlaybackConfigurationLocation'
+          description: Dash can be an empty value if Aventus Origin does not have a valid Dash url for the packaged segments.
+        fallback_manifest_defaults:
+          $ref: '#/components/schemas/OriginManifestDefaults'
+        hls:
+          $ref: '#/components/schemas/PlaybackConfigurationLocation'
+          description: HLS can be an empty value if Aventus Origin does not have a valid HLS url for the packaged segments.
+        packager_config:
+          $ref: '#/components/schemas/Packager'
+        packager_id:
+          description: packager_id is the ID used to identify the packager_config within the channel configuration.
           type: string
-        do_not_monitor:
-          description: (Optional) Specifies if this pubpoint should not be monitored by PLM.
-          type: boolean
-        headers:
-          additionalProperties:
-            type: string
-          description: Allows custom HTTP headers to be set via configuration for all HTTP requests.
-          type: object
-        method:
-          description: Method overrides what HTTP method to specify in requests to the Publish Point. If not specified the service will default to POST.
-          type: string
-        playback_base_url:
-          description: The base URL where published playlists will be able to be obtained. This is often different than the publish_base_url for CDN publishing workflows.
-          format: uri-reference
-          type: string
-        playback_query_params:
-          description: 'Specifies any query parameters that will be added to playback urls. Should not include the initial ''?'' Example: ''foo=bar&q=golang'''
-          type: string
-        publish_base_url:
-          description: The base URL where generated playlists will be sent/published. Each publish point requires a unique 'publish_base_url'.
-          format: uri-reference
-          type: string
-        secure_header_auth:
-          additionalProperties: false
-          properties:
-            arn:
-              description: arn is the AWS Secret ARN that contains the secure header list to be applied.
-              type: string
-            version_id:
-              description: version_id is the AWS Secret's version ID that contains the version of the secret to be applied.
-              type: string
-          type: object
+        primary_manifest_defaults:
+          $ref: '#/components/schemas/OriginManifestDefaults'
       type: object
-    ErrorModel:
+    ChannelPlaybackConfiguration:
       additionalProperties: false
       properties:
-        $schema:
-          description: A URL to the JSON Schema for this object.
-          examples:
-          - https://api.istreamplanet.com/schemas/ErrorModel.json
-          format: uri
-          readOnly: true
-          type: string
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          examples:
-          - Property foo is required but is missing.
-          type: string
-        errors:
-          description: Optional list of individual error details
+        content_protection:
+          $ref: '#/components/schemas/ContentProtection'
+          description: Content Protection settings
+        partial_presentations:
+          description: Partial Presentation Playback URLs
           items:
-            $ref: '#/components/schemas/ErrorDetail'
+            type: string
           type:
           - array
           - 'null'
-        instance:
-          description: A URI reference that identifies the specific occurrence of the problem.
-          examples:
-          - https://example.com/error-log/abc123
-          format: uri
+        url:
+          description: Playback URL
           type: string
-        status:
-          description: HTTP status code
-          examples:
-          - 400
-          format: int64
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
-          examples:
-          - Bad Request
-          type: string
-        type:
-          default: about:blank
-          description: A URI reference to human-readable documentation for the error.
-          examples:
-          - https://example.com/errors/example
-          format: uri
-          type: string
-      type: object
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
-          type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
+      required:
+      - url
       type: object
     HdrSettingsMasteringDisplayColorVolume:
       additionalProperties: false
@@ -7068,17 +5455,358 @@ components:
           minimum: 0
           type: number
       type: object
-    SrtPublicationEncoder:
+    HdrSettingsDolbyVisionProfile81:
       additionalProperties: false
       properties:
-        id:
-          minLength: 1
-          type: string
-        pid:
-          description: Output MPEG-TS PID. PIDs should be set on the PMT, SCTE-35 and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
-          exclusiveMaximum: 8191
+        clli:
+          additionalProperties: false
+          properties:
+            max_cll:
+              description: Maximum Content Light Level (nits).
+              format: double
+              maximum: 10000
+              minimum: 0
+              type: number
+            max_fall:
+              description: Maximum Frame-Average Light Level (nits).
+              format: double
+              maximum: 10000
+              minimum: 0
+              type: number
+          type: object
+        level8:
+          description: Configures custom Level 8 metadata. Each target may be configured at most once. Unconfigured targets use the Dolby LDP SIDK defaults.
+          items:
+            additionalProperties: false
+            properties:
+              clip_trim:
+                description: Control the clipping of whites. A positive value will clip highlights and bright whites less, while a negative value will clip more.
+                format: double
+                maximum: 1
+                minimum: -1
+                type: number
+              ms_weight_plus_one:
+                description: Amount of multiscale detail to apply. This is offset from the values used in Dolby documentation so that the Protobuf default of 0.0 corresponds to the Dolby default of -1.0. Values > 1.0 will retain more details when Dolby Vision is mapping down to a lower luminance. Values < 1.0 will lower detail contrast when Dolby Vision is mapping down to a lower luminance. The special value of 0.0 will disable multiscale detail.
+                format: double
+                maximum: 2
+                minimum: 0
+                type: number
+              target:
+                description: Identifies which Level 8 trim target is being configured.
+                enum:
+                - REC709_100NITS
+                - BT2020_600NITS
+                - BT2020_1000NITS
+                - CUSTOM
+                type: string
+              target_mid_contrast:
+                description: Controls the contrast of midtones. A positive value will increase the midtone contrast, while a negative value will decrease the midtone contrast.
+                format: double
+                maximum: 1
+                minimum: -1
+                type: number
+              trim_chroma_weight:
+                description: ChromaWeight to apply. Additional mapping for saturated colors. Higher value implies stronger effect.
+                format: double
+                maximum: 1
+                minimum: -1
+                type: number
+              trim_gain:
+                description: Gain to apply. This is a scaling factor for code values in a color component.
+                format: double
+                maximum: 1
+                minimum: -1
+                type: number
+              trim_gamma:
+                description: Gamma to apply. This is a power function in normalized code value in a color component.
+                format: double
+                maximum: 1
+                minimum: -1
+                type: number
+              trim_lift:
+                description: Lift to apply. This is an offset of code values in a color component.
+                format: double
+                maximum: 1
+                minimum: -1
+                type: number
+              trim_saturation_gain:
+                description: Saturation gain to apply. Gain on P and T components. Higher value implies stronger effect.
+                format: double
+                maximum: 1
+                minimum: -1
+                type: number
+            type: object
+          type:
+          - array
+          - 'null'
+        mdcv:
+          additionalProperties: false
+          properties:
+            color_profile:
+              description: Identifies color primaries and white point.
+              enum:
+              - BT2020
+              - P3_D65
+              - BT709
+              type: string
+            max_dml:
+              description: Maximum display mastering luminance (nits). Must be greater than min_dml.
+              format: double
+              maximum: 10000
+              minimum: 0
+              type: number
+            min_dml:
+              description: Minimum display mastering luminance (nits).
+              format: double
+              maximum: 10000
+              minimum: 0
+              type: number
+          type: object
+      type: object
+    Signaling:
+      additionalProperties: false
+      properties:
+        blackout_settings:
+          additionalProperties: false
+          properties:
+            default_blackout_slate_url:
+              description: Default slate URL to use for blackouts. Can be overridden by the 'slates' field.
+              examples:
+              - https://example.com/blackout.ts
+              format: uri-reference
+              type: string
+            force_blackout_segments:
+              description: List of signaling segment types to force blackout, e.g. add 'SPLICE_INSERT' to blackout all ads signaled via SCTE-35 splice_insert.
+              items:
+                enum:
+                - SPLICE_INSERT
+                - CONTENT_ID
+                - PROGRAM
+                - PROGRAM_BLACKOUT_OVERRIDE
+                - PROGRAM_BREAKAWAY
+                - CHAPTER
+                - BREAK
+                - OPENING_CREDIT
+                - CLOSING_CREDIT
+                - PROVIDER_PLACEMENT_OP
+                - DISTRIBUTOR_PLACEMENT_OP
+                - PROVIDER_OVERLAY_OP
+                - DISTRIBUTOR_OVERLAY_OP
+                - PROVIDER_AD
+                - DISTRIBUTOR_AD
+                - UNSCHEDULED_EVENT
+                - NETWORK
+                - SLATE
+                - NOT_INDICATED
+                - TIMED_METADATA
+                - TIMED_METADATA_MARKER_OVER_SLATE
+                type: string
+              type:
+              - array
+              - 'null'
+            honor_web_delivery_restriction:
+              description: Determines whether to honor the web_delivery_allowed attribute in SCTE-35 segmentation descriptors. When this is enabled, a segmentation descriptor with web_delivery_allowed=false will trigger a blackout.
+              type: boolean
+            slates:
+              description: Per-segment type slate overrides.
+              items:
+                additionalProperties: false
+                properties:
+                  blackout_slate_url:
+                    description: Blackout slate URL to use for the specified segments. It must have one audio and one video stream. Either MPEG2 or H.264 can be used.
+                    examples:
+                    - https://example.com/blackout.ts
+                    format: uri-reference
+                    type: string
+                  segments:
+                    description: Segment types that shall utilize the blackout slate URL. Any segment type defined here _must_ also be present in the parent signaling configuration.
+                    items:
+                      enum:
+                      - SPLICE_INSERT
+                      - CONTENT_ID
+                      - PROGRAM
+                      - PROGRAM_BLACKOUT_OVERRIDE
+                      - PROGRAM_BREAKAWAY
+                      - CHAPTER
+                      - BREAK
+                      - OPENING_CREDIT
+                      - CLOSING_CREDIT
+                      - PROVIDER_PLACEMENT_OP
+                      - DISTRIBUTOR_PLACEMENT_OP
+                      - PROVIDER_OVERLAY_OP
+                      - DISTRIBUTOR_OVERLAY_OP
+                      - PROVIDER_AD
+                      - DISTRIBUTOR_AD
+                      - UNSCHEDULED_EVENT
+                      - NETWORK
+                      - SLATE
+                      - NOT_INDICATED
+                      - TIMED_METADATA
+                      - TIMED_METADATA_MARKER_OVER_SLATE
+                      type: string
+                    type:
+                    - array
+                    - 'null'
+                  upids:
+                    description: Exclusive list of hex string encoded colon separated UPID Type:ID pairs (e.g. '0A:1A2B3C4D') to enable this blackout slate on.
+                    items:
+                      type: string
+                    type:
+                    - array
+                    - 'null'
+                type: object
+              type:
+              - array
+              - 'null'
+          type: object
+        disable_inband_parsing:
+          description: Disable parsing SCTE-35 in-band signaling. Out-of-band signaling is still allowed.
+          type: boolean
+        scte_pid:
+          description: Defines the specific PID containing the SCTE that the transcoder should process. Using '0' (default value) will pick the first PID containing SCTE-35 in the PMT.
           format: int32
+          minimum: 0
           type: integer
+        segment_settings:
+          description: Settings that apply to specific segments.
+          items:
+            additionalProperties: false
+            properties:
+              default_duration_secs:
+                description: Specifies the duration of a segment when the in-band SCTE-35 that initiates it (e.g. Distributor Placement Opportunity Start) is missing an explicit duration. N.B. for program and ad types, this also affects 'Simple Program' and 'Simple Ad' markers, respectively.
+                format: int32
+                maximum: 172800
+                minimum: 0
+                type: integer
+              emit_default_duration:
+                description: Determines whether to include the default duration in the output SCTE-35 messages when the input SCTE-35 message did not specify a duration.
+                type: boolean
+              offset_millis:
+                description: Specifies a 'correction' to the splice_time of in-band SCTE-35 in milliseconds.
+                format: int32
+                maximum: 4000
+                minimum: -4000
+                type: integer
+              segment_end_mode:
+                description: Determines which Segment End signaling mode to use for the provided segments. If unspecified, defaults to MATCH_END_EVENT_ID.
+                enum:
+                - MATCH_END_EVENT_ID
+                - IGNORE_END_EVENT_ID
+                - IGNORE_END_SIGNAL
+                type: string
+              segments:
+                description: Specifies the list of which segment types this setting applies to. Any segment type defined here _must_ also be present in the parent signaling configuration.
+                items:
+                  enum:
+                  - SPLICE_INSERT
+                  - CONTENT_ID
+                  - PROGRAM
+                  - PROGRAM_BLACKOUT_OVERRIDE
+                  - PROGRAM_BREAKAWAY
+                  - CHAPTER
+                  - BREAK
+                  - OPENING_CREDIT
+                  - CLOSING_CREDIT
+                  - PROVIDER_PLACEMENT_OP
+                  - DISTRIBUTOR_PLACEMENT_OP
+                  - PROVIDER_OVERLAY_OP
+                  - DISTRIBUTOR_OVERLAY_OP
+                  - PROVIDER_AD
+                  - DISTRIBUTOR_AD
+                  - UNSCHEDULED_EVENT
+                  - NETWORK
+                  - SLATE
+                  - NOT_INDICATED
+                  - TIMED_METADATA
+                  - TIMED_METADATA_MARKER_OVER_SLATE
+                  type: string
+                type:
+                - array
+                - 'null'
+                uniqueItems: true
+              tier_filter:
+                additionalProperties: false
+                properties:
+                  explicit_tier:
+                    additionalProperties: false
+                    properties:
+                      values:
+                        items:
+                          format: int32
+                          type: integer
+                        type:
+                        - array
+                        - 'null'
+                    type: object
+                type: object
+            type: object
+          type:
+          - array
+          - 'null'
+        segments:
+          description: Segment types to process for in-band signaling.
+          items:
+            enum:
+            - SPLICE_INSERT
+            - CONTENT_ID
+            - PROGRAM
+            - PROGRAM_BLACKOUT_OVERRIDE
+            - PROGRAM_BREAKAWAY
+            - CHAPTER
+            - BREAK
+            - OPENING_CREDIT
+            - CLOSING_CREDIT
+            - PROVIDER_PLACEMENT_OP
+            - DISTRIBUTOR_PLACEMENT_OP
+            - PROVIDER_OVERLAY_OP
+            - DISTRIBUTOR_OVERLAY_OP
+            - PROVIDER_AD
+            - DISTRIBUTOR_AD
+            - UNSCHEDULED_EVENT
+            - NETWORK
+            - SLATE
+            - NOT_INDICATED
+            - TIMED_METADATA
+            - TIMED_METADATA_MARKER_OVER_SLATE
+            type: string
+          type:
+          - array
+          - 'null'
+          uniqueItems: true
+      type: object
+    Tags:
+      additionalProperties: false
+      properties:
+        custom:
+          additionalProperties:
+            type: string
+          description: Custom tags to be added to metrics and logs for this channel. In Datadog, the tags will be prefixed with 'dy_' to avoid collisions with system tags.
+          type: object
+        monitored:
+          description: Indicates whether this channel is monitored by automation.
+          type: boolean
+      type: object
+    PlaybackConfigurationLocation:
+      additionalProperties: false
+      properties:
+        fallback_manifest:
+          description: fallback_manifest is the name of the fallback playback manifest. ex. 'fallback.m3u8' or 'fallback.mpd'
+          type: string
+        fallback_url:
+          description: fallback_url is the full playback url for the fallback. It is a composition of hostname, path and fallback_manifest fields. ex. 'https://foo.example.com/live/usw2/path/to/manifest/dir/fallback.m3u8'
+          type: string
+        hostname:
+          description: hostname for the playback url. ex. 'foo.example.com'
+          type: string
+        path:
+          description: path identifies where manifests live at the host. ex. /live/usw2/path/to/manifest/dir
+          type: string
+        primary_manifest:
+          description: primary_manifest is the name of the primary playback manifest. ex. 'main.m3u8' or 'main.mpd'
+          type: string
+        primary_url:
+          description: primary_url is the full playback url for the primary. It is a composition of hostname, path and primary_manifest fields. ex. 'https://foo.example.com/live/usw2/path/to/manifest/dir/main.m3u8'
+          type: string
       type: object
     PutChannelRequestBody:
       additionalProperties: false
@@ -8889,71 +7617,103 @@ components:
       required:
       - ingest
       type: object
-    ChannelPlaybackConfiguration:
+    SrtPublicationEncoder:
       additionalProperties: false
       properties:
-        content_protection:
-          $ref: '#/components/schemas/ContentProtection'
-          description: Content Protection settings
-        partial_presentations:
-          description: Partial Presentation Playback URLs
+        id:
+          minLength: 1
+          type: string
+        pid:
+          description: Output MPEG-TS PID. PIDs should be set on the PMT, SCTE-35 and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
+          exclusiveMaximum: 8191
+          format: int32
+          type: integer
+      type: object
+    ChannelPlaybackBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ChannelPlaybackBody.json
+          format: uri
+          readOnly: true
+          type: string
+        cmaf:
+          description: CMAF playback configurations
           items:
-            type: string
+            $ref: '#/components/schemas/ChannelPlaybackConfiguration'
           type:
           - array
           - 'null'
-        url:
-          description: Playback URL
-          type: string
-      required:
-      - url
+        dash:
+          description: Dash playback configurations
+          items:
+            $ref: '#/components/schemas/ChannelPlaybackConfiguration'
+          type:
+          - array
+          - 'null'
+        hls:
+          description: HLS playback configurations
+          items:
+            $ref: '#/components/schemas/ChannelPlaybackConfiguration'
+          type:
+          - array
+          - 'null'
+        origin:
+          description: Origin playback configurations
+          items:
+            $ref: '#/components/schemas/PlaybackConfiguration'
+          type:
+          - array
+          - 'null'
       type: object
-    PlaybackConfigurationLocation:
+    ErrorModel:
       additionalProperties: false
       properties:
-        fallback_manifest:
-          description: fallback_manifest is the name of the fallback playback manifest. ex. 'fallback.m3u8' or 'fallback.mpd'
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ErrorModel.json
+          format: uri
+          readOnly: true
           type: string
-        fallback_url:
-          description: fallback_url is the full playback url for the fallback. It is a composition of hostname, path and fallback_manifest fields. ex. 'https://foo.example.com/live/usw2/path/to/manifest/dir/fallback.m3u8'
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
           type: string
-        hostname:
-          description: hostname for the playback url. ex. 'foo.example.com'
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
           type: string
-        path:
-          description: path identifies where manifests live at the host. ex. /live/usw2/path/to/manifest/dir
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
           type: string
-        primary_manifest:
-          description: primary_manifest is the name of the primary playback manifest. ex. 'main.m3u8' or 'main.mpd'
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
           type: string
-        primary_url:
-          description: primary_url is the full playback url for the primary. It is a composition of hostname, path and primary_manifest fields. ex. 'https://foo.example.com/live/usw2/path/to/manifest/dir/main.m3u8'
-          type: string
-      type: object
-    JsonPatchOp:
-      additionalProperties: false
-      properties:
-        from:
-          description: JSON Pointer for the source of a move or copy
-          type: string
-        op:
-          description: Operation name
-          enum:
-          - add
-          - remove
-          - replace
-          - move
-          - copy
-          - test
-          type: string
-        path:
-          description: JSON Pointer to the field being operated on, or the destination of a move/copy operation
-          type: string
-        value:
-          description: The value to set
-      required:
-      - op
-      - path
       type: object
     HdrSettingsContentLightLevelInfo:
       additionalProperties: false
@@ -8970,6 +7730,1209 @@ components:
           maximum: 10000
           minimum: 0
           type: number
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
+    PublishPointHTTP:
+      additionalProperties: false
+      properties:
+        basic_auth:
+          additionalProperties: false
+          properties:
+            password:
+              description: Plain text password for basic auth.
+              type: string
+            username:
+              description: Username for basic auth.
+              type: string
+          type: object
+        compression:
+          description: Configures whether or not (and how) to compress manifests being published to the origin. If not specified, manifests will not be compressed.
+          enum:
+          - NONE
+          - GZIP
+          type: string
+        do_not_monitor:
+          description: (Optional) Specifies if this pubpoint should not be monitored by PLM.
+          type: boolean
+        headers:
+          additionalProperties:
+            type: string
+          description: Allows custom HTTP headers to be set via configuration for all HTTP requests.
+          type: object
+        method:
+          description: Method overrides what HTTP method to specify in requests to the Publish Point. If not specified the service will default to POST.
+          type: string
+        playback_base_url:
+          description: The base URL where published playlists will be able to be obtained. This is often different than the publish_base_url for CDN publishing workflows.
+          format: uri-reference
+          type: string
+        playback_query_params:
+          description: 'Specifies any query parameters that will be added to playback urls. Should not include the initial ''?'' Example: ''foo=bar&q=golang'''
+          type: string
+        publish_base_url:
+          description: The base URL where generated playlists will be sent/published. Each publish point requires a unique 'publish_base_url'.
+          format: uri-reference
+          type: string
+        secure_header_auth:
+          additionalProperties: false
+          properties:
+            arn:
+              description: arn is the AWS Secret ARN that contains the secure header list to be applied.
+              type: string
+            version_id:
+              description: version_id is the AWS Secret's version ID that contains the version of the secret to be applied.
+              type: string
+          type: object
+      type: object
+    AudioSourceRemappingSource:
+      additionalProperties: false
+      properties:
+        audio_source_id:
+          description: Identifies the ID of the elementary audio source from which this channel will be sourced.
+          minLength: 1
+          type: string
+        channel_index:
+          description: 'Identifies the zero-based channel index within the audio decoded from audio_source_id which is used for this channel mapping. If this index is out of bounds, the audio for this channel will be silent. For SMPTE-302M inputs, channel indices are always in the range 0-8 (unless the Aventus-specific extension for carrying more than 8 channels in one elementary stream is in use) and name the Nth channel of the input. I.e., the base channel index indicated by the input stream is ignored. For non-SMPTE-302M inputs with 1, 2, or 6 channels, the following index-to-channel mapping always applies: - 0 is front left (i.e. the only channel for mono) - 1 is front right - 2 is front center - 3 is LFE - 4 is side left - 5 is side right For non-SMPTE-302M inputs with 3, 4, or 5 channels, no index mapping is guaranteed. For non-SMPTE-302M inputs with more than 6 channels, the index mapping that would be used for 6 channels is guaranteed, and no specific mapping for the other channels is guaranteed.'
+          format: int32
+          minimum: 0
+          type: integer
+      type: object
+    HdrSettings:
+      additionalProperties: false
+      properties:
+        dolby_vision:
+          additionalProperties: false
+          properties:
+            profile101:
+              additionalProperties: false
+              properties:
+                clli:
+                  additionalProperties: false
+                  properties:
+                    max_cll:
+                      description: Maximum Content Light Level (nits).
+                      format: double
+                      maximum: 10000
+                      minimum: 0
+                      type: number
+                    max_fall:
+                      description: Maximum Frame-Average Light Level (nits).
+                      format: double
+                      maximum: 10000
+                      minimum: 0
+                      type: number
+                  type: object
+                level8:
+                  description: Configures custom Level 8 metadata. Each target may be configured at most once. Unconfigured targets use the Dolby LDP SIDK defaults.
+                  items:
+                    additionalProperties: false
+                    properties:
+                      clip_trim:
+                        description: Control the clipping of whites. A positive value will clip highlights and bright whites less, while a negative value will clip more.
+                        format: double
+                        maximum: 1
+                        minimum: -1
+                        type: number
+                      ms_weight_plus_one:
+                        description: Amount of multiscale detail to apply. This is offset from the values used in Dolby documentation so that the Protobuf default of 0.0 corresponds to the Dolby default of -1.0. Values > 1.0 will retain more details when Dolby Vision is mapping down to a lower luminance. Values < 1.0 will lower detail contrast when Dolby Vision is mapping down to a lower luminance. The special value of 0.0 will disable multiscale detail.
+                        format: double
+                        maximum: 2
+                        minimum: 0
+                        type: number
+                      target:
+                        description: Identifies which Level 8 trim target is being configured.
+                        enum:
+                        - REC709_100NITS
+                        - BT2020_600NITS
+                        - BT2020_1000NITS
+                        - CUSTOM
+                        type: string
+                      target_mid_contrast:
+                        description: Controls the contrast of midtones. A positive value will increase the midtone contrast, while a negative value will decrease the midtone contrast.
+                        format: double
+                        maximum: 1
+                        minimum: -1
+                        type: number
+                      trim_chroma_weight:
+                        description: ChromaWeight to apply. Additional mapping for saturated colors. Higher value implies stronger effect.
+                        format: double
+                        maximum: 1
+                        minimum: -1
+                        type: number
+                      trim_gain:
+                        description: Gain to apply. This is a scaling factor for code values in a color component.
+                        format: double
+                        maximum: 1
+                        minimum: -1
+                        type: number
+                      trim_gamma:
+                        description: Gamma to apply. This is a power function in normalized code value in a color component.
+                        format: double
+                        maximum: 1
+                        minimum: -1
+                        type: number
+                      trim_lift:
+                        description: Lift to apply. This is an offset of code values in a color component.
+                        format: double
+                        maximum: 1
+                        minimum: -1
+                        type: number
+                      trim_saturation_gain:
+                        description: Saturation gain to apply. Gain on P and T components. Higher value implies stronger effect.
+                        format: double
+                        maximum: 1
+                        minimum: -1
+                        type: number
+                    type: object
+                  type:
+                  - array
+                  - 'null'
+                mdcv:
+                  additionalProperties: false
+                  properties:
+                    color_profile:
+                      description: Identifies color primaries and white point.
+                      enum:
+                      - BT2020
+                      - P3_D65
+                      - BT709
+                      type: string
+                    max_dml:
+                      description: Maximum display mastering luminance (nits). Must be greater than min_dml.
+                      format: double
+                      maximum: 10000
+                      minimum: 0
+                      type: number
+                    min_dml:
+                      description: Minimum display mastering luminance (nits).
+                      format: double
+                      maximum: 10000
+                      minimum: 0
+                      type: number
+                  type: object
+              type: object
+            profile5:
+              additionalProperties: false
+              type: object
+            profile81:
+              $ref: '#/components/schemas/HdrSettingsDolbyVisionProfile81'
+              description: Only one of ['profile5', 'profile81', 'profile84', 'profile101'] may be set.
+            profile84:
+              additionalProperties: false
+              type: object
+          type: object
+        hdr10:
+          additionalProperties: false
+          properties:
+            clli:
+              $ref: '#/components/schemas/HdrSettingsContentLightLevelInfo'
+            mdcv:
+              $ref: '#/components/schemas/HdrSettingsMasteringDisplayColorVolume'
+          type: object
+      type: object
+    DesiredStateRequestBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/DesiredStateRequestBody.json
+          format: uri
+          readOnly: true
+          type: string
+        desired_state:
+          description: Desired state
+          enum:
+          - 'ON'
+          - 'OFF'
+          examples:
+          - 'ON'
+          type: string
+      required:
+      - desired_state
+      type: object
+    Packager:
+      additionalProperties: false
+      properties:
+        content_protection:
+          additionalProperties: false
+          properties:
+            atlas:
+              additionalProperties: false
+              properties:
+                asset_id:
+                  description: The Asset Identifier which was taken from the token entitlement service request.
+                  type: string
+                company_id:
+                  description: The Identifier of the Company that this token belongs.
+                  type: string
+                drms:
+                  description: DRM system keys to request
+                  items:
+                    enum:
+                    - WIDEVINE
+                    - FAIRPLAY
+                    - PRIMETIME
+                    - PLAYREADY
+                    - W3C_COMMON_CLEAR_KEY
+                    - BULK_FILE
+                    type: string
+                  type:
+                  - array
+                  - 'null'
+                  uniqueItems: true
+                widevine_v0_pssh_box:
+                  description: When TRUE the KeyID is not embedded in the pssh box which sets the version to 0. Defaults to generating v1 pssh_boxes that includes the key_id
+                  type: boolean
+              type: object
+            bulk_file:
+              additionalProperties: false
+              properties:
+                iv_rotation:
+                  description: How often the IV should be rotated and how it should be created
+                  enum:
+                  - RANDOM_PER_KEY
+                  - PER_SEGMENT_NUMBER
+                  - UNIQUE_PER_SEGMENT
+                  type: string
+              type: object
+            common:
+              additionalProperties: false
+              properties:
+                scheme_type:
+                  description: Defines the scheme that can be used with Common Encryption
+                  enum:
+                  - CENC
+                  - CBCS
+                  type: string
+              type: object
+            cpix:
+              additionalProperties: false
+              properties:
+                certificates_id:
+                  description: Unique ID used for certificate settings, unique per distributor.
+                  type: string
+                content_id:
+                  description: (Optional) Content ID that identifies this channel in the CPIX service. Value is defined by the DRM system owner, and if defined will be included as part of a POST request.
+                  type: string
+                credentials_id:
+                  description: Unique ID used for credentials settings, unique per distributor.
+                  type: string
+                decryption_key_id:
+                  description: Unique ID of the decryption key to use in case the server response contains content keys encrypted. The key is unique per distirutor, and configured ahead of time by the publishing team and the CPIX service owner.
+                  type: string
+                drms:
+                  description: (Optional) DRM system keys to request. If not defined a GET request will be done, and any key returned will be handled. If defined, random kid(s) (key ids) will be generated on rotation for each DRM system, and a POST request will be done to create them.
+                  items:
+                    enum:
+                    - WIDEVINE
+                    - FAIRPLAY
+                    - PRIMETIME
+                    - PLAYREADY
+                    - W3C_COMMON_CLEAR_KEY
+                    - BULK_FILE
+                    type: string
+                  type:
+                  - array
+                  - 'null'
+                  uniqueItems: true
+                headers_id:
+                  description: (Optional) An identifier to a list of HTTP headers to be added to the request sent to the CPIX service.
+                  type: string
+                uri:
+                  description: CPIX service URI
+                  format: uri-reference
+                  minLength: 1
+                  type: string
+              type: object
+            key_rotation:
+              additionalProperties: false
+              properties:
+                interval_secs:
+                  description: Rotate keys based on the specified time interval. If Program is also provided then this time interval will only apply to media segments that are outside of program boundaries. If Program is NOT provided then only this time interval will be used to decided when to rotate keys.
+                  format: float
+                  minimum: 300
+                  type: number
+                program:
+                  description: Rotate keys on (SCTE35) program boundaries such that no two programs will be protected with the same key.
+                  type: boolean
+                program_overlap_skip_encrypt:
+                  description: Do not encrypt segments that are part of more than one SCTE-35 program.
+                  type: boolean
+              type: object
+            sample_aes:
+              additionalProperties: false
+              type: object
+            simple:
+              additionalProperties: false
+              properties:
+                publish_points:
+                  description: Pub points where keys should be published. If multiple are specified, only one needs to succeed to consider the key successfully published.
+                  items:
+                    additionalProperties: false
+                    properties:
+                      basic_auth:
+                        additionalProperties: false
+                        properties:
+                          password:
+                            description: Plain text password for basic auth.
+                            type: string
+                          username:
+                            description: Username for basic auth.
+                            type: string
+                        type: object
+                      compression:
+                        description: Configures whether or not (and how) to compress manifests being published to the origin. If not specified, manifests will not be compressed.
+                        enum:
+                        - NONE
+                        - GZIP
+                        type: string
+                      do_not_monitor:
+                        description: (Optional) Specifies if this pubpoint should not be monitored by PLM.
+                        type: boolean
+                      headers:
+                        additionalProperties:
+                          type: string
+                        description: Allows custom HTTP headers to be set via configuration for all HTTP requests.
+                        type: object
+                      method:
+                        description: Method overrides what HTTP method to specify in requests to the Publish Point. If not specified the service will default to POST.
+                        type: string
+                      playback_base_url:
+                        description: The base URL where published playlists will be able to be obtained. This is often different than the publish_base_url for CDN publishing workflows.
+                        format: uri-reference
+                        type: string
+                      playback_query_params:
+                        description: 'Specifies any query parameters that will be added to playback urls. Should not include the initial ''?'' Example: ''foo=bar&q=golang'''
+                        type: string
+                      publish_base_url:
+                        description: The base URL where generated playlists will be sent/published. Each publish point requires a unique 'publish_base_url'.
+                        format: uri-reference
+                        type: string
+                      secure_header_auth:
+                        additionalProperties: false
+                        properties:
+                          arn:
+                            description: arn is the AWS Secret ARN that contains the secure header list to be applied.
+                            type: string
+                          version_id:
+                            description: version_id is the AWS Secret's version ID that contains the version of the secret to be applied.
+                            type: string
+                        type: object
+                    type: object
+                  type:
+                  - array
+                  - 'null'
+                require_publish:
+                  description: Indicates which publish points must succeed for segment publishing to use the keys.
+                  enum:
+                  - ANY
+                  - ALL
+                  type: string
+              type: object
+          type: object
+        mp2t:
+          additionalProperties: false
+          properties:
+            force_unmuxed_audio:
+              description: Forces the Video and Audio Encodings to be unmuxed when there is one audio encodings. This setting will have to be uniformed across MP2T packagers within a config. When there are two or more audio encodings, unmuxed will be used automatically.
+              type: boolean
+            insert_id3_utc_time:
+              description: If true, insert ID3 tags that include a UTC timestamp. This is a Turner/WM-specific extension.
+              type: boolean
+          type: object
+        mp4:
+          additionalProperties: false
+          properties:
+            caption_placement:
+              description: CaptionPlacement defines where caption messages should be placed in the output MP4.
+              enum:
+              - SEI_PAYLOAD
+              - CLCP_TRACK
+              type: string
+            insert_pssh_box:
+              description: Insert pssh boxes generated by content protection into packaged segments. Defaults to not insert pssh boxes to the packaged segments.
+              type: boolean
+          type: object
+        ttml:
+          additionalProperties: false
+          type: object
+        web_vtt:
+          additionalProperties: false
+          properties:
+            file_format:
+              description: The file format used to encapsulate the WebVTT segments.
+              enum:
+              - TEXT
+              - MP4
+              type: string
+          type: object
+      type: object
+    SourceSummary:
+      additionalProperties: false
+      properties:
+        id:
+          description: Station source ID
+          examples:
+          - stn-knc54ts9kazynm97
+          type: string
+        name:
+          description: Source name
+          examples:
+          - HBO
+          type: string
+        self:
+          description: Link to this resource
+          format: uri
+          readOnly: true
+          type: string
+      required:
+      - id
+      type: object
+    Channel:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/Channel.json
+          format: uri
+          readOnly: true
+          type: string
+        created:
+          description: Date and time the channel was created.
+          format: date-time
+          readOnly: true
+          type: string
+        description:
+          description: A human-readable description of the channel.
+          type: string
+        desired_state:
+          description: Desired running state for a channel.
+          enum:
+          - 'ON'
+          - 'OFF'
+          type: string
+        enable_byoip:
+          description: Indicates whether the channel's transcoder needs to run in a designated IP range.
+          type: boolean
+        id:
+          description: External Channel ID provided at channel creation time
+          examples:
+          - my-channel
+          minLength: 1
+          pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+          readOnly: true
+          type: string
+        ingest:
+          $ref: '#/components/schemas/Ingest'
+          description: Ingest configures inputs for the transcoder.
+        labels:
+          description: Optional labels for a channel. Any included labels must be at least 1 character long, but no greater than 256 characters. The maximum number of labels is 50.
+          items:
+            type: string
+          maxItems: 50
+          type:
+          - array
+          - 'null'
+        modified:
+          description: Date and time the channel was last modified.
+          format: date-time
+          readOnly: true
+          type: string
+        name:
+          description: A friendly human-readable name for the channel. This will get displayed in user interfaces.
+          examples:
+          - My Channel
+          type: string
+        organization:
+          minLength: 1
+          type: string
+        packaging:
+          $ref: '#/components/schemas/Packaging'
+          description: Packaging configures media format and content protection settings.
+        publishing:
+          $ref: '#/components/schemas/Publishing'
+          description: Publishing configures playlist formats and where to send video and playlist data.
+        region:
+          description: Region represents the general geolocation for transcoding and stream egress from iStreamPlanet. If no region is provided at channel creation time, then 'US_WEST' is used.
+          enum:
+          - US_WEST
+          - US_EAST
+          type: string
+        resource_class:
+          description: If the ResourceClass is unspecified the channel will default to run in the 'DYNAMIC' ResourceClass. Note that changing the ResourceClass for a running channel is supported and will be performed with no downtime.
+          enum:
+          - DYNAMIC
+          - STATIC
+          type: string
+        self:
+          description: Self link for the channel.
+          format: uri-reference
+          readOnly: true
+          type: string
+        signaling:
+          $ref: '#/components/schemas/Signaling'
+          description: Signaling configures in-band signaling (i.e. SCTE-35).
+        tags:
+          $ref: '#/components/schemas/Tags'
+          description: Use ChannelMetadata when possible instead of tags.
+        transcode:
+          $ref: '#/components/schemas/Transcode'
+          description: Transcode configures audio/video conversion settings.
+      required:
+      - ingest
+      - transcode
+      type: object
+    Ingest:
+      additionalProperties: false
+      properties:
+        slate:
+          additionalProperties: false
+          properties:
+            source_loss_url:
+              description: Source loss URL defines the location of the TS file to play when no source is available. It must have one audio and one video stream. Either MPEG2 or H.264 can be used.
+              examples:
+              - https://example.com/slate.ts
+              format: uri-reference
+              type: string
+          type: object
+        source:
+          additionalProperties: false
+          properties:
+            audio_sources:
+              items:
+                additionalProperties: false
+                properties:
+                  id:
+                    minLength: 1
+                    type: string
+                  language:
+                    description: RFC 5646, e.g. 'en' 'en-US'
+                    minLength: 1
+                    type: string
+                  license:
+                    description: License specifies how the audio in this source is licensed. If license is not AUDIO_LICENSE_UNSPECIFIED, any remapped AudioSource which names this AudioSource in its remapping table must have the same license value as this AudioSource.
+                    enum:
+                    - LIVE
+                    - REPLAY
+                    type: string
+                  name:
+                    description: Language fiendly name, e.g. 'English', 'Spanish'
+                    minLength: 1
+                    type: string
+                  remapping:
+                    additionalProperties: false
+                    properties:
+                      back_left:
+                        additionalProperties: false
+                        properties:
+                          audio_source_id:
+                            description: Identifies the ID of the elementary audio source from which this channel will be sourced.
+                            minLength: 1
+                            type: string
+                          channel_index:
+                            description: 'Identifies the zero-based channel index within the audio decoded from audio_source_id which is used for this channel mapping. If this index is out of bounds, the audio for this channel will be silent. For SMPTE-302M inputs, channel indices are always in the range 0-8 (unless the Aventus-specific extension for carrying more than 8 channels in one elementary stream is in use) and name the Nth channel of the input. I.e., the base channel index indicated by the input stream is ignored. For non-SMPTE-302M inputs with 1, 2, or 6 channels, the following index-to-channel mapping always applies: - 0 is front left (i.e. the only channel for mono) - 1 is front right - 2 is front center - 3 is LFE - 4 is side left - 5 is side right For non-SMPTE-302M inputs with 3, 4, or 5 channels, no index mapping is guaranteed. For non-SMPTE-302M inputs with more than 6 channels, the index mapping that would be used for 6 channels is guaranteed, and no specific mapping for the other channels is guaranteed.'
+                            format: int32
+                            minimum: 0
+                            type: integer
+                        type: object
+                      back_right:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      front_center:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      front_left:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      front_right:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      low_frequency:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      side_left:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      side_right:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      top_back_left:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      top_back_right:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      top_front_left:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      top_front_right:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      top_side_left:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      top_side_right:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      wide_left:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                      wide_right:
+                        $ref: '#/components/schemas/AudioSourceRemappingSource'
+                    type: object
+                  selector:
+                    description: Expression for choosing an audio track in the stream for this AudioSource https://wbdstreaming.atlassian.net/wiki/spaces/LIVE/pages/250351679/Proposal+Audio+Track+Selection An AudioSource which specifies a selector is an 'elementary audio source' which corresponds to exactly one elementary stream in the input.
+                    type: string
+                type: object
+              minItems: 1
+              type:
+              - array
+              - 'null'
+            captions_source:
+              description: Closed captions source embedding. If unspecified, defaults to ATSC_A53.
+              enum:
+              - ATSC_A53
+              - SMPTE_2038
+              type: string
+            id:
+              description: Unique identifier for this source.
+              examples:
+              - s-examplej95ah2qab
+              type: string
+            self:
+              description: Self link for the source.
+              format: uri-reference
+              type: string
+            video_source:
+              additionalProperties: false
+              properties:
+                dynamic_range:
+                  description: The highest dynamic range the source will ever send to the transcoder.
+                  enum:
+                  - SDR
+                  - HDR
+                  type: string
+                jpeg_xs:
+                  description: If true, the source may be JPEG-XS. Enables allocation of additional resources required to handle the higher bitrate and decode JPEG-XS. If not enabled, JPEG-XS inputs will result in the source-loss slate.
+                  type: boolean
+                max_resolution:
+                  description: The maximum resolution the source will ever send to the transcoder.
+                  enum:
+                  - SD
+                  - HD
+                  - FHD
+                  - TwoK
+                  - QHD
+                  - UHD
+                  type: string
+              type: object
+          required:
+          - id
+          type: object
+      required:
+      - source
+      type: object
+    Publishing:
+      additionalProperties: false
+      properties:
+        closed_caption_streams:
+          description: Configures how captioning information, which references CEA-608 captions embedded in video segments, is published.
+          items:
+            additionalProperties: false
+            properties:
+              auto_select:
+                description: Indicates that the client should play the captioning media selection group if the user has not indicated a user preference. If both auto_select and default are not set, the first captioning media selection group will be used.
+                enum:
+                - 'NO'
+                - 'YES'
+                type: string
+              default:
+                description: Configures the captioning media selection group that will be played if the user has not indicated a user preference. If both auto_select and default are not set, the first captioning media selection group will be used.
+                enum:
+                - 'NO'
+                - 'YES'
+                type: string
+              language:
+                description: Language code as RFC 5646, e.g. 'en' 'en-US'.
+                type: string
+              name:
+                description: Source stream name.
+                type: string
+            type: object
+          type:
+          - array
+          - 'null'
+        feature_flags:
+          description: Set of string identifiers corresponding to features that this Channel is opting in.
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        live2vod:
+          additionalProperties: false
+          properties:
+            clear_capture:
+              description: BETA - (Optional) Indicates whether the system should send the unpackaged segments produced from the transcoder to the L2V system for purposes of creating mp4s and/or repackaging.
+              type: boolean
+            product_id:
+              description: Product ID that VODs will be associated with in the Live2VOD system. The value of this ID is pre-configured in the Live2VOD portal.
+              minLength: 1
+              type: string
+            retention_days:
+              description: Specifies the retention time, in days, for archived content.
+              format: int32
+              maximum: 30
+              minimum: 1
+              type: integer
+          type: object
+        publications:
+          description: A set of individual configurations that each can configure a specific destination and mechanism of delivery for segments and/or playlists.
+          items:
+            additionalProperties: false
+            properties:
+              audio_encoder_ids:
+                description: Optionally specify which audio encoders should be used for this publication. If none are specified, all audio encoders configured for the transcoder will be used.
+                items:
+                  type: string
+                type:
+                - array
+                - 'null'
+                uniqueItems: true
+              create_vods:
+                description: Create VODs for all publish points in this publication. Note that Live2VOD must also be configured for the parent |Channel|.
+                type: boolean
+              dash:
+                additionalProperties: false
+                properties:
+                  minimum_update_period_secs:
+                    description: Sets the minimumUpdatePeriod field in MPD to be this value. If set to 0 (default), segment duration is used. The value shall not exceed the 'suggested_presentation_delay_secs'.
+                    format: int32
+                    type: integer
+                  signaling_formats:
+                    description: Signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering playlists.
+                    items:
+                      enum:
+                      - SCTE35_SPLICE_INFO_SECTION
+                      - SCTE35_BIN
+                      type: string
+                    type:
+                    - array
+                    - 'null'
+                    uniqueItems: true
+                  suggested_presentation_delay_secs:
+                    description: The suggested amount of time (in seconds) the player should be behind the live stream. This value must be greater or equal to 'minimum_update_period_secs'.
+                    format: int32
+                    minimum: 0
+                    type: integer
+                  url_type:
+                    description: If set to 'URL_TYPE_UNDEFINED' playlist generation will use 'RELATIVE'.
+                    enum:
+                    - RELATIVE
+                    - ABSOLUTE
+                    - HOST_RELATIVE
+                    type: string
+                type: object
+              drms:
+                description: Optionally specify which DRMs to advertise in the playlist. If specified, this must be a subset of the DRMs specified by the packager associated with this publication. If omitted or empty, all DRMs specified by the packager will be advertised. This setting can only be used for HLS playlists.
+                items:
+                  enum:
+                  - WIDEVINE
+                  - FAIRPLAY
+                  - PRIMETIME
+                  - PLAYREADY
+                  - W3C_COMMON_CLEAR_KEY
+                  - BULK_FILE
+                  type: string
+                type:
+                - array
+                - 'null'
+                uniqueItems: true
+              dvr_window_secs:
+                description: DVR window is the max sum(duration of media segments) that will be kept in a manifest at a given time in seconds. The max supported DVR window is 10 hours.
+                format: int32
+                maximum: 36000
+                minimum: 0
+                type: integer
+              fer_audio_encoder_ids:
+                description: Optionally specify which audio encoders should be used when generating the FER of this Presentation, this overrides the 'audio_encoder_ids' used during the live portion. If none are specified, the 'audio_encoder_ids' field will be used.
+                items:
+                  type: string
+                type:
+                - array
+                - 'null'
+                uniqueItems: true
+              hls:
+                additionalProperties: false
+                properties:
+                  audio_only_variants:
+                    description: 'Defines how audio only variant streams are included in the master playlist, where the variant streams are defined by #EXT-X-STREAM-INF tag, the tag attributes provide information about the Stream. The INCLUDE_DEFAULT option - only the default ''audio only variant stream'' is included in master playlist. This is the most common use case. INCLUDE_NONE - no audio only variant streams are included in the master playlist. INCLUDE_ALL - include all audio only variant streams in the master playlist.'
+                    enum:
+                    - INCLUDE_DEFAULT
+                    - INCLUDE_NONE
+                    - INCLUDE_ALL
+                    type: string
+                  gap_tags:
+                    description: 'Allows turning gap tags ON/OFF. When turned ON - the tag ''#EXT-X-GAP'' is inserted into media playlist for a missing segment. When turned OFF - Discontinuity is inserted into the playlist for missing segment(s). The default option UNDEFINED is mapped to OFF. Note: Gap tags are always inserted for the missing thumbnail segments independently of this setting'
+                    enum:
+                    - 'ON'
+                    - 'OFF'
+                    type: string
+                  master_publish_frequency_secs:
+                    description: 'How often the multi-variant playlist(s) should be published (in seconds) once a channel is started. If 0 (not provided), defaults to 1 hour. The following can also result in re-publishing of multi-variant playlists: - Configuration changes related to transcoding configuration (i.e. adding, removing, changing encoders). - Service code changes related to manifest generation.'
+                    format: int32
+                    type: integer
+                  master_url_type:
+                    description: Allows specifying url type for HLS master playlists. If not provided, playlist generation will use 'RELATIVE'.
+                    enum:
+                    - RELATIVE
+                    - ABSOLUTE
+                    - HOST_RELATIVE
+                    type: string
+                  media_url_type:
+                    description: Allows specifying url type for HLS media playlists. If not provided, playlist generation will use 'RELATIVE'.
+                    enum:
+                    - RELATIVE
+                    - ABSOLUTE
+                    - HOST_RELATIVE
+                    type: string
+                  partial_presentations:
+                    description: Specify which partial presentations should be used for this presentation. Partial presentations are additional master playlists that point to a subset of the parent presentation's media streams/variant playlists.
+                    items:
+                      additionalProperties: false
+                      properties:
+                        audio_encoder_ids:
+                          description: Specify which audio encoders should be used for this presentation. If none are specified, all audio encoders configured for the parent Publication will be used.
+                          items:
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        fer_audio_encoder_ids:
+                          description: 'Optionally specify which audio encoders should be used when generating the FER of this Partial Presentation, this overrides the ''audio_encoder_ids'' used during the live portion. If none are specified, the ''audio_encoder_ids'' field will be used. NOTE: This MUST only be used with push based manifest. Ignore this field when using Aventus Origin with Dynamic Manifests. Instead use the AudioSource.License field.'
+                          items:
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        iframe_only_encoder_ids:
+                          description: List of video encoder IDs that should have I-Frame only playlists generated for them. If no 'iframe_only_encoder_ids' are given then no I-Frame playlists will be in the Partial Presentation.
+                          items:
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        playlist_path:
+                          description: Sub-path that will be appended onto the publish and playback base URLs of HTTP PublishPoints for published playlist files.
+                          minLength: 1
+                          type: string
+                        thumbnail_encoder_ids:
+                          description: Specify which thumbnail encoders should be used for this presentation. If no 'thumbnail_encoder_ids' are given then no thumbnail playlists will be in the Partial Presentation.
+                          items:
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        video_encoder_ids:
+                          description: Specify which video encoders should be used for this presentation. If none are specified, all video encoders configured for the parent Publication will be used.
+                          items:
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                      type: object
+                    type:
+                    - array
+                    - 'null'
+                  pdt_on_every_segment:
+                    description: 'When true a #EXT-X-PROGRAM-DATE-TIME tag will be placed on every media segment in media playlists. When false, the default behavior, the PDT tag is set according to the HLS specification.'
+                    type: boolean
+                  signaling_formats:
+                    description: Signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering playlists.
+                    items:
+                      enum:
+                      - APPLE_SCTE35
+                      - AD_SIMPLE
+                      - SCTE35
+                      type: string
+                    type:
+                    - array
+                    - 'null'
+                    uniqueItems: true
+                  utc_in_segment_title:
+                    description: 'Include a UTC timestamp (that is equivalent in value to #EXT-X-PROGRAM-DATE-TIME) in the title of each media segment in media playlists. Ex. #EXTINF:6.006,LTC=2020-01-01T12:00:00.000Z'
+                    type: boolean
+                type: object
+              iframe_only_encoder_ids:
+                description: List of video encoder IDs that should have I-Frame only playlists generated for them.
+                items:
+                  type: string
+                type:
+                - array
+                - 'null'
+                uniqueItems: true
+              master_playlist_name:
+                description: Optional master manifest name. When not supplied a default of 'master' will be used.
+                type: string
+              origin:
+                additionalProperties: false
+                properties:
+                  alternate_manifest_defaults:
+                    additionalProperties:
+                      additionalProperties: false
+                      properties:
+                        dash_signaling_formats:
+                          description: DASH Signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering DASH manifests.
+                          items:
+                            enum:
+                            - SCTE35_SPLICE_INFO_SECTION
+                            - SCTE35_BIN
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        drm_system_ids:
+                          description: 'Specify which DRMs to advertise in the playlist. If specified, this must be a subset of the DRMs specified by the packager associated with this origin. If omitted or empty, all DRMs specified by the packager will be advertised. Only honored for Alternate Manifests. Example: ''81376844-f976-481e-a84e-cc25d39b0b33'' for bulk file encryption ID'
+                          items:
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        duration_seconds:
+                          description: Duration is the length of content that will be included in the manifest, in seconds. The max supported DVR window is 12 hours. If not specified, the default duration will be 30 seconds.
+                          format: int32
+                          maximum: 43200
+                          minimum: 0
+                          type: integer
+                        enable_hls_delta_updates:
+                          description: When true enables HLS Delta updates for this particular origin.
+                          type: boolean
+                        encoder_ids:
+                          description: Specify which encoders (video, audio, thumbnail) should be used for this origin manifest. If none are specified, all video encoders configured for the origin will be used. Only honored for Alternate Manifests.
+                          items:
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        hls_signaling_formats:
+                          description: HLS signaling formats specifies which SCTE-35 timeline marker formatting to use when rendering playlists.
+                          items:
+                            enum:
+                            - APPLE_SCTE35
+                            - AD_SIMPLE
+                            - SCTE35
+                            type: string
+                          type:
+                          - array
+                          - 'null'
+                          uniqueItems: true
+                        media_url_type:
+                          description: Allows specifying url type for HLS media playlists and DASH manifests. If not provided, playlist generation will use 'RELATIVE'.
+                          enum:
+                          - RELATIVE
+                          - ABSOLUTE
+                          - HOST_RELATIVE
+                          type: string
+                        minimum_update_period_seconds:
+                          description: Sets the minimumUpdatePeriod field in MPD to be this value. If set to 0 (default), segment duration is used. The value shall not exceed the 'suggested_presentation_delay_secs'.
+                          format: int32
+                          minimum: 0
+                          type: integer
+                        multi_variant_url_type:
+                          description: Allows specifying url type for HLS multi-variant playlists. If not provided, playlist generation will use 'RELATIVE'.
+                          enum:
+                          - RELATIVE
+                          - ABSOLUTE
+                          - HOST_RELATIVE
+                          type: string
+                        pdt_on_every_segment:
+                          description: 'When true a #EXT-X-PROGRAM-DATE-TIME tag will be placed on every media segment in HLS media playlists. When false, the default behavior, the PDT tag is set according to the HLS specification.'
+                          type: boolean
+                        pre_start_duration_seconds:
+                          description: Pre Start Duration is the length of content that will be included in the manifest when the start time of a manifest is in the future. When a manifest is near the start time but does not contain 'pre_start_duration_seconds' content Manifest Origin will keep content before the start time to make the manifest length at least 'pre_start_duration_seconds'. If not specified requesting a manifest in the future will result in a 404.
+                          format: int32
+                          maximum: 43200
+                          minimum: 0
+                          type: integer
+                        suggested_presentation_delay_seconds:
+                          description: Sets the suggestedPresentationDelay field in MPD to be this value. This value must be greater or equal to 'minimum_update_period_secs'. If unset, the default value will be calculated as 3 * segment target duration.
+                          format: int32
+                          minimum: 0
+                          type: integer
+                      type: object
+                    description: 'AlternateManifestDefaults specifies a map of alternately named manifests for Legacy playback. Ex: ''ph'' = ''main.ph.m3u8'', with a specific set of partial playlists supported by the system. If the rules are expanded to allow for more than 5 characters, ''iframe'' is a reserved acronym for iframe playlists.'
+                    type: object
+                  fallback_defaults:
+                    $ref: '#/components/schemas/OriginManifestDefaults'
+                    description: FallbackDefaults specifies the alternative behavior of the dynamic manifest generator. This behavior is intended to be a simplified configuration comparead to the default behavior so that it can be used as a fallback for when players are encountering issues with the default behavior. Specific behaviors can be overwritten using appropriate query string parameters when making the request for the manifest.
+                  manifest_defaults:
+                    $ref: '#/components/schemas/OriginManifestDefaults'
+                    description: ManifestDefaults specifies the default behavior of the dynamic manifest generator. Specific behaviors can be overwritten using appropriate query string parameters when making the request for the manifest.
+                  retention_minutes:
+                    description: RetentionMinutes specifies how long data is retained, in minutes. Live linear (24/7) channels should set this to the longest expected DVR window (a few hours). Live event channels should set this to how Live2VOD playlists are expected to be available. If unspecified, the default will be 60 minutes. The maximum value is 15 days (21600 minutes).
+                    format: int32
+                    maximum: 21600
+                    minimum: 0
+                    type: integer
+                  segments:
+                    additionalProperties: false
+                    properties:
+                      redundancy:
+                        enum:
+                        - SingleRegion
+                        - DualRegion
+                        type: string
+                    type: object
+                type: object
+              packager_id:
+                description: Determines how segments in this publication are packaged. Must reference a packager in 'packaging.packagers'. However, if this is a playlist-only publication (i.e. contains publish points that specify 'playlist_only_for'), this must remain unset as the packager will be inferred from the publication this one is providing playlists for.
+                type: string
+              publish_points:
+                description: Publish points specify where to output.
+                items:
+                  additionalProperties: false
+                  properties:
+                    http:
+                      $ref: '#/components/schemas/PublishPointHTTP'
+                      description: HTTP destination where media segments and playlists will be published.
+                    id:
+                      description: uniquely identifies this publish_point within a channel configuration. Can be referenced by other publish_points in the 'playlist_only_for' field.
+                      type: string
+                    playlist_only_for:
+                      description: playlist_only_for identifies the id of the publish_point that has the segments for this publish_point, which is only publishing a playlist for those segments. All publish_points within a publication must either have 'playlist_only_for' all set or all not set.
+                      type: string
+                  type: object
+                type:
+                - array
+                - 'null'
+              redundant_publishing:
+                description: When redundant publishing is enabled succeeding to publish a given media segment to at least one HTTPPublishPoint in publish_points will result in that segment showing up in manifests as playable content. Will require at least two publish_points defined within the same publication.
+                type: boolean
+              startover:
+                additionalProperties: false
+                properties:
+                  first_program_start:
+                    additionalProperties: false
+                    type: object
+                  on_airing_id:
+                    additionalProperties: false
+                    properties:
+                      airing_id:
+                        description: Airing Id is a SCTE-35 Segmentation Unique Program ID (UPID) of type 0x08 used to specify the unique airing of a program. Is a 8 byte hex encoded string that is prepended with '0x'.
+                        pattern: ^0x[0-9a-fA-F]{16}$
+                        type: string
+                    type: object
+                type: object
+              thumbnail_encoder_ids:
+                description: 'Optional: Specify what thumbnail_encoders should be in this Publication'
+                items:
+                  type: string
+                type:
+                - array
+                - 'null'
+                uniqueItems: true
+              use_strict_bitrate:
+                description: Optional, indicates whether we should pad the bitrate (false) or use what is explicitly provided (true)
+                type: boolean
+              video_encoder_ids:
+                description: Optionally specify which video encoders should be used for this publication. If none are specified, all video encoders configured for the transcoder will be used.
+                items:
+                  type: string
+                type:
+                - array
+                - 'null'
+                uniqueItems: true
+            type: object
+          type:
+          - array
+          - 'null'
+        rtmp_publications:
+          description: A set of configurations for delivering RTMP streams
+          items:
+            additionalProperties: false
+            properties:
+              audio_encoder_id:
+                description: Only AAC encoders are supported
+                minLength: 1
+                type: string
+              id:
+                description: RTMP publication ID. Must be unique.
+                minLength: 1
+                pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+                type: string
+              url:
+                format: uri
+                minLength: 1
+                pattern: ^rtmps?://
+                type: string
+              video_encoder_id:
+                description: Only h264 encoders are supported
+                minLength: 1
+                type: string
+            type: object
+          type:
+          - array
+          - 'null'
+        srt_publications:
+          description: A set of configurations for delivering SRT streams
+          items:
+            additionalProperties: false
+            properties:
+              audio_encoders:
+                items:
+                  additionalProperties: false
+                  properties:
+                    id:
+                      minLength: 1
+                      type: string
+                    pid:
+                      description: Output MPEG-TS PID. PIDs should be set on the PMT, SCTE-35 and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
+                      exclusiveMaximum: 8191
+                      format: int32
+                      type: integer
+                  type: object
+                minItems: 1
+                type:
+                - array
+                - 'null'
+              id:
+                description: SRT publication ID. Must be unique.
+                minLength: 1
+                pattern: ^([a-z0-9]+(-*[a-z0-9]+)*)$
+                type: string
+              pmt_pid:
+                description: MPEG-TS PMT PID. PIDs should be set on the PMT, SCTE-35 and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
+                exclusiveMaximum: 8191
+                format: int32
+                type: integer
+              scte35_pid:
+                description: MPEG-TS SCTE-35 PID. PIDs should be set on the PMT, SCTE-35, and all encoders or none. Valid PIDs must 13-bit values greater than 31. If no PIDs are provided (pid == 0) then they will be generated automatically.
+                exclusiveMaximum: 8191
+                format: int32
+                type: integer
+              url:
+                format: uri
+                minLength: 1
+                pattern: ^srt://
+                type: string
+              video_encoders:
+                items:
+                  $ref: '#/components/schemas/SrtPublicationEncoder'
+                minItems: 1
+                type:
+                - array
+                - 'null'
+            type: object
+          type:
+          - array
+          - 'null'
       type: object
     OriginManifestDefaults:
       additionalProperties: false
@@ -9056,6 +9019,31 @@ components:
           minimum: 0
           type: integer
       type: object
+    JsonPatchOp:
+      additionalProperties: false
+      properties:
+        from:
+          description: JSON Pointer for the source of a move or copy
+          type: string
+        op:
+          description: Operation name
+          enum:
+          - add
+          - remove
+          - replace
+          - move
+          - copy
+          - test
+          type: string
+        path:
+          description: JSON Pointer to the field being operated on, or the destination of a move/copy operation
+          type: string
+        value:
+          description: The value to set
+      required:
+      - op
+      - path
+      type: object
   securitySchemes:
     authcode:
       flows:
@@ -9070,9 +9058,6 @@ components:
           scopes: null
           tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
       type: oauth2
-x-refined-from:
-- istreamplanet-aventus-channels-openapi.json
-- istreamplanet-aventus-channels-openapi.yml
 x-cli-config:
   params:
     authorize_url: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/authorize

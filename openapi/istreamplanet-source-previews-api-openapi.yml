@@ -1,12 +1,12 @@
 openapi: 3.2.0
 info:
-  title: Istreamplanet Source Previews API
-  version: v1.52.0
   contact:
     email: live-control-plane-devs@wbd.com
     name: ChannelAPI Support
     url: https://warnermedia.enterprise.slack.com/archives/C0648UND8SD
-  description: 'Operations tagged Source Previews across 2 of this provider''s published API definitions: istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: This API provides a way to list, create, and run channels.
+  title: WBD Aventus Channels Source Previews API
+  version: v1.52.0
 servers:
 - description: prod
   url: https://api.istreamplanet.com
@@ -111,9 +111,6 @@ paths:
       summary: Create Source Preview
       tags:
       - Source Previews
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
   /v2/{org}/sources/{source-id}/preview/ingest-pin:
     delete:
       description: 'Remove the preferrence for primary or secondary ingest feed from the Source Preview''s transcoder.
@@ -281,9 +278,6 @@ paths:
       summary: Pin Ingest
       tags:
       - Source Previews
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
   /v2/{org}/sources/{source-id}/preview/stream:
     get:
       description: 'Gets the information required for the Low Latency Preview Player to enable playback.
@@ -364,9 +358,6 @@ paths:
       summary: Get Source Preview Stream
       tags:
       - Source Previews
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
   /v2/{org}/sources/{source-id}/preview/transcoder-status:
     get:
       description: Get the current status for the live transcoder powering the Source Preview.
@@ -438,11 +429,166 @@ paths:
       summary: Get Transcoder Status
       tags:
       - Source Previews
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
 components:
   schemas:
+    AudioTrackInfo:
+      additionalProperties: false
+      properties:
+        bitrate:
+          format: int32
+          type: integer
+        codec_string:
+          description: codec_string will be set to the RFC 6381 compliant string that represents the specific codec in this AudioTrackInfo. ex. 'mp4a.40.2' for AAC Low-Complexity.
+          type: string
+        id:
+          format: int32
+          minimum: 0
+          type: integer
+        name:
+          description: Friendly name of the AudioTrack.
+          type: string
+        num_channels:
+          format: int32
+          type: integer
+        sample_rate:
+          format: int32
+          type: integer
+      type: object
+    GraphicOverlay:
+      additionalProperties: false
+      properties:
+        resource_id:
+          description: The key to the dynamic resource definition in the channel's transcoder configuration. This must reference a dynamic resource of type 'GRAPHIC'.
+          examples:
+          - channel-logo
+          minLength: 1
+          type: string
+        x:
+          $ref: '#/components/schemas/Position'
+        y:
+          $ref: '#/components/schemas/Position'
+      type: object
+    AudioMute:
+      additionalProperties: false
+      properties:
+        audio_channel:
+          enum:
+          - ALL
+          - FRONT_LEFT
+          - FRONT_RIGHT
+          - FRONT_CENTER
+          - LOW_FREQUENCY
+          - SIDE_LEFT
+          - SIDE_RIGHT
+          examples:
+          - FRONT_LEFT
+          type: string
+        audio_source_id:
+          minLength: 1
+          type: string
+      type: object
+    PinSourceRequest:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/PinSourceRequest.json
+          format: uri
+          readOnly: true
+          type: string
+        ingest_origin:
+          description: Which ingest origin to pin the transcoder to.
+          enum:
+          - PRIMARY
+          - SECONDARY
+          type: string
+      type: object
+    SourceStatus:
+      additionalProperties: false
+      properties:
+        active:
+          description: Reports whether this is the active source - i.e. the source being transcoded.
+          type: boolean
+        cc_errors:
+          description: Continuity counter error total since the transcoder pod started.
+          format: int64
+          type: integer
+        last_data_received:
+          description: The last time data was received for this source.
+          format: date-time
+          type: string
+        pinned:
+          description: Reports whether this source was pinned to be always preferred (if available).
+          type: boolean
+        pmt:
+          $ref: '#/components/schemas/SourceStatusPmt'
+          description: The PMT for this source.
+        quality_score:
+          description: A measure of the source's quality if available. Zero is the perfect score. The higher the score, the worst the quality.
+          format: double
+          type: number
+        unavailable_reason:
+          description: If unset (empty string), the source is available, and could be made active if necessary. Otherwise, it contains a message indicating why the source is unavailable. E.g. 'No source AUs received'.
+          type: string
+      type: object
+    VideoTrackInfo:
+      additionalProperties: false
+      properties:
+        bitrate:
+          format: int32
+          type: integer
+        codec_string:
+          description: codec_string will be set to the RFC 6381 compliant string that represents the specific codec in this VideoTrackInfo. ex. 'avc1.4d401e' for H.264 and 'hvc1.2.4.L150.90' for H.265. This can be used to verify track+browser compatibility.
+          type: string
+        frame_rate:
+          format: float
+          type: number
+        height:
+          format: int32
+          type: integer
+        id:
+          format: int32
+          minimum: 0
+          type: integer
+        name:
+          description: Friendly name of the VideoTrack.
+          type: string
+        width:
+          format: int32
+          type: integer
+      type: object
+    ContentLightLevelInfo:
+      additionalProperties: false
+      properties:
+        max_cll:
+          description: Max content light level in nits.
+          format: double
+          type: number
+        max_fall:
+          description: Max frame (pic) average light level in nits.
+          format: double
+          type: number
+      type: object
+    VideoStreamDetails:
+      additionalProperties: false
+      properties:
+        bit_depth:
+          format: int32
+          type: integer
+        clli:
+          $ref: '#/components/schemas/ContentLightLevelInfo'
+        color_description:
+          $ref: '#/components/schemas/ColorDescription'
+        frame_height:
+          format: int32
+          type: integer
+        frame_width:
+          format: int32
+          type: integer
+        mdcv:
+          $ref: '#/components/schemas/MasteringDisplayColorVolume'
+      type: object
     SourceStatusStreamInfo:
       additionalProperties: false
       properties:
@@ -505,23 +651,6 @@ components:
           $ref: '#/components/schemas/VideoStreamDetails'
           description: Only one of ['video'] may be set.
       type: object
-    PinSourceRequest:
-      additionalProperties: false
-      properties:
-        $schema:
-          description: A URL to the JSON Schema for this object.
-          examples:
-          - https://api.istreamplanet.com/schemas/PinSourceRequest.json
-          format: uri
-          readOnly: true
-          type: string
-        ingest_origin:
-          description: Which ingest origin to pin the transcoder to.
-          enum:
-          - PRIMARY
-          - SECONDARY
-          type: string
-      type: object
     SourceStatusPmt:
       additionalProperties: false
       properties:
@@ -545,313 +674,6 @@ components:
         streams:
           items:
             $ref: '#/components/schemas/SourceStatusStreamInfo'
-          type:
-          - array
-          - 'null'
-      type: object
-    DynamicStateStatus:
-      additionalProperties: false
-      properties:
-        dynamic_state:
-          $ref: '#/components/schemas/DynamicState'
-          description: The transcoder's dynamic state settings.
-        last_update:
-          description: The timestamp of the last update to the dynamic state.
-          format: date-time
-          type: string
-      type: object
-    ContentLightLevelInfo:
-      additionalProperties: false
-      properties:
-        max_cll:
-          description: Max content light level in nits.
-          format: double
-          type: number
-        max_fall:
-          description: Max frame (pic) average light level in nits.
-          format: double
-          type: number
-      type: object
-    SourceStatus:
-      additionalProperties: false
-      properties:
-        active:
-          description: Reports whether this is the active source - i.e. the source being transcoded.
-          type: boolean
-        cc_errors:
-          description: Continuity counter error total since the transcoder pod started.
-          format: int64
-          type: integer
-        last_data_received:
-          description: The last time data was received for this source.
-          format: date-time
-          type: string
-        pinned:
-          description: Reports whether this source was pinned to be always preferred (if available).
-          type: boolean
-        pmt:
-          $ref: '#/components/schemas/SourceStatusPmt'
-          description: The PMT for this source.
-        quality_score:
-          description: A measure of the source's quality if available. Zero is the perfect score. The higher the score, the worst the quality.
-          format: double
-          type: number
-        unavailable_reason:
-          description: If unset (empty string), the source is available, and could be made active if necessary. Otherwise, it contains a message indicating why the source is unavailable. E.g. 'No source AUs received'.
-          type: string
-      type: object
-    IngestStatus:
-      additionalProperties: false
-      properties:
-        primary_status:
-          $ref: '#/components/schemas/SourceStatus'
-          description: Primary source status.
-        secondary_status:
-          $ref: '#/components/schemas/SourceStatus'
-          description: Secondary source status.
-        source_loss_slate_status:
-          $ref: '#/components/schemas/SourceStatus'
-          description: Source-loss slate status.
-        source_merging_active:
-          description: Reports whether source merging is currently active i.e. that the transcoder is merging samples from primary and secondary sources to conceal errors.
-          type: boolean
-        source_merging_disabled:
-          description: Reports whether source merging was disabled via API.
-          type: boolean
-      type: object
-    TextOverlay:
-      additionalProperties: false
-      properties:
-        background:
-          description: The background color and opacity given in RGBA hex format. Background applies to the background of both the text and the text padding.
-          examples:
-          - '#A2A2A2FF'
-          minLength: 7
-          type: string
-        font_color:
-          description: The font color to use for the text overlay. Given as an RGB hex string.
-          examples:
-          - '#FF0000'
-          type: string
-        font_height:
-          description: The font height as a percentage of screen height.
-          examples:
-          - 5
-          exclusiveMinimum: 0
-          format: float
-          type: number
-        font_resource_id:
-          description: The font resource id to use for the text overlay. This must reference a dynamic resource of type 'FONT'.
-          examples:
-          - my-font
-          minLength: 1
-          type: string
-        padding:
-          $ref: '#/components/schemas/TextOverlayPadding'
-          description: The padding around the text. Used for positioning and for background.
-        text:
-          description: The text to overlay on the video.
-          examples:
-          - Hello World!
-          minLength: 1
-          type: string
-        x:
-          $ref: '#/components/schemas/Position'
-          description: The horizontal position of the text overlay. Zero is the left side of the screen/overlay.
-        y:
-          $ref: '#/components/schemas/Position'
-          description: The vertical position of the text overlay. Zero is the top of the screen/overlay.
-      type: object
-    Cie1931P:
-      additionalProperties: false
-      properties:
-        x:
-          format: double
-          type: number
-        y:
-          format: double
-          type: number
-      type: object
-    GraphicOverlay:
-      additionalProperties: false
-      properties:
-        resource_id:
-          description: The key to the dynamic resource definition in the channel's transcoder configuration. This must reference a dynamic resource of type 'GRAPHIC'.
-          examples:
-          - channel-logo
-          minLength: 1
-          type: string
-        x:
-          $ref: '#/components/schemas/Position'
-        y:
-          $ref: '#/components/schemas/Position'
-      type: object
-    AudioTrackInfo:
-      additionalProperties: false
-      properties:
-        bitrate:
-          format: int32
-          type: integer
-        codec_string:
-          description: codec_string will be set to the RFC 6381 compliant string that represents the specific codec in this AudioTrackInfo. ex. 'mp4a.40.2' for AAC Low-Complexity.
-          type: string
-        id:
-          format: int32
-          minimum: 0
-          type: integer
-        name:
-          description: Friendly name of the AudioTrack.
-          type: string
-        num_channels:
-          format: int32
-          type: integer
-        sample_rate:
-          format: int32
-          type: integer
-      type: object
-    VideoStreamDetails:
-      additionalProperties: false
-      properties:
-        bit_depth:
-          format: int32
-          type: integer
-        clli:
-          $ref: '#/components/schemas/ContentLightLevelInfo'
-        color_description:
-          $ref: '#/components/schemas/ColorDescription'
-        frame_height:
-          format: int32
-          type: integer
-        frame_width:
-          format: int32
-          type: integer
-        mdcv:
-          $ref: '#/components/schemas/MasteringDisplayColorVolume'
-      type: object
-    ErrorModel:
-      additionalProperties: false
-      properties:
-        $schema:
-          description: A URL to the JSON Schema for this object.
-          examples:
-          - https://api.istreamplanet.com/schemas/ErrorModel.json
-          format: uri
-          readOnly: true
-          type: string
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          examples:
-          - Property foo is required but is missing.
-          type: string
-        errors:
-          description: Optional list of individual error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-          type:
-          - array
-          - 'null'
-        instance:
-          description: A URI reference that identifies the specific occurrence of the problem.
-          examples:
-          - https://example.com/error-log/abc123
-          format: uri
-          type: string
-        status:
-          description: HTTP status code
-          examples:
-          - 400
-          format: int64
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
-          examples:
-          - Bad Request
-          type: string
-        type:
-          default: about:blank
-          description: A URI reference to human-readable documentation for the error.
-          examples:
-          - https://example.com/errors/example
-          format: uri
-          type: string
-      type: object
-    TextOverlayPadding:
-      additionalProperties: false
-      properties:
-        bottom:
-          format: float
-          type: number
-        left:
-          format: float
-          type: number
-        right:
-          format: float
-          type: number
-        top:
-          format: float
-          type: number
-      type: object
-    MasteringDisplayColorVolume:
-      additionalProperties: false
-      properties:
-        blue:
-          $ref: '#/components/schemas/Cie1931P'
-        green:
-          $ref: '#/components/schemas/Cie1931P'
-        max_display_mastering_luminance:
-          format: double
-          type: number
-        min_display_mastering_luminance:
-          format: double
-          type: number
-        red:
-          $ref: '#/components/schemas/Cie1931P'
-        white_point:
-          $ref: '#/components/schemas/Cie1931P'
-      type: object
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
-          type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
-      type: object
-    GetSourcePreviewStreamResponseBody:
-      additionalProperties: false
-      properties:
-        $schema:
-          description: A URL to the JSON Schema for this object.
-          examples:
-          - https://api.istreamplanet.com/schemas/GetSourcePreviewStreamResponseBody.json
-          format: uri
-          readOnly: true
-          type: string
-        audio_tracks:
-          description: 'Lists of all audio and video tracks that are available. Note: the default audio and video track info will also appear here.'
-          items:
-            $ref: '#/components/schemas/AudioTrackInfo'
-          type:
-          - array
-          - 'null'
-        default_audio_track:
-          $ref: '#/components/schemas/AudioTrackInfo'
-          description: Audio and Video Track info provided so that callers have easy access to track information of default tracks in the above default_url.
-        default_url:
-          description: 'default_url contains the default URL that can be used to start playback. Ex: https://example.com/cluster/org/isp/ext_id/foo/play?vid_id=2&aud_id=6 The vid_id and aud_id can be changed utilizing the ones provided by the ''audio_tracks'' and ''video_tracks'' fields to see different combinations.'
-          type: string
-        default_video_track:
-          $ref: '#/components/schemas/VideoTrackInfo'
-        token:
-          description: JWT Bearer token that shall be supplied with a 'pre-flight' to myriapod.js to send the auth token to the server.
-          type: string
-        video_tracks:
-          items:
-            $ref: '#/components/schemas/VideoTrackInfo'
           type:
           - array
           - 'null'
@@ -910,6 +732,53 @@ components:
           - TC_ARIB_STD_B67_HLG
           type: string
       type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/ErrorModel.json
+          format: uri
+          readOnly: true
+          type: string
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
+          type: string
+      type: object
     Position:
       additionalProperties: false
       properties:
@@ -926,50 +795,46 @@ components:
           format: float
           type: number
       type: object
-    AudioMute:
+    MasteringDisplayColorVolume:
       additionalProperties: false
       properties:
-        audio_channel:
-          enum:
-          - ALL
-          - FRONT_LEFT
-          - FRONT_RIGHT
-          - FRONT_CENTER
-          - LOW_FREQUENCY
-          - SIDE_LEFT
-          - SIDE_RIGHT
-          examples:
-          - FRONT_LEFT
-          type: string
-        audio_source_id:
-          minLength: 1
+        blue:
+          $ref: '#/components/schemas/Cie1931P'
+        green:
+          $ref: '#/components/schemas/Cie1931P'
+        max_display_mastering_luminance:
+          format: double
+          type: number
+        min_display_mastering_luminance:
+          format: double
+          type: number
+        red:
+          $ref: '#/components/schemas/Cie1931P'
+        white_point:
+          $ref: '#/components/schemas/Cie1931P'
+      type: object
+    DynamicStateStatus:
+      additionalProperties: false
+      properties:
+        dynamic_state:
+          $ref: '#/components/schemas/DynamicState'
+          description: The transcoder's dynamic state settings.
+        last_update:
+          description: The timestamp of the last update to the dynamic state.
+          format: date-time
           type: string
       type: object
-    VideoTrackInfo:
+    ErrorDetail:
       additionalProperties: false
       properties:
-        bitrate:
-          format: int32
-          type: integer
-        codec_string:
-          description: codec_string will be set to the RFC 6381 compliant string that represents the specific codec in this VideoTrackInfo. ex. 'avc1.4d401e' for H.264 and 'hvc1.2.4.L150.90' for H.265. This can be used to verify track+browser compatibility.
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
           type: string
-        frame_rate:
-          format: float
-          type: number
-        height:
-          format: int32
-          type: integer
-        id:
-          format: int32
-          minimum: 0
-          type: integer
-        name:
-          description: Friendly name of the VideoTrack.
+        message:
+          description: Error message text
           type: string
-        width:
-          format: int32
-          type: integer
+        value:
+          description: The value at the given location
       type: object
     DynamicState:
       additionalProperties: false
@@ -996,6 +861,22 @@ components:
           - array
           - 'null'
       type: object
+    TextOverlayPadding:
+      additionalProperties: false
+      properties:
+        bottom:
+          format: float
+          type: number
+        left:
+          format: float
+          type: number
+        right:
+          format: float
+          type: number
+        top:
+          format: float
+          type: number
+      type: object
     GetSourcePreviewTranscoderStatusResponseBody:
       additionalProperties: false
       properties:
@@ -1013,6 +894,113 @@ components:
           $ref: '#/components/schemas/IngestStatus'
           description: Ingest components's status.
       type: object
+    TextOverlay:
+      additionalProperties: false
+      properties:
+        background:
+          description: The background color and opacity given in RGBA hex format. Background applies to the background of both the text and the text padding.
+          examples:
+          - '#A2A2A2FF'
+          minLength: 7
+          type: string
+        font_color:
+          description: The font color to use for the text overlay. Given as an RGB hex string.
+          examples:
+          - '#FF0000'
+          type: string
+        font_height:
+          description: The font height as a percentage of screen height.
+          examples:
+          - 5
+          exclusiveMinimum: 0
+          format: float
+          type: number
+        font_resource_id:
+          description: The font resource id to use for the text overlay. This must reference a dynamic resource of type 'FONT'.
+          examples:
+          - my-font
+          minLength: 1
+          type: string
+        padding:
+          $ref: '#/components/schemas/TextOverlayPadding'
+          description: The padding around the text. Used for positioning and for background.
+        text:
+          description: The text to overlay on the video.
+          examples:
+          - Hello World!
+          minLength: 1
+          type: string
+        x:
+          $ref: '#/components/schemas/Position'
+          description: The horizontal position of the text overlay. Zero is the left side of the screen/overlay.
+        y:
+          $ref: '#/components/schemas/Position'
+          description: The vertical position of the text overlay. Zero is the top of the screen/overlay.
+      type: object
+    IngestStatus:
+      additionalProperties: false
+      properties:
+        primary_status:
+          $ref: '#/components/schemas/SourceStatus'
+          description: Primary source status.
+        secondary_status:
+          $ref: '#/components/schemas/SourceStatus'
+          description: Secondary source status.
+        source_loss_slate_status:
+          $ref: '#/components/schemas/SourceStatus'
+          description: Source-loss slate status.
+        source_merging_active:
+          description: Reports whether source merging is currently active i.e. that the transcoder is merging samples from primary and secondary sources to conceal errors.
+          type: boolean
+        source_merging_disabled:
+          description: Reports whether source merging was disabled via API.
+          type: boolean
+      type: object
+    Cie1931P:
+      additionalProperties: false
+      properties:
+        x:
+          format: double
+          type: number
+        y:
+          format: double
+          type: number
+      type: object
+    GetSourcePreviewStreamResponseBody:
+      additionalProperties: false
+      properties:
+        $schema:
+          description: A URL to the JSON Schema for this object.
+          examples:
+          - https://api.istreamplanet.com/schemas/GetSourcePreviewStreamResponseBody.json
+          format: uri
+          readOnly: true
+          type: string
+        audio_tracks:
+          description: 'Lists of all audio and video tracks that are available. Note: the default audio and video track info will also appear here.'
+          items:
+            $ref: '#/components/schemas/AudioTrackInfo'
+          type:
+          - array
+          - 'null'
+        default_audio_track:
+          $ref: '#/components/schemas/AudioTrackInfo'
+          description: Audio and Video Track info provided so that callers have easy access to track information of default tracks in the above default_url.
+        default_url:
+          description: 'default_url contains the default URL that can be used to start playback. Ex: https://example.com/cluster/org/isp/ext_id/foo/play?vid_id=2&aud_id=6 The vid_id and aud_id can be changed utilizing the ones provided by the ''audio_tracks'' and ''video_tracks'' fields to see different combinations.'
+          type: string
+        default_video_track:
+          $ref: '#/components/schemas/VideoTrackInfo'
+        token:
+          description: JWT Bearer token that shall be supplied with a 'pre-flight' to myriapod.js to send the auth token to the server.
+          type: string
+        video_tracks:
+          items:
+            $ref: '#/components/schemas/VideoTrackInfo'
+          type:
+          - array
+          - 'null'
+      type: object
   securitySchemes:
     authcode:
       flows:
@@ -1027,9 +1015,6 @@ components:
           scopes: null
           tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
       type: oauth2
-x-refined-from:
-- istreamplanet-aventus-channels-openapi.json
-- istreamplanet-aventus-channels-openapi.yml
 x-cli-config:
   params:
     authorize_url: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/authorize

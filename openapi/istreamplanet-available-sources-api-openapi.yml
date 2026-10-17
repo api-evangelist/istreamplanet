@@ -1,12 +1,12 @@
 openapi: 3.2.0
 info:
-  title: Istreamplanet Available Sources API
-  version: v1.52.0
   contact:
     email: live-control-plane-devs@wbd.com
     name: ChannelAPI Support
     url: https://warnermedia.enterprise.slack.com/archives/C0648UND8SD
-  description: 'Operations tagged Available Sources across 2 of this provider''s published API definitions: istreamplanet-aventus-channels-openapi.json, istreamplanet-aventus-channels-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: This API provides a way to list, create, and run channels.
+  title: WBD Aventus Channels Available Sources API
+  version: v1.52.0
 servers:
 - description: prod
   url: https://api.istreamplanet.com
@@ -95,9 +95,6 @@ paths:
       summary: List Sources
       tags:
       - Available Sources
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
   /v2/{org}/sources/{source-id}:
     get:
       description: Get a source's configuration
@@ -167,11 +164,29 @@ paths:
       summary: Get Source
       tags:
       - Available Sources
-    servers:
-    - description: prod
-      url: https://api.istreamplanet.com
 components:
   schemas:
+    SourceSummary:
+      additionalProperties: false
+      properties:
+        id:
+          description: Station source ID
+          examples:
+          - stn-knc54ts9kazynm97
+          type: string
+        name:
+          description: Source name
+          examples:
+          - HBO
+          type: string
+        self:
+          description: Link to this resource
+          format: uri
+          readOnly: true
+          type: string
+      required:
+      - id
+      type: object
     SourceDetail:
       additionalProperties: false
       properties:
@@ -261,27 +276,6 @@ components:
           format: uri
           type: string
       type: object
-    SourceSummary:
-      additionalProperties: false
-      properties:
-        id:
-          description: Station source ID
-          examples:
-          - stn-knc54ts9kazynm97
-          type: string
-        name:
-          description: Source name
-          examples:
-          - HBO
-          type: string
-        self:
-          description: Link to this resource
-          format: uri
-          readOnly: true
-          type: string
-      required:
-      - id
-      type: object
   securitySchemes:
     authcode:
       flows:
@@ -296,9 +290,6 @@ components:
           scopes: null
           tokenUrl: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
       type: oauth2
-x-refined-from:
-- istreamplanet-aventus-channels-openapi.json
-- istreamplanet-aventus-channels-openapi.yml
 x-cli-config:
   params:
     authorize_url: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/authorize
