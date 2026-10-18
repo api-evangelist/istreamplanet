@@ -272,6 +272,8 @@ apis:
   humanURL: https://api.istreamplanet.com/docs
   baseURL: https://api.istreamplanet.com
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
