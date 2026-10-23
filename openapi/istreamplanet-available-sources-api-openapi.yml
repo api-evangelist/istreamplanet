@@ -299,3 +299,9 @@ x-cli-config:
     state: non-empty
     token_url: https://sso.wbd.com/oauth2/aus125bl6q770za4g0x8/v1/token
   security: authcode
+x-provenance:
+  method: harvested
+  publisher: iStreamPlanet
+  source: https://api.istreamplanet.com/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
